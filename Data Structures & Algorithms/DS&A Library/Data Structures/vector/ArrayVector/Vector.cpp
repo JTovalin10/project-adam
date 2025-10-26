@@ -20,13 +20,16 @@ Vector<T>& Vector<T>::operator=(const Vector& other) {
     if (this == &other) {
         return *this;
     }
-    delete[] array_;
-    size_ = other.size_;
-    capacity_ = other.capacity_;
-    array_ = new T[capacity_]
-    for (int i = 0; i < size; i++) {
-        array_[i] = other.array_[i];
+    size_type new_size = other.size_;
+    size_type new_capacity = other.capacity_;
+    T* new_array = new T[new_capacity];
+    for (int i = 0; i < size_; i++) {
+        new_array[i] = other.array_[i];
     }
+    delete[] array_;
+    array_ = new_array;
+    size_ = new_size;
+    capacity_ = new_capacity;
     return *this;
 }
 
@@ -48,7 +51,7 @@ const T& Vector<T>::operator[](size_t index) const {
 
 template<typename T>
 T& Vector<T>::at(size_type index) {
-    if (index >= size) {
+    if (index >= size_) {
         throw std::out_of_range("Vector::at, invalid index");
     }
     return array_[index];
@@ -56,7 +59,7 @@ T& Vector<T>::at(size_type index) {
 
 template<typename T>
 const T& Vector<T>::at(size_t index) const {
-    if (index >= size) {
+    if (index >= size_) {
         throw std::out_of_range("Vector::at, invalid index");
     }
     return array_[index];
@@ -86,8 +89,8 @@ void Vector<T>::push_back(const T& item) {
     if (size_ == capacity_) {
         resize();
     }
-    array_[size] = item;
-    size++;
+    array_[size_] = item;
+    size_++;
 }
 
 template<typename T>
@@ -95,10 +98,9 @@ void Vector<T>::pop_back() {
     if (size_ == 0) {
         throw std::out_of_range("Vector::pop_back, vector is empty");
     }
-    size--;
+    size_--;
 }
 
-//TODO: fix this as it is doing set not insert
 template<typename T>
 void Vector<T>::insert(const T& item, size_type index) {
     if (index >= size_) {
@@ -107,11 +109,11 @@ void Vector<T>::insert(const T& item, size_type index) {
     if (size_ == capacity_) {
         resize();
     }
-    size++;
-    for (int i = size_ - 1; i > index ; i--) {
-        array[i] = array[i - 1];
+    for (size_type i = size_; i > index ; --i) {
+        array_[i] = array_[i - 1];
     }
     array_[index] = item;
+    size_++;
 }
 
 template<typename T>
@@ -119,34 +121,31 @@ void Vector<T>::remove(size_type index) {
     if (size_ == 0) {
         throw std::out_of_range("Vector::remove, vector is empty");
     }
-    if (index == size_) {
-        pop_back();
-    } else {
-        for (int i = index; i < size_ - 1; i++) {
-            array_[i] = array_[i + 1];
-        }
+    
+    for (size_type i = index; i < size_ - 1; i++) {
+        array_[i] = array_[i + 1];
     }
+    size_--;
 }
 
-#TODO:
 template<typename T>
 typename Vector<T>::iterator Vector<T>::begin() {
-    continue;
+    return array_;
 }
 
 template<typename T>
 typename Vector<T>::const_iterator Vector<T>::begin() const {
-    continue;
+    return array_;
 }
 
 template<typename T>
 typename Vector<T>::iterator Vector<T>::end() {
-    continue;
+    return array_ + size_;
 }
 
 template<typename T>
 typename Vector<T>::const_iterator Vector<T>::end() const {
-    continue;
+    return array_ + size_;
 }
 
 template<typename T>
@@ -158,4 +157,5 @@ void Vector<T>::resize() {
     }
     delete[] array_;
     array_ = temp_array;
+    capacity_ = new_capacity;
 }
