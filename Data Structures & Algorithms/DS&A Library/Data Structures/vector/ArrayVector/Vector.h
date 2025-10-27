@@ -1,8 +1,8 @@
 #ifndef VECTOR_H_
 #define VECTOR_H_
 
-#include <cstddef> // for std::size_t
-#include <stdexcept> // for std::out_of_range (throws)
+#include <cstddef>        // for std::size_t
+#include <stdexcept>      // for std::out_of_range (throws)
 
 /**
  * A dynamic array template that stores elements of type T
@@ -182,20 +182,36 @@ class Vector {
      * Inserts an element at a specific index
      * 
      * REQUIRES:
-     * 0 <= index < size
+     * 0 <= index <= size
      * 
      * ARGS:
      * item: The element to be inserted
      * index: the position where the element will be inserted
+     *       - 0 to size-1: inserts in the middle or beginning
+     *       - size: inserts at the end (same as push_back)
      * 
      * EFFECTS:
      * Element at and after index are shifted to the right. The size
      * increases by one.
      * 
      * THROWS:
-     * std::out_of_range if (index < 0) or (index > size)
+     * std::out_of_range if index > size
      */
     void insert(const T& item, size_type index);
+
+    /**
+     * Sets the element at the specific index
+     * 
+     * REQUIRES:
+     * 0 <= index < size
+     * 
+     * ARGS:
+     * item: The element to be set
+     * index: the position where the element will be set
+     * 
+     * EFFECTS:
+    */
+    void set(const T& item, size_type index);
 
     /**
      * Removes the element at the specific index

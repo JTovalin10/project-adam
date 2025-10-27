@@ -23,7 +23,7 @@ Vector<T>& Vector<T>::operator=(const Vector& other) {
     size_type new_size = other.size_;
     size_type new_capacity = other.capacity_;
     T* new_array = new T[new_capacity];
-    for (int i = 0; i < size_; i++) {
+    for (int i = 0; i < new_size; i++) {
         new_array[i] = other.array_[i];
     }
     delete[] array_;
@@ -103,7 +103,7 @@ void Vector<T>::pop_back() {
 
 template<typename T>
 void Vector<T>::insert(const T& item, size_type index) {
-    if (index >= size_) {
+    if (index > size_) {
         throw std::out_of_range("Vector::insert, index is out of range");
     }
     if (size_ == capacity_) {
@@ -117,24 +117,31 @@ void Vector<T>::insert(const T& item, size_type index) {
 }
 
 template<typename T>
+void Vector<T>::set(const T& item, size_type index) {
+    if (index > size_) {
+        throw std::out_of_range("Vector::set, index is out of range");
+    }
+    array_[index] = item;
+}
+
+template<typename T>
 void Vector<T>::remove(size_type index) {
     if (size_ == 0) {
         throw std::out_of_range("Vector::remove, vector is empty");
     }
-    
     for (size_type i = index; i < size_ - 1; i++) {
         array_[i] = array_[i + 1];
     }
     size_--;
 }
 
-template<typename T>
+template<typename T> 
 typename Vector<T>::iterator Vector<T>::begin() {
     return array_;
 }
 
-template<typename T>
-typename Vector<T>::const_iterator Vector<T>::begin() const {
+template<typename T> 
+typename Vector<T>::const_iterator Vector<T>::begin() const{
     return array_;
 }
 
