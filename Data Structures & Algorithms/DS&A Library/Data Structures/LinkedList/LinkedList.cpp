@@ -183,15 +183,17 @@ bool LinkedList<T>::remove(const value_type& target) {
     if (empty()) {
         return false;
     }
-    int items_removed = 0;
+    bool removed = false;
     Node<T>* curr = head_->next;
     while (curr != tail_ && curr->val == target) {
         Node<T>* temp = curr->next;
         delete curr;
         curr = temp;
-        items_removed++;
+        if (!removed) {
+            removed = true;
+        }
     }
-    if (items_removed != 0) {
+    if (removed) {
         head_->next = curr;
     }
 
@@ -200,17 +202,15 @@ bool LinkedList<T>::remove(const value_type& target) {
             Node<T>* temp = curr->next->next;
             delete curr->next;
             curr->next = temp;
-            items_removed++;
+            if (!removed) {
+                removed = true;
+            }
         } else {
             curr = curr->next;
         }
     }
 
-    if (items_removed == 0) {
-        return false;
-    } else {
-        return true;
-    }
+    return removed;
 }
 
 template<typename T>
@@ -299,7 +299,23 @@ const typename LinkedList<T>::value_type& LinkedList<T>::back() const {
 }
 
 template<typename T>
-LinkedList<T>::Iterator::Iterator(Node<T>* node) : current_node(node) {}
+LinkedList<T>::Iterator::Iterator(Node<T>* node, Node<T>* tail) : current_node(node), tail_(tail) {}
+
+template<typename T>
+typename LinkedList<T>::value_type& LinkedList<T>::Iterator::operator*() {
+    return current_node->val;
+}
+
+template<typename T>
+typename LinkedList<T>::Iterator& LinkedList<T>::Iterator::operator++() {
+    current_node = current_node->next;
+    return *this;
+}
+
+template<typename T>
+bool LinkedList<T>::Iterator::operator!=(const Iterator& other) const {
+    return current_node != other.current_node;
+}
 
 template<typename T>
 bool LinkedList<T>::Iterator::hasNext() {
@@ -316,15 +332,29 @@ typename LinkedList<T>::value_type LinkedList<T>::Iterator::next() {
     return current_node->val;
 }
 
+
+template<typename T>
+typename LinkedList<T>::Iterator LinkedList<T>::begin() {
+    return Iterator(head_->next, tail_);
+}
+
+template<typename T>
+typename LinkedList<T>::Iterator LinkedList<T>::end() {
+    return Iterator(tail_, tail_);
+}
+
 template<typename T>
 void LinkedList<T>::reverse() {
-    Node<T>* curr = head_->next;
-    Node<T>* prev = head_;
-    while (curr != tail_) {
+    Node<T>* curr = head_;
+    Node<T>* prev = nullptr;
+    while (curr != nullptr) {
         Node<T>* temp = curr->next;
         curr->next = prev;
         prev = curr;
         curr = temp;
     }
+    Node<T>* old_head = head_;
+    head_ = prev;
+    tail_ = old_head;
 }
 
