@@ -1,0 +1,39 @@
+# Define the C++ compiler to use
+CXX = g++
+
+# Compiler flags
+CXXFLAGS = -Wall -Wextra -g -std=c++17
+
+# Google Test flags for Linux/Raspberry Pi
+GTEST_FLAGS = -lgtest -lgtest_main -pthread
+
+# Define the name of the test executable
+TEST_TARGET = LinkedList_test
+
+# Test source file
+TEST_SOURCES = LinkedList_gtest.cpp
+
+# Default target - builds the test
+all: test
+
+# Build and run the test
+test: $(TEST_TARGET)
+	@echo "Running tests..."
+	./$(TEST_TARGET)
+
+# Build the test executable
+$(TEST_TARGET): $(TEST_SOURCES) LinkedList.h
+	$(CXX) $(CXXFLAGS) $(TEST_SOURCES) $(GTEST_FLAGS) -o $(TEST_TARGET)
+
+# Clean up generated files
+clean:
+	rm -f $(TEST_TARGET) *.o
+
+# Show this help message
+help:
+	@echo "Available targets:"
+	@echo "  make test    - Build and run tests"
+	@echo "  make clean   - Remove generated files"
+	@echo "  make help    - Show this message"
+
+.PHONY: all test clean help
