@@ -149,3 +149,33 @@ TEST(LinkedListTest, insert) {
     ASSERT_EQ(list[3], 300);
     ASSERT_EQ(list[4], 400);
 }
+
+TEST(LinkedListTest, erase) {
+    LinkedList<int> list;
+    /// test out of range
+    ASSERT_THROW(list.erase(0), std::out_of_range);
+    //// now with list we will test removing at the front
+    for (int i = 0; i < 3; i++) {
+        list.push_back(i);
+    }
+    list.erase(0);
+    ASSERT_EQ(list[0], 1);
+    ASSERT_EQ(list[1], 2);
+
+    LinkedList<int> list2;
+    for (int i = 0; i < 3; i++) {
+        list2.push_back(i);
+    }
+    list2.erase(1);
+    ASSERT_EQ(list2[0], 0);
+    ASSERT_EQ(list2[1], 2);
+
+    LinkedList<int> list3;
+    for (int i = 0; i < 3; i++) {
+        list3.push_back(i);
+    }
+    list3.erase(2);
+    ASSERT_EQ(list3[0], 0);
+    ASSERT_EQ(list3[1], 1);
+    EXPECT_THROW(list3[2], std::out_of_range);
+}
