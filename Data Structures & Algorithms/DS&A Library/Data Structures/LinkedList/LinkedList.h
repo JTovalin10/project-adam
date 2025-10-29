@@ -214,8 +214,9 @@ class LinkedList {
          * 
          * ARGS:
          * node: the node where we are going to start the iterator
+         * tail: the end of the linkedlist
          */
-        Iterator(Node<T>* node);
+        Iterator(Node<T>* node, Node<T>* tail);
 
         /**
          * Checks if the iterator has a next node
@@ -225,12 +226,64 @@ class LinkedList {
          */
         bool hasNext();
 
+        /**
+         * Gets the next value in the list following the iter
+         * 
+         * RETURNS:
+         * value_type that is the node->val
+         */
         value_type next();
+
+        /**
+         * Function to dereference the iterator mean in a for auto loop
+         * 
+         * RETURNS:
+         * returns the node->val
+         */
+        value_type& operator*();
+
+        /**
+         * Function that increments the iter for a for auto loop
+         * 
+         * RETURNS:
+         * returns the next iterator in the chain
+         */
+        Iterator& operator++();
+
+        /**
+         * comparsion check for for loop
+         * 
+         * PARAM:
+         * other: the other Iterator we are comparing against to ensure
+         * they are not the same
+         * 
+         * RETURNS:
+         * if they are not the same returns true, else false
+         */
+        bool operator!=(const Iterator& other) const; 
 
         private:
         Node<T>* current_node;
+        Node<T>* tail_;
 
     };
+
+    /**
+     * Initalizes the start of the iterator by returning the start of
+     * the linkedlist
+     * 
+     * RETURNS:
+     * Iterator which points to the start of the LinkedList
+     */
+    Iterator begin();
+
+    /**
+     * Defines the end of the iterator so we have a end point
+     * 
+     * RETURNS:
+     * Iterator which points to the end of the LinkedList
+     */
+    Iterator end();
 
     // ---- OTHER ---- //
 
