@@ -35,10 +35,78 @@ From the first data structure to creating entire virtual worlds. Every line of c
 ### Phase 1: The Foundation (Oct 2025 - Feb 2026)
 Building the algorithmic and data structure foundation.
 
-- **Data Structures & Algorithms Library** - Comprehensive C++ implementation
-- **Advanced Algorithms Library** - Max flow, string algorithms, computational geometry
-- **Algorithm Visualization** - Web platform for algorithm demos
+#### Data Structures & Algorithms Library (Oct - Dec 2025) [2/32]
 
+**Data Structures:**
+- [x] Dynamic Array (Vector)
+- [x] Singly Linked List
+- [ ] Doubly Linked List
+- [ ] Stack
+- [ ] Queue
+- [ ] Priority Queue (Binary Heap)
+- [ ] Hash Table (Separate Chaining)
+- [ ] Hash Table (Open Addressing)
+- [ ] Binary Search Tree
+- [ ] Red-Black Tree
+- [ ] B-Tree
+- [ ] Trie
+- [ ] LRU Cache
+- [ ] Ring Buffer
+
+**Sorting Algorithms:**
+- [ ] Quick Sort
+- [ ] Merge Sort
+- [ ] Counting Sort
+
+**Searching Algorithms:**
+- [ ] Linear Search
+- [ ] Binary Search
+- [ ] Interpolation Search
+- [ ] Jump Search
+- [ ] Exponential Search
+
+**Graph Algorithms:**
+- [ ] Dijkstra's Algorithm
+- [ ] Bellman-Ford Algorithm
+- [ ] Kruskal's Algorithm (MST)
+- [ ] Prim's Algorithm (MST)
+- [ ] Topological Sort
+- [ ] Tarjan's Algorithm (Strongly Connected Components)
+
+**Dynamic Programming:**
+- [ ] Longest Common Subsequence
+- [ ] Edit Distance (Levenshtein)
+- [ ] 0/1 Knapsack
+- [ ] Longest Increasing Subsequence
+
+#### Advanced Algorithms Library (Jan - Feb 2026)
+
+**String Algorithms:**
+- [ ] KMP Pattern Matching
+- [ ] Rabin-Karp Algorithm
+- [ ] Longest Common Substring
+
+**Network Flow:**
+- [ ] Edmonds-Karp Algorithm (Max Flow)
+- [ ] Min-Cost Max-Flow
+
+**Computational Geometry:**
+- [ ] Convex Hull (Graham Scan)
+- [ ] Point in Polygon Test
+- [ ] Closest Pair of Points
+
+**Advanced Data Structures:**
+- [ ] Skip List
+- [ ] Bloom Filter
+- [ ] Count-Min Sketch
+- [ ] Consistent Hashing Ring
+- [ ] Segment Tree
+- [ ] Fenwick Tree (Binary Indexed Tree)
+
+#### Algorithm Visualization (Feb 2026)
+- [ ] Web framework setup
+- [ ] Core visualizations (sorting, graphs, trees)
+- [ ] Interactive controls
 ### Phase 2: The Stack (Mar 2026 - Dec 2026)
 From concurrency to networking protocols.
 
@@ -114,7 +182,7 @@ Type-2 hypervisor on Raspberry Pi 5:
 
 **Current Project:** Data Structures & Algorithms Library  
 **Progress:** 0/16 projects complete  
-**Next Up:** Advanced Algorithms Library (January 2026)  
+**Next Up:** Dynamic Array (Vector) - Start here!  
 
 ## Repositories
 
@@ -177,7 +245,7 @@ Throughout this journey, I'll be documenting:
 ---
 
 **Status:** 🌱 Genesis Phase  
-**Last Updated:** October 24, 2025  
+**Last Updated:** October 29, 2025  
 **Next Milestone:** DS&A Library complete (December 31, 2025)
 
 ---
