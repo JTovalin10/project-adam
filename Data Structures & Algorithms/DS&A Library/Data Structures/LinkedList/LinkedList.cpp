@@ -165,13 +165,13 @@ void LinkedList<T>::erase(size_type index) {
     }
     Node<T>* curr = head_->next;
     Node<T>* prev = head_;
-    size_type i;
+    size_type i = 0;
     while (curr != tail_ && i < index) {
         prev = curr;
         curr = curr->next;
         i++;
     }
-    if (i != index) {
+    if (curr == tail_) {
         throw std::out_of_range("LinkedList::erase, the index is out of range");
     }
     prev->next = curr->next;
