@@ -8,12 +8,9 @@ CXX = g++
 # -std=c++17: enforce C++17 standard
 CXXFLAGS = -Wall -Wextra -g -std=c++17
 
-# Google Test paths (on macOS with Homebrew)
-GTEST_PREFIX = /opt/homebrew/opt/googletest
-GTEST_INCLUDE = $(GTEST_PREFIX)/include
-GTEST_LIB = $(GTEST_PREFIX)/lib
-# -lgtest_main automatically provides main() for running tests
-GTEST_FLAGS = -I$(GTEST_INCLUDE) -L$(GTEST_LIB) -lgtest -lgtest_main -pthread
+# Google Test flags for Linux/Raspberry Pi
+# After 'sudo make install', gtest is in standard system paths
+GTEST_FLAGS = -lgtest -lgtest_main -pthread
 
 # Define the name of the test executable
 TEST_TARGET = Vector_test
@@ -44,3 +41,5 @@ help:
 	@echo "  make test    - Build and run tests"
 	@echo "  make clean   - Remove generated files"
 	@echo "  make help    - Show this message"
+
+.PHONY: all test clean help
