@@ -145,6 +145,7 @@ void LinkedList<T>::pop_back() {
         curr = curr->next;
     }
     prev->next = tail_;
+    tail_->prev = prev;
     delete curr;
 }
 
