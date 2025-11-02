@@ -20,6 +20,7 @@
         "string": "cpp",
         "string_view": "cpp",
         "unordered_map": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "locale": "cpp"
     }
 }
