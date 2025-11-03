@@ -13,13 +13,13 @@ class Stack {
     // ---- CONSTRUCTORS AND DESTRUCTORS
     Stack();
 
-    ~Stack();
-
-    Stack(const value_type& other);
-
-    Stack& operator=(const Stack& other);
+    Stack(const Stack& other);
 
     Stack(Stack&& other);
+
+    ~Stack();
+
+    Stack& operator=(const Stack& other);
 
     Stack& operator=(Stack&& other);
 
