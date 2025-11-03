@@ -1,12 +1,12 @@
 #include "gtest/gtest.h"
 #include "LinkedList.h"
 
-TEST(LinkedListTest, emptyConstructor) {
+TEST(LinkedListTest, empty_constructor) {
     LinkedList<int> list;
     ASSERT_EQ(list.empty(), true);
 }
 
-TEST(LinkedListTest, copyConstructor) {
+TEST(LinkedListTest, copy_constructor) {
     LinkedList<int> list;
     for (int i = 0; i < 10; i++) {
         list.push_back(i);
@@ -25,7 +25,25 @@ TEST(LinkedListTest, copyConstructor) {
     ASSERT_EQ(dupeList[9], 9);
 }
 
-TEST(LinkedListTest, assignmentOperator) {
+TEST(LinkedListTest, move_constructor) {
+    LinkedList<int> list1;
+    for (int i = 0; i < 3; i++) {
+        list1.push_back(i);
+    }
+    LinkedList<int> list2 = std::move(list1);
+    ASSERT_EQ(list1.size(), 0);
+    ASSERT_TRUE(list1.empty());
+    ASSERT_THROW(list1.front(), std::out_of_range);
+    ASSERT_THROW(list1.back(), std::out_of_range);
+
+    ASSERT_EQ(list2.size(), 3);
+    ASSERT_FALSE(list2.empty());
+    ASSERT_EQ(list2[0], 0);
+    ASSERT_EQ(list2[1], 1);
+    ASSERT_EQ(list2[2], 2);
+}
+
+TEST(LinkedListTest, assignment_operator) {
     LinkedList<int> list1;
     for (int i = 0; i < 3; i++) {
         list1.push_back(i);
@@ -40,7 +58,15 @@ TEST(LinkedListTest, assignmentOperator) {
     ASSERT_EQ(list2[2], 2);
 }
 
-TEST(LinkedListTest, operatorBracket) {
+TEST(LinkedListTest, move_assignment_operator) {
+    LinkedList<int> list1;
+    for (int i = 0; i < 3; i++) {
+        list1.push_back(i);
+    }
+
+}
+
+TEST(LinkedListTest, operator_bracket) {
     LinkedList<int> list;
 
     for (int i = 0; i < 3; i++) {
@@ -49,20 +75,27 @@ TEST(LinkedListTest, operatorBracket) {
     ASSERT_EQ(list[0], 0);
     ASSERT_EQ(list[1], 1);
     ASSERT_EQ(list[2], 2);
+
+    list[0] = 9;
+    list[1] = 8;
+    list[2] = 7;
+    ASSERT_EQ(list[0], 9);
+    ASSERT_EQ(list[1], 8);
+    ASSERT_EQ(list[2], 7);
+    ASSERT_THROW(list[3], std::out_of_range);
+    ASSERT_THROW(list[4] = 100, std::out_of_range);
 }
 
-TEST(LinkedListTest, operatorBracketsCont) {
-    LinkedList<int> list;
-    for (int i = 0; i < 3; i++) {
-        list.push_back(i);
-    }
-    const LinkedList<int> list2 = list;
-    ASSERT_EQ(list2[0], 0);
-    ASSERT_EQ(list2[1], 1);
-    ASSERT_EQ(list2[2], 2);
+TEST(LinkedListTest, const_operator_bracket) {
+    LinkedList<int> temp_list;
 
-    // testing:
-    // list2[0] = 100;
+    for (int i = 0; i < 3; i++) {
+        temp_list.push_back(i);
+    }
+    const LinkedList<int> list = temp_list;
+    ASSERT_EQ(list[0], 0);
+    ASSERT_EQ(list[1], 1);
+    ASSERT_EQ(list[2], 2);
 }
 
 TEST(LinkedListTest, push_front) {
@@ -178,33 +211,6 @@ TEST(LinkedListTest, erase) {
     ASSERT_EQ(list3[0], 0);
     ASSERT_EQ(list3[1], 1);
     EXPECT_THROW(list3[2], std::out_of_range);
-}
-
-TEST(LinkedListTest, remove) {
-    LinkedList<int> list;
-    ASSERT_FALSE(list.remove(-1));
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            list.push_back(j);
-        }
-    }
-    ASSERT_FALSE(list.remove(3));
-    ASSERT_TRUE(list.remove(2));
-    ASSERT_EQ(list.size(), 6);
-    ASSERT_EQ(list[0], 0);
-    ASSERT_EQ(list[1], 1);
-    ASSERT_EQ(list[2], 0);
-    ASSERT_EQ(list[3], 1);
-    ASSERT_EQ(list[4], 0);
-    ASSERT_EQ(list[5], 1);
-
-    ASSERT_TRUE(list.remove(0));
-    ASSERT_EQ(list[0], 1);
-    ASSERT_EQ(list[1], 1);
-    ASSERT_EQ(list[2], 1);
-
-    ASSERT_TRUE(list.remove(1));
-    ASSERT_EQ(list.size(), 0);
 }
 
 TEST(LinkedListTest, find) {

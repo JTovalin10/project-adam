@@ -29,7 +29,7 @@ LinkedList<T>::LinkedList(const LinkedList& other) : size_(other.size_) {
 }
 
 template<typename T>
-LinkedList<T>::LinkedList(LinkedList&& other) : head(other.head_), tail_(other.tail_), size_(other.size_) {
+LinkedList<T>::LinkedList(LinkedList&& other) : head_(other.head_), tail_(other.tail_), size_(other.size_) {
     other.head_ = new Node<T>(T());
     other.tail_ = new Node<T>(T());
     other.size_ = 0;
@@ -166,7 +166,7 @@ void LinkedList<T>::pop_back() {
 template<typename T>
 void LinkedList<T>::insert(const value_type& val, size_type index) {
     if (index > size_) {
-        throw std::out_of_range("LinkedList::insert, index is out of range")
+        throw std::out_of_range("LinkedList::insert, index is out of range");
     }
     if (index == 0) {
         push_front(val);
@@ -228,7 +228,7 @@ const Node<T>* LinkedList<T>::find(const value_type& target) const {
 
 template<typename T>
 typename LinkedList<T>::size_type LinkedList<T>::size() const {
-    return size_
+    return size_;
 }
 
 template<typename T>
