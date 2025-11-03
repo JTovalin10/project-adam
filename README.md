@@ -22,7 +22,7 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 | **Hours Remaining** | ~40-58 hours |
 | **Next Item** | Queue (2-3 hours) |
 
-**[View Detailed Timeline](docs/genesis-timeline.md)**
+**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1a Details](docs/timeline/genesis-a-timeline.md)**
 
 ---
 
@@ -31,11 +31,12 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 - [Overview](#overview)
 - [Current Status](#current-status)
 - [Phase Summaries](#the-journey)
-  - [Phase 1: Foundation](docs/genesis-timeline.md)
-    - [Phase 1a: Genesis](docs/genesis-timeline.md)
-    - [Phase 1b: Evolution](docs/evolution-timeline.md)
-  - [Phase 2: Evolution - Network and Concurrency](docs/mastery-timeline.md)
-  - [Phase 3: Perfection - The World](docs/transcendence-timeline.md)
+  - [Phase 1: Foundation](docs/overview/phase1-overview.md)
+    - [Phase 1 Timeline](docs/timeline/phase1-timeline.md) - Completion tracking
+    - [Phase 1a: Genesis](docs/timeline/genesis-a-timeline.md)
+    - [Phase 1b: Evolution](docs/timeline/genesis-b-timeline.md)
+  - [Phase 2: Evolution - Network and Concurrency](docs/overview/phase2-overview.md) - [Timeline](docs/timeline/mastery-timeline.md)
+  - [Phase 3: Perfection - The World](docs/overview/phase3-overview.md) - [Timeline](docs/timeline/transcendence-timeline.md)
 - [Project Highlights](#project-highlights)
 - [Timeline](#timeline)
 - [Repositories](#repositories)
@@ -74,7 +75,7 @@ Like Adam Warlock—this is my evolution to becoming a cracked programmer. From 
 
 #### Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Dec 31, 2025)
 
-**[View Detailed Timeline](docs/genesis-timeline.md)**
+**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1a Details](docs/timeline/genesis-a-timeline.md)**
 
 Building essential data structures and algorithms that form the foundation for all networking and systems projects.
 
@@ -89,7 +90,7 @@ Having already completed NeetCode's DSA courses, this phase focuses on **C++ imp
 
 #### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Jan 1 - Feb 28, 2026)
 
-**[View Detailed Timeline](docs/evolution-timeline.md)**
+**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1b Details](docs/timeline/genesis-b-timeline.md)**
 
 Network-focused phase that builds primitives and algorithms directly used in Phase 2's networking projects (DNS, UDP, TCP).
 
@@ -106,7 +107,7 @@ Network-focused phase that builds primitives and algorithms directly used in Pha
 
 ### Phase 2: Evolution - Network and Concurrency (Mar 2026 - Dec 2026)
 
-**[View Detailed Timeline](docs/mastery-timeline.md)**
+**[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/mastery-timeline.md)**
 
 Building network protocols and concurrency primitives.
 
@@ -121,7 +122,7 @@ Building network protocols and concurrency primitives.
 
 ### Phase 3: Perfection - The World (Jan 2027 - June 2027)
 
-**[View Detailed Timeline](docs/transcendence-timeline.md)**
+**[Overview](docs/overview/phase3-overview.md)** | **[Timeline](docs/timeline/transcendence-timeline.md)**
 
 Distributed systems and virtualization. Like Adam Warlock's perfection—the ultimate creation.
 
@@ -187,18 +188,19 @@ Type-2 hypervisor on Raspberry Pi 5:
 
 **2025**
 - Oct 24 - Dec 31: Phase 1a: Genesis (Data Structures and Algorithms)
-  - [Detailed timeline](docs/genesis-timeline.md)
 
 **2026**
 - Jan 1 - Feb 28: Phase 1b: Evolution (Networking Primitives)
-  - [Detailed timeline](docs/evolution-timeline.md)
+
+**Phase 1: Foundation (Oct 2025 - Feb 2026)**
+  - [Overview](docs/overview/phase1-overview.md) | [Timeline](docs/timeline/phase1-timeline.md)
 - Mar - Dec: Phase 2: Evolution - Network and Concurrency (DNS, UDP, TCP)
-  - [Detailed timeline](docs/mastery-timeline.md)
+  - [Overview](docs/overview/phase2-overview.md) | [Timeline](docs/timeline/mastery-timeline.md)
   - Aug-Dec: TCP from Scratch (4 months)
 
 **2027**
 - Jan - Jun: Phase 3: Perfection - The World (BitTorrent, Hypervisor)
-  - [Detailed timeline](docs/transcendence-timeline.md)
+  - [Overview](docs/overview/phase3-overview.md) | [Timeline](docs/timeline/transcendence-timeline.md)
   - Apr-Jun: ARM Hypervisor (Capstone)
 - **Graduate June 2027**
 
