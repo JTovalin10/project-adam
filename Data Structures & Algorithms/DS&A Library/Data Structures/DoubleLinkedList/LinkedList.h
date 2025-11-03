@@ -14,8 +14,22 @@ class Node {
     Node<T>* prev;
     value_type val;
 
+    /**
+     * Initalizes a Node with only a value
+     * 
+     * ARGS:
+     * val: the value of the node
+     */
     Node(value_type val);
 
+    /**
+     * Initalizes a Node with only a value
+     * 
+     * ARGS:
+     * val: the value of the node
+     * prev: points to the previous Node
+     * next: points to the next Node
+     */
     Node(value_type val, Node<T>* prev, Node<T>* next);
 };
 
@@ -111,17 +125,6 @@ class LinkedList {
      * out_of_bounds if the index is not within 0 <= index <= size()
      */
     void erase(size_type index);
-
-    /**
-     * Looks through the entire list and removes all instances of the target
-     * 
-     * ARGS:
-     * the object that will be removed from the linkedlist
-     * 
-     * RETURNS:
-     * true if it removed even one instance, else false
-     */
-    bool remove(const value_type& target);
 
     /**
      * looks for the first instance of the given target
