@@ -4,8 +4,6 @@
 #include <cstddef>
 #include <stdexcept>
 
-using size_type = std::size_t;
-
 template<typename T>
 class Node {
     using value_type = T;
@@ -13,14 +11,27 @@ class Node {
     Node<T>* next;
     value_type val;
 
+    /**
+     * Initalizes a Node with only a value
+     * 
+     * ARGS:
+     * val: the value of the node
+     */
     Node(value_type val);
 
-    Node(value_type val, Node* next);
+    /**
+     * Initalizes a Node with only a value
+     * 
+     * ARGS:
+     * val: the value of the node
+     * next: points to the next Node
+     */
+    Node(value_type val, Node<T>* next);
 };
 
 template<typename T>
 class LinkedList {
-    using size_type = size_t;
+    using size_type = std::size_t;
     using value_type = T;
     public:
 
@@ -40,6 +51,14 @@ class LinkedList {
     LinkedList(const LinkedList& other);
 
     /**
+     * Move constructor - transfers ownership of resources
+     * 
+     * ARGS:
+     * other: the LinkedList to move from (will be left empty)
+     */
+    LinkedList(LinkedList&& other);
+
+    /**
      * Destroys LinkedList and safely deallocates the allocated memory
      */
     ~LinkedList();
@@ -51,6 +70,14 @@ class LinkedList {
      * other: the other LinkedList that will be copied
      */
     LinkedList& operator=(const LinkedList& other);
+
+    /**
+     * Move assignment operator - transfers ownership of resources
+     * 
+     * ARGS:
+     * other: the LinkedList to move from (will be left empty)
+     */
+    LinkedList& operator=(LinkedList&& other);
 
     value_type& operator[](size_type index);
 
@@ -110,17 +137,6 @@ class LinkedList {
      * out_of_bounds if the index is not within 0 <= index <= size()
      */
     void erase(size_type index);
-
-    /**
-     * Looks through the entire list and removes all instances of the target
-     * 
-     * ARGS:
-     * the object that will be removed from the linkedlist
-     * 
-     * RETURNS:
-     * true if it removed even one instance, else false
-     */
-    bool remove(const value_type& target);
 
     /**
      * looks for the first instance of the given target
@@ -295,6 +311,7 @@ class LinkedList {
     private:
     Node<T>* head_;
     Node<T>* tail_;
+    size_type size_;
 };
 
 #include "LinkedList.cpp"
