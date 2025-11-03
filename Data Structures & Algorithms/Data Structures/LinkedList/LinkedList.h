@@ -80,30 +80,30 @@ class LinkedList {
     LinkedList& operator=(LinkedList&& other);
 
     /**
-     * retrieves the value at the given index
+     * bracket operator - retrieves the value at given index
      * 
      * ARGS:
-     * index: the index of the target
+     * index: the index of the element in the list
      * 
      * THROWS:
-     * std::out_of_range if the index is invalid
+     * std::out_of_range if index >= size
      * 
      * RETURNS:
-     * the value_type at the given index
+     * the value of the given element
      */
     value_type& operator[](size_type index);
 
     /**
-     * retrieves the value at the given index
+     * const bracket operator - retrieves the value at given index
      * 
      * ARGS:
-     * index: the index of the target
+     * index: the index of the element in the list
      * 
      * THROWS:
-     * std::out_of_range if the index is invalid
+     * std::out_of_range if index >= size
      * 
      * RETURNS:
-     * the value_type at the given index
+     * the const value of the given element
      */
     const value_type& operator[](size_type index) const;
 
