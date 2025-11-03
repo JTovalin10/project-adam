@@ -39,10 +39,10 @@ Building the essential, high-value data structures and algorithms. This is the f
 Having already completed NeetCode's DSA courses, the primary goal of this phase isn't to *learn* these concepts from scratch. Instead, it's to master their **C++ implementation**, focusing on correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). This is why the algorithm list is intentionally focused on core tools rather than exhaustive coverage.
 
   - [x] Dynamic Array (Vector)
-  - [x] Singly Linked List
-  - [x] Doubly Linked List
-  - [ ] Stack (implemented with Vector)
-  - [ ] Queue (implemented with List)
+  - [x] Singly LinkedList
+  - [x] Doubly LinkedList
+  - [x] Stack (implemented with DoubleLinkedList)
+  - [ ] Queue (implemented with DoubleLinkedList)
   - [ ] Hash Table (Separate Chaining)
   - [ ] Priority Queue (Binary Heap)
   - [ ] Binary Search Tree
