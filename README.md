@@ -40,7 +40,7 @@ Having already completed NeetCode's DSA courses, the primary goal of this phase 
 
   - [x] Dynamic Array (Vector)
   - [x] Singly Linked List
-  - [ ] Doubly Linked List
+  - [x] Doubly Linked List
   - [ ] Stack (implemented with Vector)
   - [ ] Queue (implemented with List)
   - [ ] Hash Table (Separate Chaining)
