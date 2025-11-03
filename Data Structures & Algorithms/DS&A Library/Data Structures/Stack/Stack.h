@@ -35,10 +35,8 @@ class Stack {
 
     size_type size() const;
 
-
     private:
     LinkedList<T> list_;
-    size_type size_;
 };
 
 #include "Stack.cpp"
