@@ -10,6 +10,8 @@
 
 Building network protocols and concurrency primitives. From thread pools to full TCP implementation, creating the foundational systems programming stack.
 
+**Note:** All time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), comprehensive unit testing (GoogleTest), integration testing, and header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
+
 ---
 
 ## Project List
@@ -30,6 +32,7 @@ Building network protocols and concurrency primitives. From thread pools to full
 - Thread Pool and Lock-Free structures provide concurrency foundation
 - DNS Server uses Bloom Filter from Evolution phase for ad-blocking
 - UDP prepares for TCP complexity
+- All projects include comprehensive unit testing (GoogleTest), integration testing, and header file documentation per Google C++ Style Guide
 - All projects build on Genesis & Evolution phase primitives
 
 ---
