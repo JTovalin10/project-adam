@@ -2,9 +2,9 @@
 
 > "Building systems from first principles"
 
-A 20-month systems engineering roadmap from data structures to ARM hypervisors, with a focus on **networking, distributed systems, and operating systems**.
+A 20-month systems engineering roadmap from data structures to ARM hypervisors, with a focus on **networking, distributed systems.**
 
-**Note:** This is a networking, distributed systems, and OS-focused project. Algorithms and data structures taught in class won't be covered unless they're used for something I will build.
+**Note:** This is a networking and distributed systems-focused project. Algorithms and data structures taught in class won't be covered unless they're used for something I will build.
 
 ---
 
