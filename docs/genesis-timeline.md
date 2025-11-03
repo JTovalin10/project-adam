@@ -10,6 +10,8 @@
 
 Building essential data structures and algorithms that form the foundation for all networking and systems projects. This phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). I have taken CSE 332 (Data Structures & Parallelism) and will take CSE 421 (Algorithms) at UW, so algorithms and data structures covered in those courses are not included here unless they're directly used in projects I'll build.
 
+**Note:** All time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), comprehensive unit testing (GoogleTest), and header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
+
 ---
 
 ## Project List
@@ -35,7 +37,7 @@ Building essential data structures and algorithms that form the foundation for a
 
 - Skipping basic sorting/searching algorithms (Quick Sort, Merge Sort, Binary Search) as these are already mastered from NeetCode
 - Red-Black Tree is the most challenging project in this phase - self-balancing requires careful rotation logic
-- All projects include comprehensive testing and memory leak checking
+- All projects include comprehensive unit testing (GoogleTest), memory leak checking, and header file documentation per Google C++ Style Guide
 - Each project builds understanding for networking and systems programming
 
 ---

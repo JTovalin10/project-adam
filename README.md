@@ -51,7 +51,8 @@ Project Adam is my journey through systems programming, starting with the fundam
 **End Date:** June 2027 (Graduation)  
 **Total Projects:** 14-15 (9 personal + 5-6 class projects)  
 **Primary Language:** C++  
-**Hardware:** Raspberry Pi 5 (16GB RAM), MacBook Pro M4 (18GB)
+**Hardware:** Raspberry Pi 5 (16GB RAM), MacBook Pro M4 (18GB)  
+**Code Standards:** All projects follow [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) with comprehensive unit testing (GoogleTest) and header file documentation. Time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), implementation, testing, and documentation.
 
 ### Why C++?
 
@@ -92,14 +93,14 @@ Having already completed NeetCode's DSA courses, this phase focuses on **C++ imp
 
 Network-focused phase that builds primitives and algorithms directly used in Phase 2's networking projects (DNS, UDP, TCP).
 
-**Projects:** Bloom Filter, Ring Buffer, Radix Tree, Skip List, Sliding Window Protocol, CRC32/Internet Checksum, Token Bucket, Exponential Backoff, Consistent Hashing, Bellman-Ford, **Fibonacci Heap** ⭐⭐⭐ Capstone
+**Projects:** Bloom Filter, Ring Buffer, **Radix Tree** ⭐ Capstone, Skip List, Sliding Window Protocol, CRC32/Internet Checksum, Token Bucket, Exponential Backoff, Consistent Hashing, Bellman-Ford
 
 **Focus:** Networking-focused data structures and algorithms for Phase 2
 
-**Total Estimated Time:** ~51-67 hours  
+**Total Estimated Time:** ~36-47 hours  
 **Available Time:** 59 days × 1 hour/day = 59 hours
 
-**Phase 1 Total:** ~101-127 hours over 127 days
+**Phase 1 Total:** ~86-107 hours over 127 days
 
 ---
 

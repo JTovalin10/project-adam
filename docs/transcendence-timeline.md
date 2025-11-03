@@ -10,6 +10,8 @@
 
 Distributed systems and virtualization. Building the capstone project: an ARM hypervisor running multiple Linux VMs on Raspberry Pi 5. Like Adam Warlock's perfection—the ultimate creation.
 
+**Note:** All time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), comprehensive unit testing (GoogleTest), integration testing, and header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
+
 ---
 
 ## Project List
@@ -27,6 +29,7 @@ Distributed systems and virtualization. Building the capstone project: an ARM hy
 - ARM Hypervisor is the capstone project spanning 3 months
 - BitTorrent Client uses Consistent Hashing from Evolution phase for DHT
 - Custom Allocators prepare for hypervisor memory management
+- All projects include comprehensive unit testing (GoogleTest), integration testing, and header file documentation per Google C++ Style Guide
 - All projects build toward the hypervisor
 - The hypervisor represents the ultimate systems programming achievement—creating virtual worlds
 
