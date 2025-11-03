@@ -1,4 +1,4 @@
-# Phase 1a: Genesis - Data Structures and Algorithms - Detailed Timeline
+# Phase 1a: Genesis - Data Structures and Algorithms - Detailed Breakdown
 
 **Duration:** Oct 24 - Dec 31, 2025 (68 days)  
 **Work Schedule:** 1 hour/day average  
@@ -42,4 +42,7 @@ Building essential data structures and algorithms that form the foundation for a
 
 ---
 
-**Back to [README](../README.md)**
+**Links:**
+- [Phase 1 Overview](../overview/phase1-overview.md)
+- [Phase 1 Timeline](phase1-timeline.md)
+- [Back to README](../../README.md)

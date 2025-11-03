@@ -1,4 +1,4 @@
-# Evolution: Networking Primitives & Advanced Algorithms - Detailed Timeline
+# Phase 1b: Evolution - Networking Primitives & Advanced Algorithms - Detailed Breakdown
 
 **Duration:** Jan 1 - Feb 28, 2026 (59 days)  
 **Work Schedule:** 1 hour/day average  
@@ -42,4 +42,7 @@
 
 ---
 
-**Back to [README](../README.md)**
+**Links:**
+- [Phase 1 Overview](../overview/phase1-overview.md)
+- [Phase 1 Timeline](phase1-timeline.md)
+- [Back to README](../../README.md)
