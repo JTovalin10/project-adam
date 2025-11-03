@@ -8,8 +8,8 @@ CXX = g++
 # -std=c++17: enforce the C++17 standard
 CXXFLAGS = -Wall -Wextra -g -std=c++17
 
-# Linker flags (not strictly needed for this basic project, but good practice)
-LDFLAGS =
+# Linker flags - add gtest libraries here
+LDFLAGS = -lgtest -lgtest_main -pthread
 
 # Define the name of the final executable program
 TARGET = project-adam
@@ -27,10 +27,9 @@ all: $(TARGET)
 
 # Rule to link the object files into the final executable
 $(TARGET): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 
 # Rule to compile each .cpp file into a .o object file
-# The header file is implicitly used by main.cpp, so it doesn't need to be listed here.
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
