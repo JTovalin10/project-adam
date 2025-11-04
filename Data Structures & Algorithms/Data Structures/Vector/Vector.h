@@ -14,6 +14,17 @@
 
 template<typename T> 
 class Vector {
+    using value_type = T;
+    using size_type = std::size_t;
+    using iterator = Vector;
+    using const_iterator = const Vector;
+    
+    /**
+     * Move Constructor - constructs this Vector by stealing from the other Vector
+     * 
+     * ARGS:
+     * other: the vector we will steal from
+     */
     public:
     // ---- Type Aliases ---- //
 
@@ -35,6 +46,14 @@ class Vector {
     Vector(const Vector& other);
 
     /**
+     * Move Constructor - constructs this Vector by stealing from the other Vector
+     * 
+     * ARGS:
+     * other: the vector we will steal from
+     */
+    Vector(Vector&& other);
+
+    /**
      * Destroys the vector and safely deallocates the dynamically allocated memory.
      */
     ~Vector();
@@ -49,6 +68,14 @@ class Vector {
      * A reference to the current Vector (*this)
      */
     Vector& operator=(const Vector& other);
+
+    /**
+     * Move assignment operator - constructs this Vector by stealing from the other Vector
+     * 
+     * ARGS:
+     * other: the vector we will steal from
+     */
+    Vector& operator=(Vector&& other);
 
     // ---- Element Access ---- //
 

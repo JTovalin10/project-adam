@@ -11,6 +11,16 @@ Vector<T>::Vector(const Vector& other) : capacity_(other.capacity_), size_(other
 }
 
 template<typename T>
+Vector<T>::Vector(Vector&& other) : capacity_(other.capacity_), size_(other.size_), array_(new T[capacity_]) {
+    for (int i = 0; i < size_; i++) {
+        array_[i] = oter.array_[i];
+    }
+    other.size_ = 0;
+    other.capacity_ = other.initial_capacity;
+    delete[] other.array_;
+}
+
+template<typename T>
 Vector<T>::~Vector() {
     delete[] array_;
 }
