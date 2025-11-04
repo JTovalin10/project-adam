@@ -169,17 +169,15 @@ Type-2 hypervisor on Raspberry Pi 5:
 - Device emulation (UART, timer, storage, network)
 - Multiple Linux VMs running simultaneously
 - Can SSH into virtualized guests
-
-**Creating new worlds on a $80 computer.**
-
+  
 ---
 
 ## Technology Stack
 
 **Languages:** C++17, ARM Assembly, JavaScript  
 **Systems:** Linux, bare-metal ARM  
-**Hardware:** Raspberry Pi 5 (16GB, Cortex-A76), MacBook Pro M4 (18GB)  
-**Tools:** GCC, GDB, Git  
+**Hardware:** Raspberry Pi 5 (16GB, Cortex-A76)
+**Tools:** GCC, GDB, Valgrind, Git  
 **Concepts:** Concurrency, networking, distributed systems, virtualization
 
 ---
