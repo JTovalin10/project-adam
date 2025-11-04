@@ -17,7 +17,7 @@
 | [x] | Singly LinkedList | 2 | Oct 26-27, 2025 | 4 |
 | [x] | Doubly LinkedList | 3 | Oct 28-30, 2025 | 7 |
 | [x] | Stack | 2 | Oct 31 - Nov 1, 2025 | 9 |
-| [ ] | Queue | 2-3 | Nov 2-4, 2025 | 11-12 |
+| [x] | Queue | 2-3 | Nov 2-4, 2025 | 11-12 |
 | [ ] | Hash Table (Separate Chaining) | 4-5 | Nov 5-9, 2025 | 15-17 |
 | [ ] | Min Heap | 4-5 | Nov 10-14, 2025 | 19-22 |
 | [ ] | Trie (Prefix Tree) | 3-4 | Nov 15-18, 2025 | 22-26 |
@@ -26,7 +26,7 @@
 | [ ] | Union-Find / Disjoint Set | 3-4 | Nov 29 - Dec 2, 2025 | 33-40 |
 | [ ] | Red-Black Tree ⭐ Capstone | 12-15 | Dec 3-17, 2025 | 45-55 |
 
-**Progress:** 4/12 complete (33%)
+**Progress:** 5/12 complete (41.67%)
 
 ---
 
@@ -54,7 +54,7 @@
 
 ## Phase 1 Total Progress
 
-**Completed:** 4/22 projects (18%)  
+**Completed:** 5/22 projects (22.72%)  
 **Total Estimated Time:** ~86-107 hours  
 **Available Time:** 127 hours
 
