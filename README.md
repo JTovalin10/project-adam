@@ -52,7 +52,7 @@ Project Adam is my journey through systems programming, starting with the fundam
 **End Date:** June 2027 (Graduation)  
 **Total Projects:** 14-15 (9 personal + 5-6 class projects)  
 **Primary Language:** C++  
-**Hardware:** Raspberry Pi 5 (16GB RAM), MacBook Pro M4 (18GB)  
+**Hardware:** Raspberry Pi 5 (16GB RAM)
 **Code Standards:** All projects follow [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) with comprehensive unit testing (GoogleTest) and header file documentation. Time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), implementation, testing, and documentation.
 
 ### Why C++?
