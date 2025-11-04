@@ -269,4 +269,5 @@ private:
 };
 
 #include "Queue.cpp"
+
 #endif // QUEUE_H_
