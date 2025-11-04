@@ -52,7 +52,7 @@ Project Adam is my journey through systems programming, starting with the fundam
 **End Date:** June 2027 (Graduation)  
 **Total Projects:** 14-15 (9 personal + 5-6 class projects)  
 **Primary Language:** C++  
-**Hardware:** Raspberry Pi 5 (16GB RAM), MacBook Pro M4 (18GB)  
+**Hardware:** Raspberry Pi 5 (16GB RAM)
 **Code Standards:** All projects follow [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) with comprehensive unit testing (GoogleTest) and header file documentation. Time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), implementation, testing, and documentation.
 
 ### Why C++?
@@ -169,17 +169,15 @@ Type-2 hypervisor on Raspberry Pi 5:
 - Device emulation (UART, timer, storage, network)
 - Multiple Linux VMs running simultaneously
 - Can SSH into virtualized guests
-
-**Creating new worlds on a $80 computer.**
-
+  
 ---
 
 ## Technology Stack
 
 **Languages:** C++17, ARM Assembly, JavaScript  
 **Systems:** Linux, bare-metal ARM  
-**Hardware:** Raspberry Pi 5 (16GB, Cortex-A76), MacBook Pro M4 (18GB)  
-**Tools:** GCC, GDB, Git  
+**Hardware:** Raspberry Pi 5 (16GB, Cortex-A76)
+**Tools:** GCC, GDB, Valgrind, Git  
 **Concepts:** Concurrency, networking, distributed systems, virtualization
 
 ---
