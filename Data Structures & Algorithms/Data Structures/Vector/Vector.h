@@ -18,10 +18,6 @@ class Vector {
     // ---- Type Aliases ---- //
 
     // The standarize types for compatibility with STL algorithms
-    using size_type = std::size_t;
-    using value_type = T;
-    using iterator = T*;
-    using const_iterator = const T*;
 
     // ---- Constructors & DESTRUCTOR ---- //
 
