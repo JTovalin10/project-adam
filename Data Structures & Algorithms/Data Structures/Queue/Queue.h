@@ -2,7 +2,7 @@
 #define QUEUE_H_
 #include <cstddef>
 #include <stdexcept>
-#include "DoubleLinkedList/LinkedList.h"
+#include "../DoubleLinkedList/LinkedList.h"
 
 template<typename T>
 class Queue {

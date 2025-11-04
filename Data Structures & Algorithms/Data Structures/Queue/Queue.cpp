@@ -82,6 +82,9 @@ void Queue<T>::push(value_type&& value) {
 
 template<typename T>
 void Queue<T>::pop() {
+    if (empty()) {
+        throw std::out_of_range("Queue::pop, the list is empty");
+    }
     list_.pop_front();
 }
 
@@ -94,13 +97,14 @@ void Queue<T>::swap(Queue& other) {
 
 template<typename T>
 bool Queue<T>::operator==(const Queue& other) const {
+    // First check if sizes are different
     if (list_.size() != other.list_.size()) {
         return false;
     }
+    
+    // Compare all elements
     for (size_type i = 0; i < list_.size(); i++) {
-        const T& value_1 = list_[i];
-        const T& value_2 = other.list_[i];
-        if (value_1 != value_2) {
+        if (list_[i] != other.list_[i]) {
             return false;
         }
     }
@@ -109,73 +113,38 @@ bool Queue<T>::operator==(const Queue& other) const {
 
 template<typename T>
 bool Queue<T>::operator!=(const Queue& other) const {
-    return !(list_ == other.list_);
+    return !(*this == other);
 }
 
 template<typename T>
 bool Queue<T>::operator<(const Queue& other) const {
-    size_type min_size = std::min(list_.size(), other.list_.size())
+    size_type min_size = std::min(list_.size(), other.list_.size());
+    
     for (size_type i = 0; i < min_size; i++) {
         const T& value_1 = list_[i];
         const T& value_2 = other.list_[i];
+        
+        if (value_1 < value_2) {
+            return true;
+        }
         if (value_1 > value_2) {
             return false;
-        } else if (value_1 < value_2) {
-            return true;
-        } else {
-            continue;
         }
     }
-    return true;
+    return list_.size() < other.list_.size();
 }
 
 template<typename T>
 bool Queue<T>::operator<=(const Queue& other) const {
-    size_type min_size = std::min(list_.size(), other.list_.size())
-    for (size_type i = 0; i < min_size; i++) {
-        const T& value_1 = list_[i];
-        const T& value_2 = other.list_[i];
-        if (value_1 > value_2) {
-            return false;
-        } else if (value_1 <= value_2) {
-            return true;
-        } else {
-            continue;
-        }
-    }
-    return true;
+    return !(other < *this);
 }
 
 template<typename T>
 bool Queue<T>::operator>(const Queue& other) const {
-    size_type min_size = std::min(list_.size(), other.list_.size())
-    for (size_type i = 0; i < min_size; i++) {
-        const T& value_1 = list_[i];
-        const T& value_2 = other.list_[i];
-        if (value_1 < value_2) {
-            return false;
-        } else if (value_1 > value_2) {
-            return true;
-        } else {
-            continue;
-        }
-    }
-    return true;
+    return other < *this;
 }
 
 template<typename T>
 bool Queue<T>::operator>=(const Queue& other) const {
-    size_type min_size = std::min(list_.size(), other.list_.size())
-    for (size_type i = 0; i < min_size; i++) {
-        const T& value_1 = list_[i];
-        const T& value_2 = other.list_[i];
-        if (value_1 < value_2) {
-            return false;
-        } else if (value_1 >= value_2) {
-            return true;
-        } else {
-            continue;
-        }
-    }
-    return true;
+    return !(*this < other);
 }
