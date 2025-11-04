@@ -18,6 +18,7 @@ Vector<T>::Vector(Vector&& other) : capacity_(other.capacity_), size_(other.size
     other.size_ = 0;
     other.capacity_ = other.initial_capacity;
     delete[] other.array_;
+    other.array_ = new T[other.capacity_];
 }
 
 template<typename T>
