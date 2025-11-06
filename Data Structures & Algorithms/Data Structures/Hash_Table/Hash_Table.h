@@ -35,7 +35,7 @@ public:
      * Constructs an empty HashTable
      */
     HashTable() : num_elements_(0), num_buckets_(10) {
-        table_.resize(num_buckets_, nullptr);
+        table_.rehash()
     }
 
     /**
@@ -45,8 +45,21 @@ public:
      * other: the table that will be copied
      */
     HashTable(const HashTable& other) : num_elements_(other.num_elements_), num_elements_(other.num_elements_) {
-      table_.resize(num_elements_, nullptr);
-      
+      table_.rehash();
+      for (size_type i = 0; i < other.num_elements_; i++) {
+        Node<K, V>* other_curr = other.table_[i];
+        Node<K, V>* this_curr = table_[i]; 
+        Node<K, V>* this_prev = nullptr;
+        while (other_curr != nullptr) {
+          this_curr = new Node<K, V>(other_curr->key, other_curr->value);
+          if (this_prev != nullptr) {
+            this_prev->next = this_curr;
+          }
+          this_prev = this_curr;
+          this_curr = this_curr->next;
+          other_curr = other_curr->next;
+        }
+      }
     }
 
     /**
@@ -56,7 +69,7 @@ public:
      * other: the table that will be stolen from
      */
     HashTable(HashTable&& other) {
-
+      
     }
 
     /**
@@ -301,28 +314,6 @@ void HashTable<K, V>::erase(const key_type& key) {
       }
     }
   }
-}
-
-/**
-  * Swaps the contents of this table with another table.
-  *
-  * ARGS:
-  * other: the table to swap with
-  */
-template<typename K, typename V>
-void HashTable<K, V>::swap(HashTable&& other) {
-
-}
-
-/**
-  * Extracts nodes from another table (need to clarify behavior).
-  *
-  * ARGS:
-  * other: the table to extract from
-  */
-template<typename K, typename V>
-void HashTable<K, V>::extract(const HashTable& other) {
-
 }
 
 /**
