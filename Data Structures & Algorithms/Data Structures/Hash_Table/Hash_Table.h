@@ -5,7 +5,7 @@
 #include "../Vector/Vector.h"
 #include "../DoubleLinkedList/LinkedList.h"
 
-#define LOAD_BALANCE 0.75 // you can change but keep between 0.7-1.0
+#define MAX_LOAD_BALANCE 0.75 // you can change but keep between 0.7-1.0
 
 template<typename K, typename V>
 class Node {
@@ -132,7 +132,32 @@ size_type HashTable<K, V>::size() const {
   */
 template<typename K, typename V>
 void HashTable<K, V>::insert(const key_type& key, const value_type& value) {
-
+  size_type hashed_key = hash(key);
+  Node<K, V>* new_node = new Node<K, V>(key, value);
+  if (table_[hashed_key] == nullptr) {
+    table_[hashed_key] = new_node;
+  } else {
+    Node<K, V>* curr = table_[hashed_key];
+    Node<K, V>* prev = nullptr;
+    while true {
+      if (curr == nullptr) {
+        curr = new_node;
+        prev->next = curr;
+        break;
+      }
+      if (curr->key == key) {
+        curr->value = value;
+        delete new_node;
+        return;
+      }
+      prev = curr;
+      curr = curr->next;
+    }
+  }
+  num_elements_++;
+  if (load_factor() > max_load_factor()) {
+    resize();
+  }
 }
 
 /**
@@ -145,12 +170,37 @@ void HashTable<K, V>::insert(const key_type& key, const value_type& value) {
   */
 template<typename K, typename V>
 void HashTable<K, V>::insert_or_assign(const key_type& key, const value_type& value) {
-
+  size_type hashed_key = hash(key);
+  Node<K, V>* new_node = new Node<K, V>(key, value);
+  if (table_[hashed_key] == nullptr) {
+    table_[hashed_key] = new_node;
+  } else {
+    Node<K, V>* curr = table_[hashed_key];
+    Node<K, V>* prev = nullptr;
+    while true {
+      if (curr == nullptr) {
+        curr = new_node;
+        prev->next = curr;
+        break;
+      }
+      if (curr->key = key) {
+        curr->value = value;
+        delete new_node;
+        return;
+      }
+      prev = curr;
+      curr = curr->next;
+    }
+  }
+  num_elements_++;
+  if (load_factor() > max_load_factor()) {
+    resize();
+  }
 }
 
 /**
   * Adds the key-value pair into the table using move semantics for efficiency.
-  * If the key already exists, nothing happens.
+  * If the key already exists, the value will be changed to the one provided.
   *
   * ARGS:
   * key: the unique identifier (will be moved)
@@ -158,8 +208,34 @@ void HashTable<K, V>::insert_or_assign(const key_type& key, const value_type& va
   */
 template<typename K, typename V>
 void HashTable<K, V>::emplace(key_type&& key, value_type&& value) {
-
+  size_type hashed_key = hash(key);
+  Node<K, V>* new_node = new Node<K, V>(key, value);
+  if (table_[hashed_key] == nullptr) {
+    table_[hashed_key] = new_node;
+  } else {
+    Node<K, V>* curr = table_[hashed_key];
+    Node<K, V>* prev = nullptr;
+    while true {
+      if (curr == nullptr) {
+        curr = new_node;
+        prev->next = curr;
+        break;
+      }
+      if (curr->key == key) {
+        curr->value = value;
+        delete new_node;
+        return;
+      }
+      prev = curr;
+      curr = curr->next;
+    }
+  }
+  num_elements_++;
+  if (load_factor() > max_load_factor()) {
+    resize();
+  }
 }
+
 
 /**
   * Attempts to add the key-value pair into the table using move semantics.
@@ -171,7 +247,31 @@ void HashTable<K, V>::emplace(key_type&& key, value_type&& value) {
   */
 template<typename K, typename V>
 void HashTable<K, V>::try_emplace(key_type&& key, value_type&& value) {
-
+  size_type hashed_key = hash(key);
+  Node<K, V>* new_node = new Node(key, value);
+  if (table_[hashed_key] == nullptr) {
+    table_[hashed_key] = new_node;
+  } else {
+    Node<K, V>* curr = table_[hashed_key];
+    Node<K, V>* prev = nullptr;
+    while true {
+      if (curr == nullptr) {
+        curr = new_node;
+        prev->next = curr;
+        break;
+      }
+      if (curr->key == key) {
+        delete new_node;
+        return;
+      }
+      prev = curr;
+      curr = curr->next;
+    }
+  }
+  num_elements_++;
+  if (load_factor() > max_load_factor()) {
+    resize();
+  }
 }
 
 /**
@@ -180,9 +280,27 @@ void HashTable<K, V>::try_emplace(key_type&& key, value_type&& value) {
   * ARGS:
   * key: the key of the element to remove
   */
-template<typename K, typename V>
+template< typename K, typename V>
 void HashTable<K, V>::erase(const key_type& key) {
-
+  size_type hashed_key = hash(key);
+  if (table_[hashed_key] != nullptr) {
+    Node<K, V>* curr = table_[hashed_key];
+    Node<K, V>* prev = nullptr;
+    while (curr != nullptr) {
+      if (curr == key) {
+        if (prev == nullptr) {
+          Node<K, V>* next_head = curr->next;
+          table_[hashed_key] = next_head;
+        } else {
+          Node<K, V>* next_head = curr->next;
+          prev->next = next_head;
+        }
+        delete curr;
+        num_elements_--;
+        break;
+      }
+    }
+  }
 }
 
 /**
@@ -192,7 +310,7 @@ void HashTable<K, V>::erase(const key_type& key) {
   * other: the table to swap with
   */
 template<typename K, typename V>
-void HashTable<K, V>::swap(HashTable& other) {
+void HashTable<K, V>::swap(HashTable&& other) {
 
 }
 
@@ -232,12 +350,32 @@ void HashTable<K, V>::merge(HashTable&& other) {
   */
 template<typename K, typename V>
 value_type& HashTable<K, V>::at(const key_type& key) {
-
+  size_type hashed_key = hash(key);
+  Node<K, V>* curr = table_[hashed_key];
+  while (curr != nullptr) {
+    if (curr->key == key) {
+      return curr->value;
+    }
+    curr = curr->next;
+  }
+  if (table_[hashed_key] == nullptr) {
+    throw std::out_of_range("HashTable::At, key is not within table"");
+  }
 }
 
 template<typename K, typename V>
 const value_type& HashTable<K, V>::at(const key_type& key) const {
-
+  size_type hashed_key = hash(key);
+  Node<K, V>* curr = table_[hashed_key];
+  while (curr != nullptr) {
+    if (curr->key == key) {
+      return curr->value;
+    }
+    curr = curr->next;
+  }
+  if (table_[hashed_key] == nullptr) {
+    throw std::out_of_range("HashTable::At, key is not within table"");
+  }
 }
 
 /**
@@ -252,12 +390,32 @@ const value_type& HashTable<K, V>::at(const key_type& key) const {
   */
 template<typename K, typename V>
 value_type& HashTable<K, V>::operator[](const key_type& key) {
-
+  size_type hashed_key = hash(key);
+  Node<K, V>* curr = table_[hashed_key];
+  while (curr != nullptr) {
+    if (curr->key == key) {
+      return curr->value;
+    }
+    curr = curr->next;
+  }
+  if (table_[hashed_key] == nullptr) {
+    throw std::out_of_range("HashTable::At, key is not within table"");
+  }
 }
 
 template<typename K, typename V>
-const HashTable<K, V>::value_type& operator[](const key_type& key) {
-
+const value_type& HashTable<K, V>::value_type& operator[](const key_type& key) {
+  size_type hashed_key = hash(key);
+  Node<K, V>* curr = table_[hashed_key];
+  while (curr != nullptr) {
+    if (curr->key == key) {
+      return curr->value;
+    }
+    curr = curr->next;
+  }
+  if (table_[hashed_key] == nullptr) {
+    throw std::out_of_range("HashTable::At, key is not within table"");
+  }
 }
 
 /**
@@ -271,7 +429,17 @@ const HashTable<K, V>::value_type& operator[](const key_type& key) {
   */
 template<typename K, typename V>
 Node<K, V>* HashTable<K, V>find(const key_type& key) {
-
+  size_type hashed_key = hash(key);
+  Node<K, V>* curr = table_[hashed_key];
+  while (curr != nullptr) {
+    if (curr->key == key) {
+      return curr;
+    }
+    curr = curr->next;
+  }
+  if (table_[hashed_key] == nullptr) {
+    throw std::out_of_range("HashTable::At, key is not within table"");
+  }
 }
 
 // -- HASH POLICY -- //
@@ -284,7 +452,7 @@ Node<K, V>* HashTable<K, V>find(const key_type& key) {
   */
 template<typename K, typename V>
 double HashTable<K, V>::load_factor() const {
-
+  return num_elements_ / num_buckets_;
 }
 
 /**
@@ -295,7 +463,7 @@ double HashTable<K, V>::load_factor() const {
   */
 template<typename K, typename V>
 double HashTable<K, V>::max_load_factor() const {
-
+  return MAX_LOAD_BALANCE;
 }
 
 /**
