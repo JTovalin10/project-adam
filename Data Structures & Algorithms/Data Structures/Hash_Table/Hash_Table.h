@@ -6,7 +6,6 @@
 #include "../DoubleLinkedList/LinkedList.h"
 
 #define MAX_LOAD_BALANCE 0.75 // you can change but keep between 0.7-1.0
-
 template<typename K, typename V>
 class Node {
 public:
@@ -49,7 +48,7 @@ public:
       for (size_type i = 0; i < other.num_elements_; i++) {
         Node<K, V>* other_curr = other.table_[i];
         Node<K, V>* this_curr = table_[i]; 
-        Node<K, V>* this_prev = nullptr;
+        Node<K, V>* this_prev = nullptr
         while (other_curr != nullptr) {
           this_curr = new Node<K, V>(other_curr->key, other_curr->value);
           if (this_prev != nullptr) {
@@ -59,7 +58,7 @@ public:
           this_curr = this_curr->next;
           other_curr = other_curr->next;
         }
-      }
+      } 
     }
 
     /**
@@ -69,15 +68,43 @@ public:
      * other: the table that will be stolen from
      */
     HashTable(HashTable&& other) {
-      
+      table_.rehash();
+      for (size_type i = 0; i < other.num_elements_; i++) {
+        Node<K, V>* other_curr = other.table_[i];
+        Node<K, V>* this_curr = table_[i]; 
+        Node<K, V>* this_prev = nullptr;
+        while (other_curr != nullptr) {
+          this_curr = new Node<K, V>(other_curr->key, other_curr->value);
+          if (this_prev != nullptr) {
+            this_prev->next = this_curr;
+          }
+          this_prev = this_curr;
+          this_curr = this_curr->next;
+          Node<K, V>* other_next = other_curr->next;
+          delete other_curr;
+          other_curr = other_next;
+        }
+      }
+      other.num_elements_ = 0;
+      other.num_buckets_ = 10;
+      other.rehash();
+
     }
 
     /**
      * Deconstructs this Hash Table
      */
     ~HashTable() {
-
+      for (size_type i = 0; i < num_buckets_; i++) {
+        Node<K, V>* curr = table_[i];
+        while (curr != nullptr) {
+          Node<K, V>* temp = curr->next;
+          delete curr;
+          curr = temp;
+        }
+      }
     }
+
     
     /**
      * Copy Assignment Operator that copied the other hashtable when this hashtable has already been constructed
@@ -86,7 +113,30 @@ public:
      * other: the table that will be copied
      */
     HashTable& operator=(const HashTable& other) {
-
+      if (this == &other) {
+        return *this;
+      }
+      for (size_type i = 0; i < num_buckets_; i++) {
+        Node<K, V>* curr = table_[i];
+        while (curr != nullptr) {
+          Node<K, V>* temp = curr->next;
+          delete curr;
+          curr = temp;
+        }
+      }
+      num_buckets_ = other.num_buckets_;
+      num_elements_ = other.num_elements_;
+      rehash();
+      for (size_type i = 0; i < other.num_buckets_; i++) {
+        Node<K, V>* other_curr = other.table_[i];
+        Node<K, V>* this_curr = table_[i];
+        Node<K, V>* prev = nullptr;
+        while (other_curr != nullptr) {
+          this_curr = new Node<K, V>(other_curr->key, other_curr->value);
+          this_curr = this_curr->next;
+          other_curr = other_curr->next;
+      }
+      return *this;
     }
 
     /**
@@ -96,6 +146,34 @@ public:
      * other: the table that will be stolen from
      */
     HashTable& operator=(HashTable&& other) {
+      if (this == &other) {
+        return *this;
+      }
+      for (size_type i = 0; i < num_buckets_; i++) {
+        Node<K, V>* curr = table_[i];
+        while (curr != nullptr) {
+          Node<K, V>* temp = curr->next;
+          delete curr;
+          curr = temp;
+        }
+      }
+      num_buckets_ = other.num_buckets_;
+      num_elements_ = other.num_elements_;
+      rehash();
+      for (size_type i = 0; i < other.num_buckets_; i++) {
+        Node<K, V>* other_curr = other.table_[i];
+        Node<K, V>* this_curr = table_[i];
+        Node<K, V>* prev = nullptr;
+        while (other_curr != nullptr) {
+          this_curr = new Node<K, V>(other_curr->key, other_curr->value);
+          this_curr = this_curr->next;
+          Node<K, V>* temp = other_curr->next;
+          delete other_curr;
+          other_curr = temp;
+      }
+      other.num_buckets_ = 10;
+      other.num_elements_ = 0;
+      return *this;
 
     }
     
