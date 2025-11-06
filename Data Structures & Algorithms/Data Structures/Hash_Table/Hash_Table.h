@@ -15,10 +15,11 @@ public:
     
     key_type key;
     value_type value;
-    Node<K, V>* next;
+    Node<K, V>* next = nullptr;
     
-    Node();
-    Node(const key_type& key, const value_type& value);
+    Node() = default;
+    
+    Node(const key_type& key, const value_type& value) : key(key), value(value), next(nullptr) {}
 };
 
 template<typename K, typename V>
@@ -33,7 +34,9 @@ public:
     /**
      * Constructs an empty HashTable
      */
-    HashTable();
+    HashTable() : num_elements_(0), num_buckets_(10) {
+        table_.resize(num_buckets_, nullptr);
+    }
 
     /**
      * Copy Construtor that constructs this hashtable with another hashtable
@@ -251,5 +254,4 @@ private:
     size_type hash(const key_type& key) const;
 };
 
-#include "Hash_Table.cpp"
 #endif // HASH_TABLE_H_
