@@ -134,6 +134,14 @@ TEST(HashTableTest, insert_or_assign) {
 }
 
 
-
-
-
+TEST(HashTableTest, emplace) {
+  HashTable<std::string, std::string> ht;
+  ht.emplace("key1", "value1");
+  ASSERT_EQ(ht["key1"], "value1");
+  ht.emplace("key1", "new_value");
+  ASSERT_EQ(ht["key1"], "new_value");
+  ht.emplace("key2", "value2");
+  ASSERT_EQ(ht["key2", "value2"]);
+  ASSERT_FALSE(ht.empty());
+  ASSERT_EQ(ht.size(), 2);
+}

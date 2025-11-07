@@ -25,7 +25,7 @@ public:
     Node(const key_type& key, const value_type& value) : key(key), value(value), next(nullptr) {}
     
     template<typename... Args>
-      Node(const K& new_key, Args&... args) :
+      Node(const K& new_key, Args&&... args) :
         key(new_key),
         value(std::forward<Args>(args)...),
         next(nullptr) {}
@@ -131,17 +131,7 @@ public:
      * value: the value to store (will be moved)
      */
     template<typename... Args>
-    void emplace(key_type& key, Args&& args);
-
-    /**
-     * Attempts to add the key-value pair into the table using move semantics.
-     * If the key already exists, nothing happens (unlike emplace).
-     * 
-     * ARGS:
-     * key: the unique identifier (will be moved)
-     * value: the value to store (will be moved)
-     */
-    void try_emplace(key_type&& key, Args&& args);
+    void emplace(key_type& key, Args&&... args);
 
     /**
     * Removes the element with the specified key from the table.
@@ -428,35 +418,10 @@ void HashTable<K, V>::insert_or_assign(const key_type& key, const value_type& va
 
 template<typename K, typename V>
 template<typename... Args>
-void HashTable<K, V>::emplace(key_type&& key, Args&& args)   {
-
+void HashTable<K, V>::emplace(key_type&& key, Args&&... args) {
     size_type index = hash(key);
 
-    Node* current = table_[index];
-    while (current != nullptr) {
-        if (current->key == key) {
-            return; // Key already exists. Do nothing.
-        }
-        current = current->next;
-    }
-
-    Node* new_node = new Node(key, std::forward<Args>(args)...);
-
-    new_node->next = table_[index];
-    table_[index] = new_node;
-    num_elements_++;
-
-    if (load_factor() > max_load_factor()) {
-      resize();
-    }
-}
-
-template<typename K, typename V>
-template<typename... Args>
-void HashTable<K, V>::try_emplace(key_type&& key, Args&& args) {
-    size_type index = hash(key);
-
-    Node* current = table_[index];
+    Node<K, V>* current = table_[index];
     while (current != nullptr) {
         if (current->key == key) {
             current->value = V(std::forward<Args>(args)...);
@@ -464,7 +429,7 @@ void HashTable<K, V>::try_emplace(key_type&& key, Args&& args) {
         }
         current = current->next;
     }
-    Node* new_node = new Node(key, std::forward<Args>(args)...);
+    Node<K, V>* new_node = new Node(key, std::forward<Args>(args)...);
 
     new_node->next = table_[index];
     table_[index] = new_node;
@@ -600,7 +565,7 @@ void HashTable<K, V>::rehash() {
       curr->next = new_table[hash];
       new_table[hash] = curr;
 
-      curr - next_curr;
+      curr = next_curr;
     }
   }
   table_ = new_table;
