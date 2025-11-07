@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <functional>
+#include <utility>
 #include "../Vector/Vector.h"
 
 // Maximum load factor before rehashing (keep between 0.7-1.0)
@@ -22,6 +23,12 @@ public:
     Node() = default;
     
     Node(const key_type& key, const value_type& value) : key(key), value(value), next(nullptr) {}
+    
+    template<typename... Args>
+      Node(const K& new_key, Args&... args) :
+        key(new_key),
+        value(std::forward<Args>(args)...),
+        next(nullptr) {}
 };
 
 template<typename K, typename V>
@@ -123,7 +130,8 @@ public:
      * key: the unique identifier (will be moved)
      * value: the value to store (will be moved)
      */
-    void emplace(key_type&& key, value_type&& value);
+    template<typename... Args>
+    void emplace(key_type& key, Args&& args);
 
     /**
      * Attempts to add the key-value pair into the table using move semantics.
@@ -133,7 +141,7 @@ public:
      * key: the unique identifier (will be moved)
      * value: the value to store (will be moved)
      */
-    void try_emplace(key_type&& key, value_type&& value);
+    void try_emplace(key_type&& key, Args&& args);
 
     /**
     * Removes the element with the specified key from the table.
@@ -419,57 +427,51 @@ void HashTable<K, V>::insert_or_assign(const key_type& key, const value_type& va
 }
 
 template<typename K, typename V>
-void HashTable<K, V>::emplace(key_type&& key, value_type&& value) {
-    size_type hashed_key = hash(key);
-    Node<K, V>* curr = table_[hashed_key];
-    while (curr != nullptr) {
-        if (curr->key == key) {
-            // Key exists, update value with move
-            curr->value = std::move(value);
-            return;
+template<typename... Args>
+void HashTable<K, V>::emplace(key_type&& key, Args&& args)   {
+
+    size_type index = hash(key);
+
+    Node* current = table_[index];
+    while (current != nullptr) {
+        if (current->key == key) {
+            return; // Key already exists. Do nothing.
         }
-        curr = curr->next;
+        current = current->next;
     }
-    // Key doesn't exist, insert new node with move
-    Node<K, V>* new_node = new Node<K, V>(std::move(key), std::move(value));
-    if (table_[hashed_key] == nullptr) {
-        table_[hashed_key] = new_node;
-    } else {
-        // Insert at head of chain
-        new_node->next = table_[hashed_key];
-        table_[hashed_key] = new_node;
-    }
+
+    Node* new_node = new Node(key, std::forward<Args>(args)...);
+
+    new_node->next = table_[index];
+    table_[index] = new_node;
     num_elements_++;
+
     if (load_factor() > max_load_factor()) {
-        rehash();
+      resize();
     }
 }
 
 template<typename K, typename V>
-void HashTable<K, V>::try_emplace(key_type&& key, value_type&& value) {
-    size_type hashed_key = hash(key);
-    if (table_[hashed_key] == nullptr) {
-        Node<K, V>* new_node = new Node<K, V>(std::move(key), std::move(value));
-        table_[hashed_key] = new_node;
-    } else {
-        Node<K, V>* curr = table_[hashed_key];
-        Node<K, V>* prev = nullptr;
-        while (true) {
-            if (curr == nullptr) {
-                Node<K, V>* new_node = new Node<K, V>(std::move(key), std::move(value));
-                prev->next = new_node;
-                break;
-            }
-            if (curr->key == key) {
-                return;
-            }
-            prev = curr;
-            curr = curr->next;
+template<typename... Args>
+void HashTable<K, V>::try_emplace(key_type&& key, Args&& args) {
+    size_type index = hash(key);
+
+    Node* current = table_[index];
+    while (current != nullptr) {
+        if (current->key == key) {
+            current->value = V(std::forward<Args>(args)...);
+            return;
         }
+        current = current->next;
     }
+    Node* new_node = new Node(key, std::forward<Args>(args)...);
+
+    new_node->next = table_[index];
+    table_[index] = new_node;
     num_elements_++;
+
     if (load_factor() > max_load_factor()) {
-        rehash();
+      resize();
     }
 }
 
