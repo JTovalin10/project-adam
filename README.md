@@ -10,17 +10,17 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 
 ## Current Status
 
-**Progress:** AHEAD OF SCHEDULE
+**Progress:** ON TIME
 
-| Metric | Value |
-|--------|-------|
-| **Current Phase** | Phase 1a: Genesis - Data Structures and Algorithms |
-| **Progress** | 5/12 items complete (42.67%) |
-| **Days Elapsed** | 10 days (started Oct 24) |
-| **Days Remaining** | 58 days (ends Dec 31) |
-| **Hours Invested** | ~12 hours |
-| **Hours Remaining** | ~38-56 hours |
-| **Next Item** | Hash Table (6-7 hours) |
+| Metric              | Value                                              |
+| ------------------- | -------------------------------------------------- |
+| **Current Phase**   | Phase 1a: Genesis - Data Structures and Algorithms |
+| **Progress**        | 5/12 items complete (42.67%)                       |
+| **Days Elapsed**    | 10 days (started Oct 24)                           |
+| **Days Remaining**  | 58 days (ends Dec 31)                              |
+| **Hours Invested**  | ~12 hours                                          |
+| **Hours Remaining** | ~38-56 hours                                       |
+| **Next Item**       | Hash Table (6-7 hours)                             |
 
 **[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1a Details](docs/timeline/genesis-a-timeline.md)**
 
@@ -169,7 +169,7 @@ Type-2 hypervisor on Raspberry Pi 5:
 - Device emulation (UART, timer, storage, network)
 - Multiple Linux VMs running simultaneously
 - Can SSH into virtualized guests
-  
+
 ---
 
 ## Technology Stack
@@ -185,18 +185,22 @@ Type-2 hypervisor on Raspberry Pi 5:
 ## Timeline
 
 **2025**
+
 - Oct 24 - Dec 31: Phase 1a: Genesis (Data Structures and Algorithms)
 
 **2026**
+
 - Jan 1 - Feb 28: Phase 1b: Evolution (Networking Primitives)
 
 **Phase 1: Foundation (Oct 2025 - Feb 2026)**
-  - [Overview](docs/overview/phase1-overview.md) | [Timeline](docs/timeline/phase1-timeline.md)
+
+- [Overview](docs/overview/phase1-overview.md) | [Timeline](docs/timeline/phase1-timeline.md)
 - Mar - Dec: Phase 2: Evolution - Network and Concurrency (DNS, UDP, TCP)
   - [Overview](docs/overview/phase2-overview.md) | [Timeline](docs/timeline/mastery-timeline.md)
   - Aug-Dec: TCP from Scratch (4 months)
 
 **2027**
+
 - Jan - Jun: Phase 3: Perfection - The World (BitTorrent, Hypervisor)
   - [Overview](docs/overview/phase3-overview.md) | [Timeline](docs/timeline/transcendence-timeline.md)
   - Apr-Jun: ARM Hypervisor (Capstone)
@@ -299,4 +303,4 @@ Each project repository will have its own license. Generally using MIT License f
 
 ---
 
-*From the ground up. Every line of code. Every protocol. Every algorithm. Ascending to perfection.*
+_From the ground up. Every line of code. Every protocol. Every algorithm. Ascending to perfection._
