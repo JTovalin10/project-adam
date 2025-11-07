@@ -85,4 +85,34 @@ TEST(HashTableTest, move_assignment_operator) {
   ASSERT_EQ(ht.size(), 0);
 }
 
+TEST(HashTableTest, empty) {
+  HashTable<int, int> ht;
+  ASSERT_TRUE(ht.empty());
+  ht.insert(1, 1);
+  ASSERT_FALSE(ht.empty());
+}
+
+TEST(HashTableTest, size) {
+  HashTable<int, int> ht;
+  ASSERT_EQ(ht.size(), 0);
+  ht.insert(0, 0);
+  ASSERT_EQ(ht.size(), 1);
+  ht.insert(1, 1);
+  ASSERT_EQ(ht.size(), 2);
+}
+
+TEST(HashTableTest, insert) {
+  HashTable<int, int> ht;
+  for (int i = 0; i < 3; i++) {
+    ht.insert(i, i);
+  }
+  ASSERT_FALSE(ht.empty());
+  ASSERT_EQ(ht.size(), 3);
+  ASSERT_EQ(ht[0], 0);
+  ASSERT_EQ(ht[1], 1);
+  ASSERT_EQ(ht[2], 2);
+  ht.insert(0, 100);
+  ASSERT_EQ(ht[0], 0);
+}
+
 
