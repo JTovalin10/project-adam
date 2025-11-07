@@ -115,4 +115,21 @@ TEST(HashTableTest, insert) {
   ASSERT_EQ(ht[0], 0);
 }
 
+TEST(HashTableTest, insert_or_assign) {
+  HashTable<int, int> ht;
+  for (int i = 0; i < 3; i++) {
+    ht.insert_or_assign(i, i);
+  }
+  ASSERT_FALSE(ht.empty());
+  ASSERT_EQ(ht.size(), 3);
+  ASSERT_EQ(ht[0], 0);
+  ASSERT_EQ(ht[1], 1);
+  ASSERT_EQ(ht[2], 2);
+  ht.insert_or_assign(0, 100);
+  ASSERT_EQ(ht[0], 100);
+}
+
+
+
+
 
