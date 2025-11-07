@@ -111,8 +111,10 @@ TEST(HashTableTest, insert) {
   ASSERT_EQ(ht[0], 0);
   ASSERT_EQ(ht[1], 1);
   ASSERT_EQ(ht[2], 2);
+  ASSERT_EQ(ht.size(), 3);
   ht.insert(0, 100);
   ASSERT_EQ(ht[0], 0);
+  ASSERT_EQ(ht.size(), 3);
 }
 
 TEST(HashTableTest, insert_or_assign) {
@@ -125,8 +127,10 @@ TEST(HashTableTest, insert_or_assign) {
   ASSERT_EQ(ht[0], 0);
   ASSERT_EQ(ht[1], 1);
   ASSERT_EQ(ht[2], 2);
+  ASSERT_EQ(ht.size(), 3);
   ht.insert_or_assign(0, 100);
   ASSERT_EQ(ht[0], 100);
+  ASSERT_EQ(ht.size(), 3);
 }
 
 
