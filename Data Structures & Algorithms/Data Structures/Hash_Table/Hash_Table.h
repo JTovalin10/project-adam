@@ -1,4 +1,4 @@
-#ifndef HASH_TABLE_H_
+#indef HASH_TABLE_H_
 #define HASH_TABLE_H_
 
 #include <cstddef>
@@ -142,14 +142,6 @@ public:
     * key: the key of the element to remove
     */
     void erase(const key_type& key);
-
-    /**
-    * Merges elements from another table into this one.
-    *
-    * ARGS:
-    * other: the table to merge from (will be empty after)
-    */
-    void merge(HashTable&& other);
 
     // -- LOOKUP -- //
 
@@ -588,21 +580,40 @@ double HashTable<K, V>::load_factor() const {
 
 template<typename K, typename V>
 double HashTable<K, V>::max_load_factor() const {
-    return MAX_LOAD_FACTOR;
+  return MAX_LOAD_FACTOR;
 }
 
 template<typename K, typename V>
 void HashTable<K, V>::rehash() {
+  Vector<Node<K, V>*> new_table;
+  old_bucket_size = num_buckets_;
+  num_buckets_ *= 2;
+  // populate the new table where we will put the data
+  for (size_type i = 0; i < num_buckets_; i++) {
+    new_table[i] = nullptr;
+  }
 
+  //now traverse through the current hash_table and put all the data
+  //into the new one
+  for (size_type i = 0; i < old_bucket_size; i++) {
+    Node<K, V>* current_bucket = table_[i];
+    while (current_bucket != nullptr) {
+      Node<K, V>* next_node = current_bucket->next;
+      new_table.inserts(current_bucket->key, current_bucket->value);
+      delete current_bucket;
+      current_bucket = next_node;
+    }
+  }
+  table_ = new_table;
 }
 
 // -- Private Helper -- //
 
 template<typename K, typename V>
 typename HashTable<K, V>::size_type HashTable<K, V>::hash(const key_type& key) const {
-    // Use std::hash for generic types, then modulo for bucket assignment
-    std::hash<key_type> hasher;
-    return hasher(key) % num_buckets_;
+  // Use std::hash for generic types, then modulo for bucket assignment
+  std::hash<key_type> hasher;
+  return hasher(key) % num_buckets_;
 }
 
 
