@@ -1,4 +1,4 @@
-#indef HASH_TABLE_H_
+#ifndef HASH_TABLE_H_
 #define HASH_TABLE_H_
 
 #include <cstddef>
@@ -498,11 +498,6 @@ void HashTable<K, V>::erase(const key_type& key) {
     }
 }
 
-template<typename K, typename V>
-void HashTable<K, V>::merge(HashTable&& other) {
-
-}
-
 // -- LOOKUP -- //
 
 template<typename K, typename V>
@@ -585,23 +580,25 @@ double HashTable<K, V>::max_load_factor() const {
 
 template<typename K, typename V>
 void HashTable<K, V>::rehash() {
-  Vector<Node<K, V>*> new_table;
-  old_bucket_size = num_buckets_;
+  size_type old_bucket_size = num_buckets_;
   num_buckets_ *= 2;
-  // populate the new table where we will put the data
+  Vector<Node<K, V>*> new_table;
   for (size_type i = 0; i < num_buckets_; i++) {
-    new_table[i] = nullptr;
+    new_table.push_back(nullptr);
   }
-
-  //now traverse through the current hash_table and put all the data
-  //into the new one
+  // set num_elements_ to 0 as we are going to use insert
+  std::hash<K> hasher;
   for (size_type i = 0; i < old_bucket_size; i++) {
-    Node<K, V>* current_bucket = table_[i];
-    while (current_bucket != nullptr) {
-      Node<K, V>* next_node = current_bucket->next;
-      new_table.inserts(current_bucket->key, current_bucket->value);
-      delete current_bucket;
-      current_bucket = next_node;
+    Node<K, V>* curr = table_[i];
+    while (curr != nullptr) {
+      Node<K, V>* next_curr = curr->next;
+      
+      size_type hash = hasher(curr->key) % num_buckets_;
+      
+      curr->next = new_table[hash];
+      new_table[hash] = curr;
+
+      curr - next_curr;
     }
   }
   table_ = new_table;
