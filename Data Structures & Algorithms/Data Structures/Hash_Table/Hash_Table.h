@@ -23,12 +23,6 @@ public:
     Node() = default;
     
     Node(const key_type& key, const value_type& value) : key(key), value(value), next(nullptr) {}
-    
-    template<typename... Args>
-      Node(const K& new_key, Args&&... args) :
-        key(new_key),
-        value(std::forward<Args>(args)...),
-        next(nullptr) {}
 };
 
 template<typename K, typename V>
@@ -123,17 +117,6 @@ public:
     void insert_or_assign(const key_type& key, const value_type& value);
 
     /**
-     * Adds the key-value pair into the table using move semantics for efficiency.
-     * If the key already exists, the value will be changed to the one provided.
-     * 
-     * ARGS:
-     * key: the unique identifier (will be moved)
-     * value: the value to store (will be moved)
-     */
-    template<typename... Args>
-    void emplace(key_type& key, Args&&... args);
-
-    /**
     * Removes the element with the specified key from the table.
     *
     * ARGS:
@@ -170,6 +153,7 @@ public:
      * reference to the value associated with the key
      */
     value_type& operator[](const key_type& key);
+    const value_type& operator[](const key_type& key) const;
 
     /**
      * Finds the node containing the specified key.
@@ -417,30 +401,6 @@ void HashTable<K, V>::insert_or_assign(const key_type& key, const value_type& va
 }
 
 template<typename K, typename V>
-template<typename... Args>
-void HashTable<K, V>::emplace(key_type&& key, Args&&... args) {
-    size_type index = hash(key);
-
-    Node<K, V>* current = table_[index];
-    while (current != nullptr) {
-        if (current->key == key) {
-            current->value = V(std::forward<Args>(args)...);
-            return;
-        }
-        current = current->next;
-    }
-    Node<K, V>* new_node = new Node(key, std::forward<Args>(args)...);
-
-    new_node->next = table_[index];
-    table_[index] = new_node;
-    num_elements_++;
-
-    if (load_factor() > max_load_factor()) {
-      resize();
-    }
-}
-
-template<typename K, typename V>
 void HashTable<K, V>::erase(const key_type& key) {
     size_type hashed_key = hash(key);
     if (table_[hashed_key] == nullptr) {
@@ -503,6 +463,17 @@ typename HashTable<K, V>::value_type& HashTable<K, V>::operator[](const key_type
     insert(key, value_type());
     return find(key)->value;
 }
+
+template<typename K, typename V>
+const typename HashTable<K, V>::value_type& HashTable<K, V>::operator[](const key_type& key) const {
+    const Node<K, V>* found = find(key);
+    if (found != nullptr) {
+        return found->value;
+    }
+    // Key doesn't exist, insert with default value
+    throw std::out_of_range("HashTable::operator[], the key doesnt exist");
+}
+
 
 template<typename K, typename V>
 Node<K, V>* HashTable<K, V>::find(const key_type& key) {
