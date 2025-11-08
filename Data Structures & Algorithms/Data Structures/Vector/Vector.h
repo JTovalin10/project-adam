@@ -340,7 +340,7 @@ Vector<T>& Vector<T>::operator=(Vector&& other) {
 
 template<typename T>
 T& Vector<T>::operator[](size_type index) {
-    if (index < 0 || index >= size_) {
+    if (index >= size_) {
         throw std::out_of_range("Vector::operator[], Invalid Index");
     }
     return array_[index];

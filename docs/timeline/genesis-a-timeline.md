@@ -21,7 +21,7 @@ Building essential data structures and algorithms that form the foundation for a
 - [x] **Doubly LinkedList** - Bidirectional linked list for efficient insertions/deletions | 3 hours | Oct 28-30, 2025
 - [x] **Stack** - LIFO structure implemented with Doubly LinkedList | 2 hours | Oct 31 - Nov 1, 2025
 - [x] **Queue** - FIFO structure implemented with Doubly LinkedList | 2-3 hours | Nov 2-4, 2025
-- [ ] **Hash Table (Separate Chaining)** - Key-value storage with collision resolution | 4-5 hours | Nov 5-9, 2025
+- [x] **Hash Table (Separate Chaining)** - Key-value storage with collision resolution | 4-5 hours | Nov 5-9, 2025
 - [ ] **Min Heap** - Binary heap for priority queue operations | 4-5 hours | Nov 10-14, 2025
 - [ ] **Trie (Prefix Tree)** - Tree structure for prefix matching | 3-4 hours | Nov 15-18, 2025
 - [ ] **LRU Cache** - Least Recently Used cache with O(1) operations (uses Hash Table + Doubly LinkedList) | 3-4 hours | Nov 19-22, 2025
