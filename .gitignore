@@ -1,2 +1,26 @@
 *_Test
 *_Test.dSYM/
+# Vim/Neovim swap files
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.o
+*.out
+*.exe
+a.out
+
+# IDE files
+.vscode/
+.idea/
+
+# Test binaries
+*_test
+*_gtest
