@@ -18,7 +18,7 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 | **Progress**        | 8/9 items complete                                 |
 | **Days Elapsed**    | 16 days (started Oct 24)                           |
 | **Days Remaining**  | 55 days (ends Dec 31)                              |
-| **Hours Invested**  | ~22 hours                                          |
+| **Hours Invested**  | ~20 hours                                          |
 | **Hours Remaining** | ~12-15 hours                                       |
 | **Next Item**       | Red Black Tree                                     |
 
