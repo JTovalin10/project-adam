@@ -28,7 +28,7 @@ test: $(TEST_TARGET)
 
 # Build the test executable
 # This compiles the test file and links it with gtest and our Vector implementation
-$(TEST_TARGET): $(TEST_SOURCES) Vector.cpp Vector.h
+$(TEST_TARGET): $(TEST_SOURCES) Vector.h
 	$(CXX) $(CXXFLAGS) $(TEST_SOURCES) $(GTEST_FLAGS) -o $(TEST_TARGET)
 
 # Clean up generated files
