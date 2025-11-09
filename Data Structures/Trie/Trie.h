@@ -142,14 +142,17 @@ void Trie::insert(const string& word) {
     TrieNode* curr = root_;
     for (char letter : word) {
         if (curr->children.find(letter) == curr->children.end()) {
-            curr->children[word] = new TrieNode();
+            curr->children[letter] = new TrieNode();
         }
-        curr = curr->children[word];
+        curr = curr->children[letter];
     }
     curr->end_of_word = true;
 }
 
 bool Trie::search(const string& word) {
+    if (root_ == nullptr) {
+        return false;
+    }
     TrieNode* curr = root_;
     for (char letter : word) {
         auto it = curr->children.find(letter);
@@ -162,6 +165,9 @@ bool Trie::search(const string& word) {
 }
 
 bool Trie::prefix(const string& word) {
+    if (root_ == nullptr) {
+        return false;
+    }
     TrieNode* curr = root_;
     for (char letter : word) {
         auto it = curr->children.find(letter);
@@ -177,10 +183,10 @@ TrieNode* Trie::copyHelper(const TrieNode* node) {
     if (node == nullptr) {
         return nullptr;
     }
-    TrieNode* new_node = new TrieNode()
+    TrieNode* new_node = new TrieNode();
     new_node->end_of_word = node->end_of_word;
     for (const auto& pair : node->children) {
-        new_node->children[pair.first] = pair.second;
+        new_node->children[pair.first] = copyHelper(pair.second);
     }
     return new_node;
 }
