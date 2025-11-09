@@ -5,6 +5,8 @@
 #include <cstddef>
 #include "../Hash_Table/Hash_Table.h"
 
+using string = std::string;
+
 class TrieNode {
     public:
     HashTable<char, TrieNode*> children;
@@ -17,7 +19,6 @@ class TrieNode {
 };
 
 class Trie {
-    using string = std::string;
     public:
 
     /**
@@ -49,12 +50,26 @@ class Trie {
      * ARGS:
      * other: the trie that will be copied
      */
-    Trie& operator=(const Trie& other);
+    Trie& operator=(const Trie& other) {
+        if (this == &other) {
+            return *this;
+        }
+        destroyHelper(root_);
+        copyHelper(root_);
+        return *this;
+    }
 
     /**
      * Move assignment constructor - replaces this Trie by stealing from the other Trie
      */
-    Trie& operator=(Trie&& other);
+    Trie& operator=(Trie&& other) {
+        if (this == &other) {
+            return *this;
+        }
+        destroyHelper(root_);
+        root_ = other.root_;
+        other.root_ = nullptr;
+    }
 
     /**
      * adds the given word into the Trie
@@ -98,7 +113,7 @@ class Trie {
     void remove(const string& word);
 
     private:
-    TrieNode trie_;
+    TrieNode* root_;
     
     /**
      * Helper method to recurivsely copy the Trie
@@ -110,5 +125,50 @@ class Trie {
      */
     void destroyHelper(TrieNode* node);
 };
+
+TrieNode::TrieNode() : end_of_word(false) {}
+
+Trie::Trie() {
+    root_ = new TrieNode();
+}
+
+Trie::Trie(const Trie& other) {
+    root_ = copyHelper(other.root_);
+}
+
+Trie::Trie(Trie&& other) {
+    root_ = other.root_;
+    other.root_ = nullptr;
+}
+
+Trie::~Trie() {
+    destroyHelper(root_);
+}
+
+void Trie::insert(const string& word) {
+
+}
+
+bool Trie::search(const string& word) {
+
+}
+
+bool Trie::prefix(const string& word) {
+
+}
+
+void Trie::remove(const string& word) {
+
+}
+
+TrieNode* Trie::copyHelper(const TrieNode* node) {
+
+}
+
+void destroyHelper(TrieNode* node) {
+
+}
+
+
 
 #endif // TRIE_H_
