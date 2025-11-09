@@ -15,12 +15,12 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 | Metric              | Value                                              |
 | ------------------- | -------------------------------------------------- |
 | **Current Phase**   | Phase 1a: Genesis - Data Structures and Algorithms |
-| **Progress**        | 6/12 items complete (50%)                       |
+| **Progress**        | 6/9 items complete (66.67%)                        |
 | **Days Elapsed**    | 15 days (started Oct 24)                           |
 | **Days Remaining**  | 54 days (ends Dec 31)                              |
-| **Hours Invested**  | ~16 hours                                          |
-| **Hours Remaining** | ~34-52 hours                                       |
-| **Next Item**       | Min-Heap (4-5 hours)                               |
+| **Hours Invested**  | ~17 hours                                          |
+| **Hours Remaining** | ~13-23 hours                                       |
+| **Next Item**       | Trie (Prefix Tree) (3-4 hours)                     |
 
 **[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1a Details](docs/timeline/genesis-a-timeline.md)**
 
@@ -79,13 +79,13 @@ Like Adam Warlock—this is my evolution to becoming a cracked programmer. From 
 
 Building essential data structures and algorithms that form the foundation for all networking and systems projects.
 
-Having already completed NeetCode's DSA courses, this phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). I have taken CSE 332 (Data Structures & Parallelism) and will take CSE 421 (Algorithms) at UW, so algorithms and data structures covered in those courses are not included here unless they're directly used in projects I'll build.
+Having already completed NeetCode's DSA courses, this phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). I have taken CSE 332 (Data Structures & Parallelism) at UW, which covered Min Heap, Dijkstra's Algorithm, and other fundamental algorithms. Data structures and algorithms covered in CSE 332 are not included here unless they're directly used in projects I'll build. CSE 422 (Advanced Toolkit for Modern Algorithms) will cover modern algorithmic techniques like sketching algorithms, sampling, and ML algorithms, complementing this low-level systems focus.
 
-**Projects:** Dynamic Array, Singly LinkedList, Doubly LinkedList, Stack, Queue, Hash Table, Min Heap, Trie, LRU Cache, Dijkstra's Algorithm, Union-Find, **Red-Black Tree** ⭐ Capstone
+**Projects:** Dynamic Array, Singly LinkedList, Doubly LinkedList, Stack, Queue, Hash Table, Trie, LRU Cache, **Red-Black Tree** ⭐ Capstone
 
-**Focus:** C++ implementation mastery with manual memory management
+**Focus:** C++ implementation mastery with manual memory management and pointer manipulation
 
-**Total Estimated Time:** ~50-60 hours  
+**Total Estimated Time:** ~30-35 hours  
 **Available Time:** 68 days × 1 hour/day = 68 hours
 
 #### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Jan 1 - Feb 28, 2026)
@@ -101,7 +101,7 @@ Network-focused phase that builds primitives and algorithms directly used in Pha
 **Total Estimated Time:** ~36-47 hours  
 **Available Time:** 59 days × 1 hour/day = 59 hours
 
-**Phase 1 Total:** ~86-107 hours over 127 days
+**Phase 1 Total:** ~66-82 hours over 127 days
 
 ---
 
@@ -285,7 +285,7 @@ Throughout this journey, I'll be documenting:
 ---
 
 **Status:** Phase 1a: Genesis  
-**Last Updated:** November 3, 2025  
+**Last Updated:** November 8, 2025  
 **Next Milestone:** Phase 1a: Genesis (Data Structures and Algorithms) complete (December 31, 2025)
 
 ---
