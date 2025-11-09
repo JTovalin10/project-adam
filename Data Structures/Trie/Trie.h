@@ -1,15 +1,14 @@
 #ifndef TRIE_H_
 #define TRIE_H_
 
-#include <stdexcept>
 #include <cstddef>
-#include "../Hash_Table/Hash_Table.h"
-
-using string = std::string;
+#include <string>
+#include <unordered_map>
+#include <utility>
 
 class TrieNode {
     public:
-    HashTable<char, TrieNode*> children;
+    std::unordered_map<char, TrieNode*> children;
     bool end_of_word;
 
     /**
@@ -19,6 +18,7 @@ class TrieNode {
 };
 
 class Trie {
+    using string = std::string;
     public:
 
     /**
@@ -54,8 +54,8 @@ class Trie {
         if (this == &other) {
             return *this;
         }
-        destroyHelper(root_);
-        copyHelper(root_);
+        Trie temp(other);
+        std::swap(root_, temp.root_);
         return *this;
     }
 
@@ -69,6 +69,7 @@ class Trie {
         destroyHelper(root_);
         root_ = other.root_;
         other.root_ = nullptr;
+        return *this;
     }
 
     /**
@@ -103,15 +104,6 @@ class Trie {
      */
     bool prefix(const string& word);
 
-    /**
-     * Removes the given word from the Trie if the word is unique,
-     * if the word is a prefix then nothing happens
-     * 
-     * ARGS:
-     * word: the word to be removed
-     */
-    void remove(const string& word);
-
     private:
     TrieNode* root_;
     
@@ -124,6 +116,7 @@ class Trie {
      * Helper method to recusrively deallocate TrieNodes
      */
     void destroyHelper(TrieNode* node);
+
 };
 
 TrieNode::TrieNode() : end_of_word(false) {}
@@ -146,29 +139,60 @@ Trie::~Trie() {
 }
 
 void Trie::insert(const string& word) {
-
+    TrieNode* curr = root_;
+    for (char letter : word) {
+        if (curr->children.find(letter) == curr->children.end()) {
+            curr->children[word] = new TrieNode();
+        }
+        curr = curr->children[word];
+    }
+    curr->end_of_word = true;
 }
 
 bool Trie::search(const string& word) {
-
+    TrieNode* curr = root_;
+    for (char letter : word) {
+        auto it = curr->children.find(letter);
+        if (it == curr->children.end()) {
+            return false;
+        }
+        curr = it->second;
+    }
+    return curr->end_of_word;
 }
 
 bool Trie::prefix(const string& word) {
-
-}
-
-void Trie::remove(const string& word) {
-
+    TrieNode* curr = root_;
+    for (char letter : word) {
+        auto it = curr->children.find(letter);
+        if (it == curr->children.end()) {
+            return false;
+        }
+        curr = it->second;
+    }
+    return true;
 }
 
 TrieNode* Trie::copyHelper(const TrieNode* node) {
-
+    if (node == nullptr) {
+        return nullptr;
+    }
+    TrieNode* new_node = new TrieNode()
+    new_node->end_of_word = node->end_of_word;
+    for (const auto& pair : node->children) {
+        new_node->children[pair.first] = pair.second;
+    }
+    return new_node;
 }
 
-void destroyHelper(TrieNode* node) {
-
+void Trie::destroyHelper(TrieNode* node) {
+    if (node == nullptr) {
+        return;
+    }
+    for (const auto& pair : node->children) {
+        destroyHelper(pair.second);
+    }
+    delete node;
 }
-
-
 
 #endif // TRIE_H_

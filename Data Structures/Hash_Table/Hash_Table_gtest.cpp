@@ -171,6 +171,8 @@ TEST(HashTableTest, bracket_operator) {
   ASSERT_EQ(ht[0], 0);
   ASSERT_EQ(ht[1], 1);
   ASSERT_EQ(ht[2], 2);
+  ht[100] = 100;
+  ASSERT_EQ(ht[100], 100);
 }
 
 TEST(HashTableTest, const_bracket_operator) {
@@ -182,6 +184,7 @@ TEST(HashTableTest, const_bracket_operator) {
   ASSERT_EQ(ht[0], 0);
   ASSERT_EQ(ht[1], 1);
   ASSERT_EQ(ht[2], 2);
+  ASSERT_THROW(ht[100], std::out_of_range);
 }
 
 TEST(HashTableTest, find) {

@@ -167,6 +167,17 @@ public:
     Node<K, V>* find(const key_type& key);
     const Node<K, V>* find(const key_type& key) const;
 
+    /**
+     * Finds the node contains the specified key
+     * 
+     * ARGS:
+     * key: the target
+     * 
+     * RETURNS:
+     * true if its within the table, else false
+     */
+    bool contains(const key_type& key) const;
+
     // -- HASH POLICY -- //
 
     /**
@@ -437,7 +448,7 @@ typename HashTable<K, V>::value_type& HashTable<K, V>::at(const key_type& key) {
         }
         curr = curr->next;
     }
-    throw std::out_of_range("HashTable::at, key is not within table");
+    throw std::out_of_range("HashTable::at: key not found");
 }
 
 template<typename K, typename V>
@@ -450,7 +461,7 @@ const typename HashTable<K, V>::value_type& HashTable<K, V>::at(const key_type& 
         }
         curr = curr->next;
     }
-    throw std::out_of_range("HashTable::at, key is not within table");
+    throw std::out_of_range("HashTable::at: key not found");
 }
 
 template<typename K, typename V>
@@ -459,19 +470,13 @@ typename HashTable<K, V>::value_type& HashTable<K, V>::operator[](const key_type
     if (found != nullptr) {
         return found->value;
     }
-    // Key doesn't exist, insert with default value
-    insert(key, value_type());
-    return find(key)->value;
+    insert(key, value_type()); 
+    return find(key)->value; 
 }
 
 template<typename K, typename V>
 const typename HashTable<K, V>::value_type& HashTable<K, V>::operator[](const key_type& key) const {
-    const Node<K, V>* found = find(key);
-    if (found != nullptr) {
-        return found->value;
-    }
-    // Key doesn't exist, insert with default value
-    throw std::out_of_range("HashTable::operator[], the key doesnt exist");
+    return at(key);
 }
 
 
@@ -499,6 +504,19 @@ const Node<K, V>* HashTable<K, V>::find(const key_type& key) const {
         curr = curr->next;
     }
     return nullptr;
+}
+
+template<typename K, typename V>
+bool HashTable<K, V>::contains(const key_type& key) const {
+    size_type hashed_key = hash(key);
+    const Node<K, V>* curr = table_[hashed_key];
+    while (curr != nullptr) {
+        if (curr->key == key) {
+            return true;
+        }
+        curr = curr->next;
+    }
+    return false;
 }
 
 // -- HASH POLICY -- //
