@@ -15,12 +15,12 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 | Metric              | Value                                              |
 | ------------------- | -------------------------------------------------- |
 | **Current Phase**   | Phase 1a: Genesis - Data Structures and Algorithms |
-| **Progress**        | 6/9 items complete (66.67%)                        |
+| **Progress**        | 7/9 items complete                                 |
 | **Days Elapsed**    | 15 days (started Oct 24)                           |
 | **Days Remaining**  | 54 days (ends Dec 31)                              |
-| **Hours Invested**  | ~17 hours                                          |
-| **Hours Remaining** | ~13-23 hours                                       |
-| **Next Item**       | Trie (Prefix Tree) (3-4 hours)                     |
+| **Hours Invested**  | ~20 hours                                          |
+| **Hours Remaining** | ~10-22 hours                                       |
+| **Next Item**       | LRU Cache (3-4 hours)                              |
 
 **[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1a Details](docs/timeline/genesis-a-timeline.md)**
 

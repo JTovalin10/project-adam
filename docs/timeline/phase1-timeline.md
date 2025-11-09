@@ -14,7 +14,7 @@
 | [x] | Stack | 2 | Oct 31 - Nov 1, 2025 | 9 |
 | [x] | Queue | 2-3 | Nov 2-4, 2025 | 11-12 |
 | [x] | Hash Table (Separate Chaining) | 4-5 | Nov 5-8, 2025 | 15-17 |
-| [ ] | Trie (Prefix Tree) | 3-4 | Nov 9-12, 2025 | 18-21 |
+| [x] | Trie (Prefix Tree) | 3-4 | Nov 9-12, 2025 | 18-21 |
 | [ ] | LRU Cache | 3-4 | Nov 13-16, 2025 | 21-25 |
 | [ ] | Red-Black Tree ⭐ Capstone | 12-15 | Nov 17-30, 2025 | 33-40 |
 **Progress:** 6/9 complete (66.67%)
