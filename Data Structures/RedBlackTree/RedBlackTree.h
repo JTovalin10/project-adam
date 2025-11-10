@@ -13,7 +13,8 @@ public:
     Node<K, V>* left = nullptr;
     Node<K, V>* right = nullptr;
     Node<K, V>* parent = nullptr;
-    key_type key;
+    // made const so that the client cannot violate the BST strucutre
+    const key_type key;
     value_type value;
     Color color = BLACK;
     
@@ -143,6 +144,9 @@ void RedBlackTree<K, V>::insert(const key_type& key, const value_type& value) {
 
 template<typename K, typename V>
 bool RedBlackTree<K, V>::remove(const key_type& key) {
+    if (empty()) {
+        return false;
+    }
     Node<K, V>* node_to_remove = findNode(key);
     if (node_to_remove == nullptr) {
         return false;
@@ -168,7 +172,7 @@ typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(const key_type
         } else if(curr->key < key) {
             curr = curr->right;
         } else {
-            return curr->value;
+            return &(curr->value);
         }
     }
     return nullptr;
@@ -183,7 +187,7 @@ const typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(const ke
         } else if(curr->key < key) {
             curr = curr->right;
         } else {
-            return curr->value;
+            return &(curr->value);
         }
     }
     return nullptr;
@@ -191,7 +195,7 @@ const typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(const ke
 
 template<typename K, typename V>
 bool RedBlackTree<K, V>::contains(const key_type& key) const {
-    Node<K, V>* node = find(key);
+    value_type* node = find(key);
     if (node == nullptr) {
         return false;
     } else {
@@ -287,7 +291,5 @@ Node<K, V>* RedBlackTree<K, V>::copyTree(Node<K, V>* node, Node<K, V>* parent) {
    new_node->right = copyTree(node->right, new_node);
    return new_node;
 }
-
-
 
 #endif // REDBLACKTREE_H_
