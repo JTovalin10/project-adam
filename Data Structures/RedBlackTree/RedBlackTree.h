@@ -35,11 +35,26 @@ public:
     ~RedBlackTree();
     
     RedBlackTree& operator=(const RedBlackTree& other) {
-
+        if (this == &other) {
+            return *this;
+        }
+        destroyTree(root_);
+        root_ = copyTree(other.root_);
+        size_ = other.size_;
+        return *this;
     }
 
     RedBlackTree& operator=(RedBlackTree&& other) {
+        if (this == &other) {
+            return *this;
+        }
+        destroyTree(root_);
+        root = copyTree(other.root_);
+        size_ = other.size_;
 
+        destroyTree(other.root_);
+        other.size_ = 0;
+        return *this;
     }
     
     // -- MODIFIERS -- //
@@ -85,53 +100,103 @@ template<typename K, typename V>
 Node<K, V>::Node(const key_type& key, const value_type& value) : key(key), value(value) {}
 
 template<typename K, typename V>
-RedBlackTree<K, V>::RedBlackTree() : size_(0) {
+RedBlackTree<K, V>::RedBlackTree() : root_(nullptr), size_(0) {}
 
+template<typename K, typename V>
+RedBlackTree<K, V>::RedBlackTree(const RedBlackTree& other) : size_(other.size_) {
+    root_ = copyTree(other.root_);
 }
 
 template<typename K, typename V>
-RedBlackTree<K, V>::RedBlackTree(const RedBlackTree& other) {
-
-}
-
-template<typename K, typename V>
-RedBlackTree<K, V>::RedBlackTree(RedBlackTree&& other) {
-    
+RedBlackTree<K, V>::RedBlackTree(RedBlackTree&& other) : size_(other.size_) {
+    root_ = copyTree(other.root_);
+    destoryTree(other.root_);
+    other.size_ = 0;
 }
 
 template<typename K, typename V>
 RedBlackTree<K, V>::~RedBlackTree() {
-    
+    destoryTree(root_);
 }
 
 template<typename K, typename V>
 void RedBlackTree<K, V>::insert(const key_type& key, const value_type& value) {
-
+    if (empty()) {
+        root_ = new Node<K, V>(key, value);
+    } else {
+        // find the correct place
+        Node<K, V>* curr = root_;
+        while (curr != nullptr) {
+            if (curr->key > key) {
+                curr = curr->left;
+            } else if (curr->key < key) {
+                curr = curr->right;
+            } else {
+                break;
+            }
+        }
+        curr = new Node<K, V>(key, value);
+        // TODO: we must check if it satisfies the red-black structure
+    }
+    size_++;
 }
 
 template<typename K, typename V>
 bool RedBlackTree<K, V>::remove(const key_type& key) {
-
+    Node<K, V>* node_to_remove = findNode(key);
+    if (node_to_remove == nullptr) {
+        return false;
+    }
+    // TODO: something here
+    size_--;
+    return true;
 }
 
 template<typename K, typename V>
 void RedBlackTree<K, V>::clear() {
-
+    destroyTree(root_);
+    root_ = nullptr;
+    size_ = 0;
 }
 
 template<typename K, typename V>
 typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(const key_type& key) {
-
+    Node<K, V>* curr = root_;
+    while (curr != nullptr) {
+        if (curr->key > key) {
+            curr = curr->left;
+        } else if(curr->key < key) {
+            curr = curr->right;
+        } else {
+            return curr->value;
+        }
+    }
+    return nullptr;
 }
 
 template<typename K, typename V>
 const typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(const key_type& key) const {
-
+    Node<K, V>* curr = root_;
+    while (curr != nullptr) {
+        if (curr->key > key) {
+            curr = curr->left;
+        } else if(curr->key < key) {
+            curr = curr->right;
+        } else {
+            return curr->value;
+        }
+    }
+    return nullptr;
 }
 
 template<typename K, typename V>
 bool RedBlackTree<K, V>::contains(const key_type& key) const {
-
+    Node<K, V>* node = find(key);
+    if (node == nullptr) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 template<typename K, typename V>
@@ -166,12 +231,32 @@ void RedBlackTree<K, V>::deleteFixup(Node<K, V>* node) {
 
 template<typename K, typename V>
 Node<K, V>* RedBlackTree<K, V>::findNode(const key_type& key) const {
-
+    if (root_ == nullptr) {
+        return nullptr;
+    }
+    Node<K, V>* curr = root_;
+    while (curr != nullptr) {
+        if (curr->key < key) {
+            curr = curr->right;
+        } else if (curr->key > key) {
+            curr = curr->left;
+        } else {
+            return curr;
+        }
+    }
+    return nullptr;
 }
 
 template<typename K, typename V>
 Node<K, V>* RedBlackTree<K, V>::minimum(Node<K, V>* node) const {
-
+    if (node == nullptr) {
+        return nullptr;
+    }
+    Node<K, V>* curr = node;
+    while (curr != nullptr && curr->left != nullptr) {
+        curr = curr->left;
+    }
+    return curr;
 }
 
 template<typename K, typename V>
@@ -181,12 +266,28 @@ void RedBlackTree<K, V>::transplant(Node<K, V>* u, Node<K, V>* v) {
 
 template<typename K, typename V>
 void RedBlackTree<K, V>::destroyTree(Node<K, V>* node) {
-
+    if (node == nullptr) {
+        return;
+    }
+    destoryTree(node.left);
+    destoryTree(node.right);
+    delete node;
 }
 
 template<typename K, typename V>
 Node<K, V>* RedBlackTree<K, V>::copyTree(Node<K, V>* node, Node<K, V>* parent) {
+   if (node == nullptr) {
+    return nullptr;
+   }
+   Node<K, V>* new_node = new Node<K, V>(node->key, node->value);
+   new_node->parent = parent;
+   new_node->color = node->color;
 
+   new_node->left = copyTree(node->left, new_node);
+   new_node->right = copyTree(node->right, new_node);
+   return new_node;
 }
+
+
 
 #endif // REDBLACKTREE_H_
