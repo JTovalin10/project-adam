@@ -15,10 +15,10 @@ public:
     Node<K, V>* parent = nullptr;
     key_type key;
     value_type value;
-    Color color = RED;
+    Color color = BLACK;
     
     Node();
-    Node(const key_type& k, const value_type& v);
+    Node(const key_type& key, const value_type& value);
 };
 
 template<typename K, typename V>
@@ -31,11 +31,16 @@ public:
     // -- CONSTRUCTION & DESTRUCTION -- //
     RedBlackTree();
     RedBlackTree(const RedBlackTree& other);
-    RedBlackTree(RedBlackTree&& other) noexcept;
+    RedBlackTree(RedBlackTree&& other);
     ~RedBlackTree();
     
-    RedBlackTree& operator=(const RedBlackTree& other);
-    RedBlackTree& operator=(RedBlackTree&& other) noexcept;
+    RedBlackTree& operator=(const RedBlackTree& other) {
+
+    }
+
+    RedBlackTree& operator=(RedBlackTree&& other) {
+
+    }
     
     // -- MODIFIERS -- //
     void insert(const key_type& key, const value_type& value);
@@ -72,5 +77,116 @@ private:
     void destroyTree(Node<K, V>* node);
     Node<K, V>* copyTree(Node<K, V>* node, Node<K, V>* parent);
 };
+
+template<typename K, typename V>
+Node<K, V>::Node() : key(K()), value(V()) {}
+
+template<typename K, typename V>
+Node<K, V>::Node(const key_type& key, const value_type& value) : key(key), value(value) {}
+
+template<typename K, typename V>
+RedBlackTree<K, V>::RedBlackTree() : size_(0) {
+
+}
+
+template<typename K, typename V>
+RedBlackTree<K, V>::RedBlackTree(const RedBlackTree& other) {
+
+}
+
+template<typename K, typename V>
+RedBlackTree<K, V>::RedBlackTree(RedBlackTree&& other) {
+    
+}
+
+template<typename K, typename V>
+RedBlackTree<K, V>::~RedBlackTree() {
+    
+}
+
+template<typename K, typename V>
+void RedBlackTree<K, V>::insert(const key_type& key, const value_type& value) {
+
+}
+
+template<typename K, typename V>
+bool RedBlackTree<K, V>::remove(const key_type& key) {
+
+}
+
+template<typename K, typename V>
+void RedBlackTree<K, V>::clear() {
+
+}
+
+template<typename K, typename V>
+typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(const key_type& key) {
+
+}
+
+template<typename K, typename V>
+const typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(const key_type& key) const {
+
+}
+
+template<typename K, typename V>
+bool RedBlackTree<K, V>::contains(const key_type& key) const {
+
+}
+
+template<typename K, typename V>
+typename RedBlackTree<K, V>::size_type RedBlackTree<K, V>::size() const {
+    return size_;
+}
+
+template<typename K, typename V>
+bool RedBlackTree<K, V>::empty() const {
+    return size_ == 0;
+}
+
+template<typename K, typename V>
+void RedBlackTree<K, V>::rotateLeft(Node<K, V>* node) {
+
+}
+
+template<typename K, typename V>
+void RedBlackTree<K, V>::rotateRight(Node<K, V>* node) {
+
+}
+
+template<typename K, typename V>
+void RedBlackTree<K, V>::insertFixup(Node<K, V>* node) {
+
+}
+
+template<typename K, typename V>
+void RedBlackTree<K, V>::deleteFixup(Node<K, V>* node) {
+
+}
+
+template<typename K, typename V>
+Node<K, V>* RedBlackTree<K, V>::findNode(const key_type& key) const {
+
+}
+
+template<typename K, typename V>
+Node<K, V>* RedBlackTree<K, V>::minimum(Node<K, V>* node) const {
+
+}
+
+template<typename K, typename V>
+void RedBlackTree<K, V>::transplant(Node<K, V>* u, Node<K, V>* v) {
+
+}
+
+template<typename K, typename V>
+void RedBlackTree<K, V>::destroyTree(Node<K, V>* node) {
+
+}
+
+template<typename K, typename V>
+Node<K, V>* RedBlackTree<K, V>::copyTree(Node<K, V>* node, Node<K, V>* parent) {
+
+}
 
 #endif // REDBLACKTREE_H_
