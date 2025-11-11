@@ -16,7 +16,7 @@ public:
     using key_type = K;
     using value_type = V;
     
-    key_type key;
+    const key_type key;
     value_type value;
     Node<K, V>* next = nullptr;
     
