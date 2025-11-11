@@ -17,7 +17,7 @@ Building essential data structures and algorithms that form the foundation for a
 - [x] **Hash Table (Separate Chaining)** - Key-value storage with collision resolution | 4-5 hours | Nov 5-9, 2025
 - [x] **Trie (Prefix Tree)** - Tree structure for prefix matching and multi-child node management | 3-4 hours | Nov 10-13, 2025
 - [X] **LRU Cache** - Least Recently Used cache with O(1) operations (uses Hash Table + Doubly LinkedList) | 3-4 hours | Nov 14-17, 2025
-- [ ] **Red-Black Tree** ⭐ Capstone - Self-balancing binary search tree | 12-15 hours | Nov 18 - Dec 2, 2025
+- [x] **Red-Black Tree** ⭐ Capstone - Self-balancing binary search tree | 12-15 hours | Nov 18 - Dec 2, 2025
 
 **Total Estimated Time:** ~30-35 hours
 ---

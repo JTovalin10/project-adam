@@ -10,11 +10,11 @@
 
 Phase 1: Foundation builds the essential data structures, algorithms, and networking primitives that form the foundation for all networking and systems projects. This phase is split into two parts:
 
-### Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Dec 31, 2025)
+### Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Nov 11, 2025)
 
 Building essential data structures and algorithms with **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). I have taken CSE 332 (Data Structures & Parallelism) and will take CSE 421 (Algorithms) at UW, so algorithms and data structures covered in those courses are not included here unless they're directly used in projects I'll build.
 
-### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Jan 1 - Feb 28, 2026)
+### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Nov 12, 2025 - Jan 10, 2026)
 
 Network-focused phase that builds primitives and algorithms directly used in Phase 2's networking projects (DNS, UDP, TCP). This phase prioritizes practical networking knowledge over academic algorithms.
 

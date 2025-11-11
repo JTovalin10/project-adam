@@ -3,7 +3,7 @@
 **Work Schedule:** 1 hour/day average  
 **Total Hours Available:** 127 hours
 ---
-## Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Nov 30, 2025)
+## Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Nov 11, 2025)
 **Total Estimated Time:** ~30-35 hours  
 **Available Time:** 37 days × 1 hour/day = 37 hours
 | Status | Project | Estimated Hours | Timeline | Cumulative Hours |
@@ -16,28 +16,28 @@
 | [x] | Hash Table (Separate Chaining) | 4-5 | Nov 5-8, 2025 | 15-17 |
 | [x] | Trie (Prefix Tree) | 3-4 | Nov 9-12, 2025 | 18-21 |
 | [X] | LRU Cache | 3-4 | Nov 13-16, 2025 | 21-25 |
-| [ ] | Red-Black Tree ⭐ Capstone | 12-15 | Nov 17-30, 2025 | 33-40 |
-**Progress:** 8/9 complete (66.67%)
+| [x] | Red-Black Tree ⭐ Capstone | 12-15 | Nov 17-30, 2025 | 33-40 |
+**Progress:** 9/9 complete (100%)
 ---
-## Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Dec 1, 2025 - Feb 28, 2026)
+## Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Nov 12, 2025 - Jan 10, 2026)
 **Total Estimated Time:** ~38-50 hours  
-**Available Time:** 90 days × 1 hour/day = 90 hours
+**Available Time:** 60 days × 1 hour/day = 60 hours
 | Status | Project | Estimated Hours | Timeline | Cumulative Hours |
 |--------|---------|----------------|----------|------------------|
-| [ ] | Bloom Filter | 3-4 | Dec 1-4, 2025 | 36-44 |
-| [ ] | Ring Buffer (Circular Buffer) | 3-4 | Dec 5-8, 2025 | 39-48 |
-| [ ] | Skip List | 4-5 | Dec 9-13, 2025 | 43-53 |
-| [ ] | CRC32 / Internet Checksum | 2-3 | Dec 14-16, 2025 | 45-56 |
-| [ ] | Token Bucket Algorithm | 3-4 | Dec 17-20, 2025 | 48-60 |
-| [ ] | Leaky Bucket Algorithm | 3-4 | Dec 21-24, 2025 | 51-64 |
-| [ ] | Exponential Backoff | 2-3 | Dec 26-28, 2025 | 53-67 |
-| [ ] | A* Algorithm | 4-5 | Dec 29, 2025 - Jan 2, 2026 | 57-72 |
-| [ ] | Bellman-Ford Algorithm | 5-6 | Jan 3-8, 2026 | 62-78 |
-| [ ] | Sliding Window Protocol ⭐ Capstone | 8-10 | Jan 9-28, 2026 | 70-88 |
+| [ ] | Bloom Filter | 3-4 | Nov 12-15, 2025 | 36-44 |
+| [ ] | Ring Buffer (Circular Buffer) | 3-4 | Nov 16-19, 2025 | 39-48 |
+| [ ] | Skip List | 4-5 | Nov 20-24, 2025 | 43-53 |
+| [ ] | CRC32 / Internet Checksum | 2-3 | Nov 25-27, 2025 | 45-56 |
+| [ ] | Token Bucket Algorithm | 3-4 | Nov 28 - Dec 1, 2025 | 48-60 |
+| [ ] | Leaky Bucket Algorithm | 3-4 | Dec 2-5, 2025 | 51-64 |
+| [ ] | Exponential Backoff | 2-3 | Dec 6-8, 2025 | 53-67 |
+| [ ] | A* Algorithm | 4-5 | Dec 9-13, 2025 | 57-72 |
+| [ ] | Bellman-Ford Algorithm | 5-6 | Dec 14-19, 2025 | 62-78 |
+| [ ] | Sliding Window Protocol ⭐ Capstone | 8-10 | Dec 20, 2025 - Jan 8, 2026 | 70-88 |
 **Progress:** 0/10 complete (0%)
 ---
 ## Phase 1 Total Progress
-**Completed:** 6/19 projects (31.58%)  
+**Completed:** 9/19 projects (47.37%)  
 **Total Estimated Time:** ~68-85 hours  
 **Available Time:** 127 hours
 ---

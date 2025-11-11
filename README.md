@@ -14,15 +14,15 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 
 | Metric              | Value                                              |
 | ------------------- | -------------------------------------------------- |
-| **Current Phase**   | Phase 1a: Genesis - Data Structures and Algorithms |
-| **Progress**        | 8/9 items complete                                 |
-| **Days Elapsed**    | 16 days (started Oct 24)                           |
-| **Days Remaining**  | 55 days (ends Dec 31)                              |
-| **Hours Invested**  | ~20 hours                                          |
-| **Hours Remaining** | ~12-15 hours                                       |
-| **Next Item**       | Red Black Tree                                     |
+| **Current Phase**   | Phase 1b: Evolution - Networking Primitives & Advanced Algorithms |
+| **Progress**        | 0/10 items complete                                 |
+| **Days Elapsed**    | 0 days (starts Nov 12)                              |
+| **Days Remaining**  | 60 days (ends Jan 10)                               |
+| **Hours Invested**  | 26h 44m (~26.7 hours)                               |
+| **Hours Remaining** | ~36-47 hours (Phase 1b estimate)                    |
+| **Next Item**       | Bloom Filter (Phase 1b Kickoff)                    |
 
-**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1a Details](docs/timeline/genesis-a-timeline.md)**
+**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1b Details](docs/timeline/genesis-b-timeline.md)**
 
 ---
 
@@ -71,7 +71,7 @@ Like Adam Warlock—this is my evolution to becoming a cracked programmer. From 
 
 ## The Journey
 
-### Phase 1: Foundation (Oct 24, 2025 - Feb 28, 2026)
+### Phase 1: Foundation (Oct 24, 2025 - Jan 10, 2026)
 
 #### Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Dec 31, 2025)
 
@@ -88,7 +88,7 @@ Having already completed NeetCode's DSA courses, this phase focuses on **C++ imp
 **Total Estimated Time:** ~30-35 hours  
 **Available Time:** 68 days × 1 hour/day = 68 hours
 
-#### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Jan 1 - Feb 28, 2026)
+#### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Nov 12, 2025 - Jan 10, 2026)
 
 **[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1b Details](docs/timeline/genesis-b-timeline.md)**
 
@@ -99,13 +99,13 @@ Network-focused phase that builds primitives and algorithms directly used in Pha
 **Focus:** Networking-focused data structures and algorithms for Phase 2
 
 **Total Estimated Time:** ~36-47 hours  
-**Available Time:** 59 days × 1 hour/day = 59 hours
+**Available Time:** 60 days × 1 hour/day = 60 hours
 
 **Phase 1 Total:** ~66-82 hours over 127 days
 
 ---
 
-### Phase 2: Evolution - Network and Concurrency (Mar 2026 - Dec 2026)
+### Phase 2: Evolution - Network and Concurrency (Jan 2026 - Dec 2026)
 
 **[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/mastery-timeline.md)**
 
@@ -190,7 +190,7 @@ Type-2 hypervisor on Raspberry Pi 5:
 
 **2026**
 
-- Jan 1 - Feb 28: Phase 1b: Evolution (Networking Primitives)
+- Jan 10: Phase 1b complete (moved up from Feb 28)
 
 **Phase 1: Foundation (Oct 2025 - Feb 2026)**
 
@@ -284,8 +284,8 @@ Throughout this journey, I'll be documenting:
 
 ---
 
-**Status:** Phase 1a: Genesis  
-**Last Updated:** November 8, 2025  
+**Status:** Phase 1b: Evolution - Networking Primitives & Advanced Algorithms  
+**Last Updated:** November 11, 2025  
 **Next Milestone:** Phase 1a: Genesis (Data Structures and Algorithms) complete (December 31, 2025)
 
 ---
