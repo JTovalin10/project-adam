@@ -1,0 +1,5 @@
+BasedOnStyle: Google
+Checks: 'readability-*,google-*,modernize-*,performance-*,bugprone-*'
+   WarningsAsErrors: ''
+   HeaderFilterRegex: '.*'
+   FormatStyle: google

@@ -1,0 +1,5 @@
+CompileFlags:
+  Add: [-std=c++17]
+Diagnostics:
+  ClangTidy:
+    Add: [readability-*, google-*, modernize-*, performance-*, bugprone-*]
