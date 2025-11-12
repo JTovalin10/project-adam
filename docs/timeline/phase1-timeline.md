@@ -24,7 +24,7 @@
 **Available Time:** 60 days × 1 hour/day = 60 hours
 | Status | Project | Estimated Hours | Timeline | Cumulative Hours |
 |--------|---------|----------------|----------|------------------|
-| [ ] | Bloom Filter | 3-4 | Nov 12-15, 2025 | 36-44 |
+| [X] | Bloom Filter | 3-4 | Nov 12-15, 2025 | 36-44 |
 | [ ] | Ring Buffer (Circular Buffer) | 3-4 | Nov 16-19, 2025 | 39-48 |
 | [ ] | Skip List | 4-5 | Nov 20-24, 2025 | 43-53 |
 | [ ] | CRC32 / Internet Checksum | 2-3 | Nov 25-27, 2025 | 45-56 |
@@ -34,10 +34,10 @@
 | [ ] | A* Algorithm | 4-5 | Dec 9-13, 2025 | 57-72 |
 | [ ] | Bellman-Ford Algorithm | 5-6 | Dec 14-19, 2025 | 62-78 |
 | [ ] | Sliding Window Protocol ⭐ Capstone | 8-10 | Dec 20, 2025 - Jan 8, 2026 | 70-88 |
-**Progress:** 0/10 complete (0%)
+**Progress:** 1/10 complete (10%)
 ---
 ## Phase 1 Total Progress
-**Completed:** 9/19 projects (47.37%)  
+**Completed:** 10/19 projects (52.63%)  
 **Total Estimated Time:** ~68-85 hours  
 **Available Time:** 127 hours
 ---

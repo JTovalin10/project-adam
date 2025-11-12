@@ -8,7 +8,7 @@
 **Note:** All time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), comprehensive unit testing (GoogleTest), and header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
 ---
 ## Project List
-- [ ] **Bloom Filter** - Probabilistic data structure for fast membership testing (used by DNS Server for ad-blocking) | 3-4 hours | Nov 12-15, 2025
+- [X] **Bloom Filter** - Probabilistic data structure for fast membership testing (used by DNS Server for ad-blocking) | 3-4 hours | Nov 12-15, 2025
 - [ ] **Ring Buffer (Circular Buffer)** - Fixed-size circular buffer for packet buffering and producer-consumer patterns | 3-4 hours | Nov 16-19, 2025
 - [ ] **Skip List** - Probabilistic alternative to balanced trees with simple implementation | 4-5 hours | Nov 20-24, 2025
 - [ ] **CRC32 / Internet Checksum** - Packet integrity validation algorithms (used by UDP and TCP) | 2-3 hours | Nov 25-27, 2025

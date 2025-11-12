@@ -15,12 +15,9 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 | Metric              | Value                                              |
 | ------------------- | -------------------------------------------------- |
 | **Current Phase**   | Phase 1b: Evolution - Networking Primitives & Advanced Algorithms |
-| **Progress**        | 0/10 items complete                                 |
-| **Days Elapsed**    | 0 days (starts Nov 12)                              |
-| **Days Remaining**  | 60 days (ends Jan 10)                               |
-| **Hours Invested**  | 26h 44m (~26.7 hours)                               |
-| **Hours Remaining** | ~36-47 hours (Phase 1b estimate)                    |
-| **Next Item**       | Bloom Filter (Phase 1b Kickoff)                    |
+| **Progress**        | 1/10 items complete                                 |
+| **Hours Invested**  | 31h 33m (~26.7 hours)                               |
+| **Current Item**       | Ring Buffer (Circular Buffer)                   |
 
 **[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1b Details](docs/timeline/genesis-b-timeline.md)**
 
