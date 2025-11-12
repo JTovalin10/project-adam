@@ -24,3 +24,6 @@ a.out
 # Test binaries
 *_test
 *_gtest
+
+# external repos
+extra/
