@@ -5,7 +5,8 @@
 #include <functional>
 #include <cstdint>
 #include <cmath>
-#include <xxhash.h>
+#define XXH_INLINE_ALL
+#include "xxhash.h"
 #include <type_traits>
 #include <cstring>
 #include <algorithm> 
@@ -107,6 +108,7 @@ class BloomFilter {
 
     other.m_num_hashes_ = 0;
     other.size_ = 0;
+    other.m_bits_.clear();
     return *this;
   }
 
@@ -191,6 +193,7 @@ BloomFilter<T>::BloomFilter(BloomFilter&& other) :
 {
     other.m_num_hashes_ = 0;
     other.size_ = 0;
+    other.m_bits_.clear();
 }
 
 template<typename T>
@@ -210,6 +213,9 @@ void BloomFilter<T>::insert(const value_type& value) {
 
 template<typename T>
 bool BloomFilter<T>::mayContain(const value_type& value) const {
+  if (m_bits_.empty() || m_num_hashes_ == 0) {
+    return false;
+  }
   uint64_t hash_a;
   uint64_t hash_b;
   getHashes(value, hash_a, hash_b);

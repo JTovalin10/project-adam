@@ -2,7 +2,7 @@ CXX = g++
 
 CXXFLAGS = -Wall -Wextra -g -std=c++17
 
-TEST_FLAGS = -lgtest -lgtest_main -pthread
+TEST_FLAGS = -lgtest_main -lgtest -pthread
 
 TEST_TARGET = BloomFilter_Test
 
@@ -13,5 +13,9 @@ all: test
 test: $(TEST_TARGET)
 		./$(TEST_TARGET)
 
+# This is the CORRECT command:
 $(TEST_TARGET): $(TEST_SOURCE) BloomFilter.h
-		$(CXX) $(CXXFLAGS) $(TEST_FLAGS) -o $(TEST_TARGET)
+	$(CXX) $(CXXFLAGS) $(TEST_SOURCE) -o $(TEST_TARGET) $(TEST_FLAGS)
+
+clean:
+	rm -f $(TEST_TARGET) *.o
