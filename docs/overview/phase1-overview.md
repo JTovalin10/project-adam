@@ -12,7 +12,7 @@ Phase 1: Foundation builds the essential data structures, algorithms, and networ
 
 ### Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Nov 11, 2025)
 
-Building essential data structures and algorithms with **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). I have taken CSE 332 (Data Structures & Parallelism) and will take CSE 421 (Algorithms) at UW, so algorithms and data structures covered in those courses are not included here unless they're directly used in projects I'll build.
+Building essential data structures and algorithms with **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work under the hood. For data structures that have existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), I will use those libraries in later projects to gain experience with industry-standard tools. I have taken CSE 332 (Data Structures & Parallelism) and will take CSE 421 (Algorithms) at UW, so algorithms and data structures covered in those courses are not included here unless they're directly used in projects I'll build.
 
 ### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Nov 12, 2025 - Jan 10, 2026)
 

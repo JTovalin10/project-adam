@@ -4,7 +4,7 @@
 **Total Hours Available:** 68 hours
 ---
 ## Overview
-Building essential data structures and algorithms that form the foundation for all networking and systems projects. This phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). I have taken CSE 332 (Data Structures & Parallelism) at UW, which covered Min Heap, Dijkstra's Algorithm, and other fundamental algorithms. Data structures and algorithms covered in CSE 332 are not included here unless they're directly used in projects I'll build.
+Building essential data structures and algorithms that form the foundation for all networking and systems projects. This phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work under the hood. For data structures that have existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), I will use those libraries in later projects to gain experience with industry-standard tools. I have taken CSE 332 (Data Structures & Parallelism) at UW, which covered Min Heap, Dijkstra's Algorithm, and other fundamental algorithms. Data structures and algorithms covered in CSE 332 are not included here unless they're directly used in projects I'll build.
 
 **Note:** All time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), comprehensive unit testing (GoogleTest), and header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
 ---
