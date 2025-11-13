@@ -28,12 +28,49 @@ class RingBuffer {
  public:
   using size_type = std::size_t;
   using value_type = T;
-
+  
+  /**
+   * Constructs an empty RingBuffer with a capacity using the DEFAULT_CAPACITY
+   */
   RingBuffer();
+  
+  /**
+   *  Constructs an empty Ringbuffer with the client defined capacity
+   */
   explicit RingBuffer(size_type capacity);
+
+  /**
+   *  Constructs a RingBuffer by copying another client given RingBuffer
+   *
+   *  ARGS:
+   *  other: the RingBuffer that will be copied
+   */
   RingBuffer(const RingBuffer& other);
+
+  /**
+   *  Constructs a RingBuffer by stealing from the client given RingBuffer.
+   *  This will leave the other RingBuffer empty
+   *
+   *  ARGS:
+   *  other: the RingBuffer that will be stolen
+   */
   RingBuffer(RingBuffer&& other);
+
+  /**
+   * Deconstructs the RingBuffer
+   */
   ~RingBuffer();
+
+  /**
+   * Copy assignment operator which copys another RingBuffer
+   * and replaces all current fields with the other RingBuffer
+   *
+   * ARGS:
+   * other: the client given RingBuffer that will be copied
+   *
+   * RETURNS:
+   * a reference pointer to the this RingBuffer
+   */
   RingBuffer& operator=(const RingBuffer& other) {
     if (this == &other) {
       return *this;
@@ -50,6 +87,17 @@ class RingBuffer {
     return *this;
   }
 
+  /**
+   * move assignment operator which steals another RingBuffer
+   * and replaces all current fields with the other RingBuffer.
+   * This will leave the other RingBuffer empty.
+   *
+   * ARGS:
+   * other: the client given RingBuffer that will be stolen
+   *
+   * RETURNS:
+   * a reference pointer to the this RingBuffer
+   */
   RingBuffer& operator=(RingBuffer&& other) {
     if (this == &other) {
       return *this;
@@ -69,22 +117,82 @@ class RingBuffer {
     return *this;
   }
   
-  void enqueue(const value_type& item);
+  /**
+   *  Adds give item to the end of the buffer
+   *
+   *  ARGS:
+   *  item: the element that will be added to the end of the buffer
+   */
   void push(const value_type& item);
-  void write(const value_type& item);
-  void dequeue();
-  void pop();
-  value_type& read() const;
   
-  const value_type& peek() const;
-  const value_type& front() const;
-  const value_type& back() const;
+  /**
+   * Removes and returns the element at the start of the buffer
+   *
+   * RETURNS:
+   * if the buffer is empty it will return std::nullopt, else
+   * it will return the value at the start of the buffer
+   */
+  std::optional<T> pop();
   
-  bool is_empty() const;
-  bool is_full() const;
+  /** 
+   * returns the element at the start of the buffer. Additionally,
+   * it does not remove the element from the buffer
+   *
+   * RETURNS:
+   * if the buffer is empty then it will return std::nullopt, else 
+   * it will return the value of the element at the start of the buffer
+   */
+  std::optional<T> front() const;
+  
+  /**
+   * Returns the element at the end of the buffer (does not modify the buffer)
+   *
+   * RETURNS:
+   * std::nullopt if the buffer is empty, else
+   * value of the element at the end of the buffer
+   */
+  std::optional<T> back() const;
+  
+  /**
+   * checks if there are any elements in the buffer
+   *
+   * RETURNS:
+   * true if the buffer contains elements, else
+   * false
+   */
+  bool empty() const;
+  
+  /**
+   * Checks if the number of elements is at capacity
+   *
+   * RETURNS:
+   * true if size_ == capacity_
+   * else false
+  bool full() const;
+
+  /**
+   * Returns the number of elements in the buffer
+   * 
+   * RETURNS:
+   * number of elemnts in the buffer
+   */
   size_type size() const;
+
+  /**
+   * Returns the capacity that was defined at Construction
+   *
+   * RETURNS:
+   * size_type which represents the capacity
+   */
   size_type capacity() const;
   
+  /**
+   * Removes all elements from the buffer
+   *
+   * EFFECTS:
+   * buffer_, size_, write_, read_
+   *
+   */
   void clear();
 
   private:
@@ -128,22 +236,7 @@ RingBuffer<T>::~RingBuffer() {
 }
 
 template<typename T>
-void RingBuffer<T>::enqueue(const value_type& item) {
-  
-}
-
-template<typename T>
 void RingBuffer<T>::push(const value_type& item) {
-
-}
-
-template<typename T>
-void RingBuffer<T>::write(const value_type& item) {
-
-}
-
-template<typename T>
-void RingBuffer<T>::dequeue() {
 
 }
 
@@ -153,32 +246,26 @@ void RingBuffer<T>::pop() {
 }
 
 template<typename T>
-typename RingBuffer<T>::value_type& RingBuffer<T>::read() const {
-
-}
-
-template<typename T>
-const typename RingBuffer<T>::value_type& RingBuffer<T>::peek() const {
-
-}
-
-template<typename T>
 const typename RingBuffer<T>::value_type& RingBuffer<T>::front() const {
-
+  if (empty()) {
+    return nullptr;
+  }
 }
 
 template<typename T>
 const typename RingBuffer<T>::value_type& RingBuffer<T>::back() const {
-
+  if (empty()) {
+    return nullptr;
+  }
 }
 
 template<typename T>
-bool RingBuffer<T>::is_empty() const {
+bool RingBuffer<T>::empty() const {
   return size_ == 0;
 }
 
 template<typename T>
-bool RingBuffer<T>::is_full() const {
+bool RingBuffer<T>::full() const {
   return size_ == capacity_;
 }
 
@@ -194,7 +281,11 @@ typename RingBuffer<T>::size_type RingBuffer<T>::capacity() const {
 
 template<typename T>
 void RingBuffer<T>::clear() {
-
+  delete[] buffer_;
+  buffer_ = new T[capacity_];
+  size_ = 0;
+  read_ = 0;
+  write_ = 0;
 }
 
 #endif  // RINGBUFFER_H_
