@@ -16,7 +16,7 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 | ------------------- | -------------------------------------------------- |
 | **Current Phase**   | Phase 1b: Evolution - Networking Primitives & Advanced Algorithms |
 | **Progress**        | 2/10 items complete                                 |
-| **Hours Invested**  | 31h 33m (~31.6 hours)                               |
+| **Hours Invested**  | 34h 22m                                             |
 | **Current Item**    | Skip List                                           |
 
 **[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1b Details](docs/timeline/genesis-b-timeline.md)**
