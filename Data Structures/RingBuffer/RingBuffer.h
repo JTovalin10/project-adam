@@ -4,6 +4,25 @@
 
 #define DEFAULT_CAPACITY = 10
 
+/**
+ * A ring buffer is a fixed size first in first our data structure
+ * (queue) where it treats memory as if it was connecteed end to end
+ *
+ * head and tail: it uses these pointers to manage the elements
+ * head - acts like a write pointer, when an element is added this advances
+ * tail - acts like a read pointer, when an element is removed this advances
+ * if either pointer reaches the end of the buffer then it wraps around to
+ * the beginning
+ *
+ * When the buffer is full the new element is written to the oldest
+ * data, overwriting it which allows the buffer to maintain a consistent size
+ * without running out of memory
+ *
+ * When the pointer reaches the end of the buffer it wraps around to the beginning
+ * creating the circular behavior
+ *
+ */
+
 template<typename T>
 class RingBuffer {
  public:
@@ -30,7 +49,7 @@ class RingBuffer {
     
     return *this;
   }
-
+  
   void enqueue(const value_type& item);
   void push(const value_type& item);
   void write(const value_type& item);
@@ -54,7 +73,7 @@ class RingBuffer {
   size_type size_;
   size_type head_;
   size_type tail_;
-  size_type capacity_;
+  const size_type capacity_;
 };
 
 template<typename T>
@@ -128,22 +147,22 @@ const typename RingBuffer<T>::value_type& RingBuffer<T>::back() const {
 
 template<typename T>
 bool RingBuffer<T>::is_empty() const {
-
+  return size_ == 0;
 }
 
 template<typename T>
 bool RingBuffer<T>::is_full() const {
-
+  return size_ == capacity_;
 }
 
 template<typename T>
 typename RingBuffer<T>::size_type RingBuffer<T>::size() const {
-
+  return size_;
 }
 
 template<typename T>
 typename RingBuffer<T>::size_type RingBuffer<T>::capacity() const {
-
+  return capacity_;
 }
 
 template<typename T>
