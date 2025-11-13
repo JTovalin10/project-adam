@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <optional>
 
-#define DEFAULT_CAPACITY = 10
+#define DEFAULT_CAPACITY 10
 
 /**
  * A ring buffer is a fixed size first in first our data structure
@@ -77,7 +77,7 @@ class RingBuffer {
       return *this;
     }
     delete[] buffer_;
-    buffer_ = new T[other.capacity_];
+    buffer_ = new std::optional<T>[other.capacity_];
     for (size_type i = 0; i < other.capacity_; i++) {
       buffer_[i] = other.buffer_[i];
     }
@@ -175,6 +175,7 @@ class RingBuffer {
    * RETURNS:
    * true if size_ == capacity_
    * else false
+   */
   bool full() const;
 
   /**
@@ -203,33 +204,33 @@ class RingBuffer {
   void clear();
 
   private:
-  value_type* buffer_;
+  std::optional<value_type>* buffer_;
   size_type size_ = 0;
   size_type read_ = 0;
   size_type write_ = 0;
-  const size_type capacity_;
+  size_type capacity_;
 };
 
 template<typename T>
 RingBuffer<T>::RingBuffer() : capacity_(DEFAULT_CAPACITY) {
-  buffer_ = new T[capacity_];
+  buffer_ = new std::optional<T>[capacity_];
 }
 
 template<typename T>
-explicit RingBuffer<T>::RingBuffer(size_type capacity) : capacity_(capacity) {
-  buffer_ = new T[capacity_];
+RingBuffer<T>::RingBuffer(size_type capacity) : capacity_(capacity) {
+  buffer_ = new std::optional<T>[capacity_];
 }
 
 template<typename T>
 RingBuffer<T>::RingBuffer(const RingBuffer& other) : size_(other.size_), read_(other.read_), write_(other.write_), capacity_(other.capacity_) {
-  buffer_ = new T[capacity_];
+  buffer_ = new std::optional<T>[capacity_];
   for (size_type i = 0; i < capacity_; i++) {
     buffer_[i] = other.buffer_[i];
   }
 }
 
 template<typename T>
-RingBuffer<T>::RingBuffer(RingBuffer&& other) : size_(other.size_), read_(other.read_), write_(other.write_), capacity_(other.capacity_), buffer_(other.buffer_) { 
+RingBuffer<T>::RingBuffer(RingBuffer&& other) : buffer_(other.buffer_), size_(other.size_), read_(other.read_), write_(other.write_), capacity_(other.capacity_) {
   other.buffer_ = nullptr;
   other.size_ = 0;
   other.capacity_ = 0;
@@ -244,17 +245,20 @@ RingBuffer<T>::~RingBuffer() {
 
 template<typename T>
 void RingBuffer<T>::push(const value_type& item) {
-  // we want to overwrite the oldest data
-  buffer_[write_] = item;
-  write_ = (write_ + 1) % capacity_;
-  // if the buffer is full then the head and tail are at the same item
-  // hence, the write and read are at the oldest item
-  // so we just overwrite the item and increment both the head and tail
-  // as that item is no longer the oledest item
-  if (full()) {
-    tail_ = (tail_ + 1) % capacity_;
-  } else { 
-    size_++;
+  // check in case it has been moved
+  if (buffer_ != nullptr) {
+    // we want to overwrite the oldest data
+    buffer_[write_] = item;
+    write_ = (write_ + 1) % capacity_;
+    // if the buffer is full then the head and tail are at the same item
+    // hence, the write and read are at the oldest item
+    // so we just overwrite the item and increment both the head and tail
+    // as that item is no longer the oledest item
+    if (full()) {
+      read_ = (read_ + 1) % capacity_;
+    } else { 
+      size_++;
+    }
   }
 }
 
@@ -263,7 +267,7 @@ std::optional<T> RingBuffer<T>::pop() {
   if (empty()) {
     return std::nullopt;
   }
-  T value = buffer_[read_];
+  std::optional<T> value = buffer_[read_];
 
   buffer_[read_] = std::nullopt;
   read_ = (read_ + 1) % capacity_;
@@ -276,7 +280,7 @@ std::optional<T> RingBuffer<T>::front() const {
   if (empty()) {
     return std::nullopt;
   }
-  T value = buffer_[read_];
+  std::optional<T> value = buffer_[read_];
   return value;
 }
 
@@ -285,7 +289,10 @@ std::optional<T> RingBuffer<T>::back() const {
   if (empty()) {
     return std::nullopt;
   }
-  T value = buffer_[write_];
+  // as we always have write_ one ahead, this goes back one index
+  // write_ + capacity_ is to avoid negative numbers if write_ is 0
+  size_type index = (write_ + capacity_ - 1) % capacity_;
+  std::optional<T> value = buffer_[index];
   return value;
 }
 
@@ -312,7 +319,7 @@ typename RingBuffer<T>::size_type RingBuffer<T>::capacity() const {
 template<typename T>
 void RingBuffer<T>::clear() {
   delete[] buffer_;
-  buffer_ = new T[capacity_];
+  buffer_ = new std::optional<T>[capacity_];
   size_ = 0;
   read_ = 0;
   write_ = 0;
