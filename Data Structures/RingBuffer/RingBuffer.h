@@ -1,6 +1,7 @@
 #ifndef RINGBUFFER_H_
 #define RINGBUFFER_H_
 #include <cstddef>
+#include <optional>
 
 #define DEFAULT_CAPACITY = 10
 
@@ -134,6 +135,12 @@ class RingBuffer {
    */
   std::optional<T> pop();
   
+
+  /**
+   *  [read_, ..., write_]
+   */
+
+
   /** 
    * returns the element at the start of the buffer. Additionally,
    * it does not remove the element from the buffer
@@ -237,26 +244,49 @@ RingBuffer<T>::~RingBuffer() {
 
 template<typename T>
 void RingBuffer<T>::push(const value_type& item) {
-
-}
-
-template<typename T>
-void RingBuffer<T>::pop() {
-
-}
-
-template<typename T>
-const typename RingBuffer<T>::value_type& RingBuffer<T>::front() const {
-  if (empty()) {
-    return nullptr;
+  // we want to overwrite the oldest data
+  buffer_[write_] = item;
+  write_ = (write_ + 1) % capacity_;
+  // if the buffer is full then the head and tail are at the same item
+  // hence, the write and read are at the oldest item
+  // so we just overwrite the item and increment both the head and tail
+  // as that item is no longer the oledest item
+  if (full()) {
+    tail_ = (tail_ + 1) % capacity_;
+  } else { 
+    size_++;
   }
 }
 
 template<typename T>
-const typename RingBuffer<T>::value_type& RingBuffer<T>::back() const {
+std::optional<T> RingBuffer<T>::pop() {
   if (empty()) {
-    return nullptr;
+    return std::nullopt;
   }
+  T value = buffer_[read_];
+
+  buffer_[read_] = std::nullopt;
+  read_ = (read_ + 1) % capacity_;
+  size_--;
+  return value;
+}
+
+template<typename T>
+std::optional<T> RingBuffer<T>::front() const {
+  if (empty()) {
+    return std::nullopt;
+  }
+  T value = buffer_[read_];
+  return value;
+}
+
+template<typename T>
+std::optional<T> RingBuffer<T>::back() const {
+  if (empty()) {
+    return std::nullopt;
+  }
+  T value = buffer_[write_];
+  return value;
 }
 
 template<typename T>
