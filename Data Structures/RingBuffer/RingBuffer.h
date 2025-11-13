@@ -38,7 +38,15 @@ class RingBuffer {
     if (this == &other) {
       return *this;
     }
-
+    delete[] buffer_;
+    buffer_ = new T[other.capacity_];
+    for (size_type i = 0; i < other.capacity_; i++) {
+      buffer_[i] = other.buffer_[i];
+    }
+    capacity_ = other.capacity_;
+    size_ = other.size_;
+    read_ = other.read_;
+    write_ = other.write_;
     return *this;
   }
 
@@ -46,7 +54,18 @@ class RingBuffer {
     if (this == &other) {
       return *this;
     }
-    
+    buffer_ = other.buffer_;
+    other.buffer_ = nullptr;
+
+    capacity_ = other.capacity_;
+    size_ = other.size_;
+    read_ = other.read_;
+    write_ = other.write_;
+
+    other.capacity_ = 0;
+    other.size_ = 0;
+    other.read_ = 0;
+    other.write_ = 0;
     return *this;
   }
   
@@ -70,36 +89,47 @@ class RingBuffer {
 
   private:
   value_type* buffer_;
-  size_type size_;
-  size_type head_;
-  size_type tail_;
+  size_type size_ = 0;
+  size_type read_ = 0;
+  size_type write_ = 0;
   const size_type capacity_;
 };
 
 template<typename T>
-RingBuffer<T>::RingBuffer() : capacity_(DEFAULT_CAPACITY) {}
-
-template<typename T>
-explicit RingBuffer<T>::RingBuffer(size_type capacity) : capacity_(capacity) {}
-
-template<typename T>
-RingBuffer<T>::RingBuffer(const RingBuffer& other) {
-
+RingBuffer<T>::RingBuffer() : capacity_(DEFAULT_CAPACITY) {
+  buffer_ = new T[capacity_];
 }
 
 template<typename T>
-RingBuffer<T>::RingBuffer(RingBuffer&<T> other) {
+explicit RingBuffer<T>::RingBuffer(size_type capacity) : capacity_(capacity) {
+  buffer_ = new T[capacity_];
+}
 
+template<typename T>
+RingBuffer<T>::RingBuffer(const RingBuffer& other) : size_(other.size_), read_(other.read_), write_(other.write_), capacity_(other.capacity_) {
+  buffer_ = new T[capacity_];
+  for (size_type i = 0; i < capacity_; i++) {
+    buffer_[i] = other.buffer_[i];
+  }
+}
+
+template<typename T>
+RingBuffer<T>::RingBuffer(RingBuffer&& other) : size_(other.size_), read_(other.read_), write_(other.write_), capacity_(other.capacity_), buffer_(other.buffer_) { 
+  other.buffer_ = nullptr;
+  other.size_ = 0;
+  other.capacity_ = 0;
+  other.read_ = 0;
+  other.write_ = 0;
 }
 
 template<typename T>
 RingBuffer<T>::~RingBuffer() {
-
+  delete[] buffer_;
 }
 
 template<typename T>
 void RingBuffer<T>::enqueue(const value_type& item) {
-
+  
 }
 
 template<typename T>
@@ -117,18 +147,15 @@ void RingBuffer<T>::dequeue() {
 
 }
 
-
 template<typename T>
 void RingBuffer<T>::pop() {
 
 }
 
-
 template<typename T>
 typename RingBuffer<T>::value_type& RingBuffer<T>::read() const {
 
 }
-
 
 template<typename T>
 const typename RingBuffer<T>::value_type& RingBuffer<T>::peek() const {
@@ -171,3 +198,4 @@ void RingBuffer<T>::clear() {
 }
 
 #endif  // RINGBUFFER_H_
+
