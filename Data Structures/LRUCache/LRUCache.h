@@ -6,21 +6,6 @@
 #include <stdexcept>
 
 template<typename K, typename V>
-class Node {
-    using key_type = K;
-    using value_type = V;
-    public:
-    key_type key;
-    value_type value;
-    Node<K, V>* prev = nullptr;
-    Node<K, V>* next = nullptr;
-
-    Node();
-
-    Node(key_type key, value_type val);
-};
-
-template<typename K, typename V>
 class LRUCache {
     using size_type = std::size_t;
     using key_type = K;
@@ -76,45 +61,54 @@ class LRUCache {
      */
     void put(const key_type& key, const value_type& value);
 
-    private:
 
-    std::unordered_map<K, Node<K, V>*> map_;
-    Node<K, V>* head_;
-    Node<K, V>* tail_;
+    private:
+    struct Node {
+        key_type key;
+        value_type value;
+        Node* prev = nullptr;
+        Node* next = nullptr;
+
+        Node();
+
+        Node(key_type key, value_type val);
+    };
+
+    std::unordered_map<K, Node*> map_;
+    Node* head_;
+    Node* tail_;
     size_type capacity_;
 
-    void remove(Node<K, V>* node);
-    void insert(Node<K, V>* node);
+    void remove(Node* node);
+    void insert(Node* node);
     bool empty();
-    void clear();
-
 };
 
 template<typename K, typename V>
-Node<K, V>::Node() : key(K()), value(V()) {}
+LRUCache<K, V>::Node::Node() : key(K()), value(V()) {}
 
 template<typename K, typename V>
-Node<K, V>::Node(key_type key, value_type val) : key(key), value(val) {}
+LRUCache<K, V>::Node::Node(typename LRUCache<K, V>::key_type key, typename LRUCache<K, V>::value_type val) : key(key), value(val) {}
 
 template<typename K, typename V>
 LRUCache<K, V>::LRUCache(size_type capacity) : capacity_(capacity) {
-    head_ = new Node<K, V>();
-    tail_ = new Node<K, V>();
+    head_ = new Node();
+    tail_ = new Node();
     head_->next = tail_;
     tail_->prev = head_;
 }
 
 template<typename K, typename V>
 LRUCache<K, V>::LRUCache(const LRUCache& other) : capacity_(other.capacity_) {
-    head_ = new Node<K, V>();
-    tail_ = new Node<K, V>();
+    head_ = new Node();
+    tail_ = new Node();
     head_->next = tail_;
     tail_->prev = head_;
 
     // Deep copy the linked list
-    Node<K, V>* other_curr = other.head_->next;
+    Node* other_curr = other.head_->next;
     while (other_curr != other.tail_) {
-        Node<K, V>* new_node = new Node<K, V>(other_curr->key, other_curr->value);
+        Node* new_node = new Node(other_curr->key, other_curr->value);
         map_[new_node->key] = new_node;
         insert(new_node);
         other_curr = other_curr->next;
@@ -136,9 +130,9 @@ LRUCache<K, V>::LRUCache(LRUCache&& other)
 template<typename K, typename V>
 LRUCache<K, V>::~LRUCache() {
     
-    Node<K, V>* curr = head_;
+    Node* curr = head_;
     while (curr != nullptr) {
-        Node<K, V>* temp = curr->next;
+        Node* temp = curr->next;
         delete curr;
         curr = temp;
     }
@@ -154,9 +148,9 @@ LRUCache<K, V>& LRUCache<K, V>::operator=(const LRUCache& other) {
     capacity_ = other.capacity_;
     
     // Deep copy
-    Node<K, V>* other_curr = other.head_->next;
+    Node* other_curr = other.head_->next;
     while (other_curr != other.tail_) {
-        Node<K, V>* new_node = new Node<K, V>(other_curr->key, other_curr->value);
+        Node* new_node = new Node(other_curr->key, other_curr->value);
         map_[new_node->key] = new_node;
         insert(new_node);
         other_curr = other_curr->next;
@@ -195,7 +189,7 @@ typename LRUCache<K, V>::value_type LRUCache<K, V>::get(const key_type& key) {
     if (it == map_.end()) {
         throw std::out_of_range("LRUCache::get, key doesnt exist in the table");
     }
-    Node<K, V>* node = it->second;
+    Node* node = it->second;
     V value = node->value;
     // this is the currently used one so we can delete it and then add it back
     remove(node);
@@ -210,12 +204,12 @@ void LRUCache<K, V>::put(const key_type& key, const value_type& value) {
         remove(iter->second);
     }
 
-    Node<K, V>* new_node = new Node<K, V>(key, value);
+    Node* new_node = new Node(key, value);
     map_[key] = new_node;
     insert(new_node);
 
     if (map_.size() > capacity_) {
-        Node<K, V>* node_to_eject = head_->next;
+        Node* node_to_eject = head_->next;
         remove(node_to_eject);
         map_.erase(node_to_eject->key);
         delete node_to_eject;
@@ -223,16 +217,16 @@ void LRUCache<K, V>::put(const key_type& key, const value_type& value) {
 }
 
 template<typename K, typename V>
-void LRUCache<K, V>::remove(Node<K, V>* node) {
-    Node<K, V>* previous_node = node->prev;
-    Node<K, V>* next_node = node->next;
+void LRUCache<K, V>::remove(Node* node) {
+    Node* previous_node = node->prev;
+    Node* next_node = node->next;
     previous_node->next = next_node;
     next_node->prev = previous_node;
 }
 
 template<typename K, typename V>
-void LRUCache<K, V>::insert(Node<K, V>* node) {
-    Node<K, V>* previous_end = tail_->prev;
+void LRUCache<K, V>::insert(Node* node) {
+    Node* previous_end = tail_->prev;
     previous_end->next = node;
     tail_->prev = node;
 
@@ -247,9 +241,9 @@ bool LRUCache<K, V>::empty() {
 
 template<typename K, typename V>
 void LRUCache<K, V>::clear() {
-    Node<K, V>* curr = head_->next;
+    Node* curr = head_->next;
     while (curr != tail_) {
-        Node<K, V>* temp = curr->next;
+        Node* temp = curr->next;
         delete curr;
         curr = temp;
     }

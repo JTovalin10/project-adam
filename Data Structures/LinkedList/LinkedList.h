@@ -5,31 +5,6 @@
 #include <stdexcept>
 
 template<typename T>
-class Node {
-    using value_type = T;
-    public:
-    Node<T>* next;
-    value_type val;
-
-    /**
-     * Initalizes a Node with only a value
-     * 
-     * ARGS:
-     * val: the value of the node
-     */
-    Node(value_type val);
-
-    /**
-     * Initalizes a Node with only a value
-     * 
-     * ARGS:
-     * val: the value of the node
-     * next: points to the next Node
-     */
-    Node(value_type val, Node<T>* next);
-};
-
-template<typename T>
 class LinkedList {
     using size_type = std::size_t;
     using value_type = T;
@@ -171,7 +146,7 @@ class LinkedList {
      * RETURNS:
      * if the target is found it will return Node*, else nullptr
      */
-    Node<value_type>* find(const value_type& target);
+    Node* find(const value_type& target);
 
         /**
      * looks for the first instance of the given target
@@ -182,7 +157,7 @@ class LinkedList {
      * RETURNS:
      * if the target is found it will return Node*, else nullptr
      */
-    const Node<value_type>* find(const value_type& target) const;
+    const Node* find(const value_type& target) const;
 
     /**
      * returns the size of the LinkedList
@@ -256,7 +231,7 @@ class LinkedList {
          * node: the node where we are going to start the iterator
          * tail: the end of the linkedlist
          */
-        Iterator(Node<T>* node, Node<T>* tail);
+        Iterator(Node* node, Node* tail);
 
         /**
          * Checks if the iterator has a next node
@@ -303,8 +278,8 @@ class LinkedList {
         bool operator!=(const Iterator& other) const; 
 
         private:
-        Node<T>* current_node;
-        Node<T>* tail_;
+        Node* current_node;
+        Node* tail_;
 
     };
 
@@ -333,8 +308,30 @@ class LinkedList {
     void reverse();    
 
     private:
-    Node<T>* head_;
-    Node<T>* tail_;
+    struct Node {
+        Node* next;
+        value_type val;
+
+        /**
+         * Initalizes a Node with only a value
+         * 
+         * ARGS:
+         * val: the value of the node
+         */
+        Node(value_type val);
+
+        /**
+         * Initalizes a Node with only a value
+         * 
+         * ARGS:
+         * val: the value of the node
+         * next: points to the next Node
+         */
+        Node(value_type val, Node* next);
+    };
+
+    Node* head_;
+    Node* tail_;
     size_type size_;
 };
 
@@ -342,27 +339,27 @@ class LinkedList {
 // Following Google C++ Style Guide: template implementations belong in header
 
 template<typename T>
-Node<T>::Node(T val) : val(val), next(nullptr) {}
+LinkedList<T>::Node::Node(typename LinkedList<T>::value_type val) : val(val), next(nullptr) {}
 
 template<typename T>
-Node<T>::Node(T val, Node<T>* next) : val(val), next(next) {}
+LinkedList<T>::Node::Node(typename LinkedList<T>::value_type val, Node* next) : val(val), next(next) {}
 
 template<typename T>
 LinkedList<T>::LinkedList() : size_(0) {
-    head_ = new Node<T>(T());
-    tail_ = new Node<T>(T());
+    head_ = new Node(T());
+    tail_ = new Node(T());
     head_->next = tail_;
 }
 
 template<typename T>
 LinkedList<T>::LinkedList(const LinkedList& other) : size_(other.size_) {
-    head_ = new Node<T>(T());
-    tail_ = new Node<T>(T());
+    head_ = new Node(T());
+    tail_ = new Node(T());
     head_->next = tail_;
-    Node<T>* thisCurr = head_;
-    Node<T>* otherCurr = other.head_->next;
+    Node* thisCurr = head_;
+    Node* otherCurr = other.head_->next;
     while (otherCurr != other.tail_) {
-        thisCurr->next = new Node<T>(otherCurr->val);
+        thisCurr->next = new Node(otherCurr->val);
         thisCurr = thisCurr->next;
         otherCurr = otherCurr->next;
     }
@@ -371,17 +368,17 @@ LinkedList<T>::LinkedList(const LinkedList& other) : size_(other.size_) {
 
 template<typename T>
 LinkedList<T>::LinkedList(LinkedList&& other) : head_(other.head_), tail_(other.tail_), size_(other.size_) {
-    other.head_ = new Node<T>(T());
-    other.tail_ = new Node<T>(T());
+    other.head_ = new Node(T());
+    other.tail_ = new Node(T());
     other.head_->next = other.tail_;
     other.size_ = 0;
 }
 
 template<typename T>
 LinkedList<T>::~LinkedList() {
-    Node<T>* curr = head_;
+    Node* curr = head_;
     while (curr != nullptr) {
-        Node<T>* nextCurr = curr->next;
+        Node* nextCurr = curr->next;
         delete curr;
         curr = nextCurr;
     }
@@ -392,17 +389,17 @@ LinkedList<T>& LinkedList<T>::operator=(const LinkedList& other) {
     if (this == &other) {
         return *this;
     }
-    Node<T>* curr = head_->next;
+    Node* curr = head_->next;
     while (curr != tail_) {
-        Node<T>* temp = curr->next;
+        Node* temp = curr->next;
         delete curr;
         curr = temp;
     }
     head_->next = tail_;
-    Node<T>* thisCurr = head_;
-    Node<T>* otherCurr = other.head_->next;
+    Node* thisCurr = head_;
+    Node* otherCurr = other.head_->next;
     while (otherCurr != other.tail_) {
-        thisCurr->next = new Node<T>(otherCurr->val);
+        thisCurr->next = new Node(otherCurr->val);
         thisCurr = thisCurr->next;
         otherCurr = otherCurr->next;
     }
@@ -416,17 +413,17 @@ LinkedList<T>& LinkedList<T>::operator=(LinkedList&& other) {
     if (this == &other) {
         return *this;
     }
-    Node<T>* curr = head_;
+    Node* curr = head_;
     while (curr != nullptr) {
-        Node<T>* temp = curr->next;
+        Node* temp = curr->next;
         delete curr;
         curr = temp;
     }
     size_ = other.size_;
     head_ = other.head_;
     tail_ = other.tail_;
-    other.head_ = new Node<T>(T());
-    other.tail_ = new Node<T>(T());
+    other.head_ = new Node(T());
+    other.tail_ = new Node(T());
     other.head_->next = other.tail_;
     other.size_ = 0;
     return *this;
@@ -438,7 +435,7 @@ typename LinkedList<T>::value_type& LinkedList<T>::operator[](size_type index) {
         throw std::out_of_range("LinkedList::operator[], index is out of range");
     }
     size_type i = 0;
-    Node<T>* curr = head_->next;
+    Node* curr = head_->next;
     while (curr != tail_) {
         if (i == index) {
             return curr->val;
@@ -455,7 +452,7 @@ const typename LinkedList<T>::value_type& LinkedList<T>::operator[](size_type in
         throw std::out_of_range("LinkedList::operator[], index is out of range");
     }
     size_type i = 0;
-    Node<T>* curr = head_->next;
+    Node* curr = head_->next;
     while (curr != tail_) {
         if (i == index) {
             return curr->val;
@@ -468,7 +465,7 @@ const typename LinkedList<T>::value_type& LinkedList<T>::operator[](size_type in
 
 template<typename T>
 void LinkedList<T>::push_front(const value_type& val) {
-    Node<T>* newNode = new Node<T>(val, head_->next);
+    Node* newNode = new Node(val, head_->next);
     head_->next = newNode;
     size_++;
 }
@@ -478,8 +475,8 @@ void LinkedList<T>::pop_front() {
     if (empty()) {
         throw std::out_of_range("LinkedList::pop_front, the linked list is empty");
     }
-    Node<T>* oldHead = head_->next;
-    Node<T>* newHead = oldHead->next;
+    Node* oldHead = head_->next;
+    Node* newHead = oldHead->next;
     head_->next = newHead;
     delete oldHead;
     size_--;
@@ -487,8 +484,8 @@ void LinkedList<T>::pop_front() {
 
 template<typename T>
 void LinkedList<T>::push_back(const value_type& val) {
-    Node<T>* newNode = new Node<T>(val, tail_);
-    Node<T>* curr = head_;
+    Node* newNode = new Node(val, tail_);
+    Node* curr = head_;
     while (curr->next != tail_) {
         curr = curr->next;
     }
@@ -501,8 +498,8 @@ void LinkedList<T>::pop_back() {
     if (empty()) {
         throw std::out_of_range("LinkedList::pop_back, The LinkedList is empty");
     }
-    Node<T>* curr = head_;
-    Node<T>* prev = nullptr;
+    Node* curr = head_;
+    Node* prev = nullptr;
     while (curr->next != tail_) {
         prev = curr;
         curr = curr->next;
@@ -520,13 +517,13 @@ void LinkedList<T>::insert(const value_type& val, size_type index) {
     if (index == 0) {
         push_front(val);
     } else {
-        Node<T>* curr = head_;
+        Node* curr = head_;
         size_type i = 0;
         while (curr->next != tail_ && i < index) {
             curr = curr->next;
             i++;
         }
-        Node<T>* newNode = new Node<T>(val, curr->next);
+        Node* newNode = new Node(val, curr->next);
         curr->next = newNode;
         size_++;
     }
@@ -537,8 +534,8 @@ void LinkedList<T>::erase(size_type index) {
     if (empty() || index >= size_) {
         throw std::out_of_range("LinkedList::erase, the LinkedList is empty or index is out of range");
     }
-    Node<T>* curr = head_->next;
-    Node<T>* prev = head_;
+    Node* curr = head_->next;
+    Node* prev = head_;
     size_type i = 0;
     while (curr != tail_ && i < index) {
         prev = curr;
@@ -551,8 +548,8 @@ void LinkedList<T>::erase(size_type index) {
 }
 
 template<typename T>
-Node<T>* LinkedList<T>::find(const value_type& target) {
-    Node<T>* curr = head_->next;
+typename LinkedList<T>::Node* LinkedList<T>::find(const value_type& target) {
+    Node* curr = head_->next;
     while (curr != tail_) {
         if (curr->val == target) {
             return curr;
@@ -563,8 +560,8 @@ Node<T>* LinkedList<T>::find(const value_type& target) {
 }
 
 template<typename T>
-const Node<T>* LinkedList<T>::find(const value_type& target) const {
-    const Node<T>* curr = head_->next;
+const typename LinkedList<T>::Node* LinkedList<T>::find(const value_type& target) const {
+    const Node* curr = head_->next;
     while (curr != tail_) {
         if (curr->val == target) {
             return curr;
@@ -605,7 +602,7 @@ typename LinkedList<T>::value_type& LinkedList<T>::back() {
     if (empty()) {
         throw std::out_of_range("LinkedList::back, the LinkedList is empty");
     }
-    Node<T>* curr = head_->next;
+    Node* curr = head_->next;
     while (curr->next != tail_) {
         curr = curr->next;
     }
@@ -617,7 +614,7 @@ const typename LinkedList<T>::value_type& LinkedList<T>::back() const {
     if (empty()) {
         throw std::out_of_range("LinkedList::back, the LinkedList is empty");
     }
-    const Node<T>* curr = head_->next;
+    const Node* curr = head_->next;
     while (curr->next != tail_) {
         curr = curr->next;
     }
@@ -625,7 +622,7 @@ const typename LinkedList<T>::value_type& LinkedList<T>::back() const {
 }
 
 template<typename T>
-LinkedList<T>::Iterator::Iterator(Node<T>* node, Node<T>* tail) : current_node(node), tail_(tail) {}
+LinkedList<T>::Iterator::Iterator(Node* node, Node* tail) : current_node(node), tail_(tail) {}
 
 template<typename T>
 typename LinkedList<T>::value_type& LinkedList<T>::Iterator::operator*() {
@@ -670,9 +667,9 @@ typename LinkedList<T>::Iterator LinkedList<T>::end() {
 
 template<typename T>
 void LinkedList<T>::reverse() {
-    Node<T>* prev = head_;
-    Node<T>* curr = head_->next;
-    Node<T>* next = nullptr;
+    Node* prev = head_;
+    Node* curr = head_->next;
+    Node* next = nullptr;
     while (curr != tail_) {
         next = curr->next;
         curr->next = prev;
@@ -681,7 +678,7 @@ void LinkedList<T>::reverse() {
     }
     head_->next = tail_;
     tail_->next = prev;
-    Node<T>* temp = head_;
+    Node* temp = head_;
     head_ = tail_;
     tail_ = temp;
 }

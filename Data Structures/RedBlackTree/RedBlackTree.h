@@ -6,37 +6,6 @@
 // Represents the color of a node in the red-black tree.
 enum Color { RED, BLACK };
 
-// A node in the red-black tree containing a key-value pair.
-//
-// Template Parameters:
-//   K: The type of the key.
-//   V: The type of the value.
-template <typename K, typename V>
-class Node {
-  using key_type = K;
-  using value_type = V;
-
- public:
-  Node<K, V>* left = nullptr;
-  Node<K, V>* right = nullptr;
-  Node<K, V>* parent = nullptr;
-
-  // The key is const to prevent violating the BST structure.
-  const key_type key;
-  value_type value;
-  Color color = RED;
-
-  // Constructs a node with default-initialized key and value.
-  Node();
-
-  // Constructs a node with the given key and value.
-  //
-  // Parameters:
-  //   key: The key for this node.
-  //   value: The value for this node.
-  Node(const key_type& key, const value_type& value);
-};
-
 // A self-balancing binary search tree that maintains red-black properties.
 //
 // Red-black trees guarantee O(log n) time complexity for insertion, deletion,
@@ -178,7 +147,28 @@ class RedBlackTree {
   bool empty() const;
 
  private:
-  Node<K, V>* root_;
+  struct Node {
+    Node* left = nullptr;
+    Node* right = nullptr;
+    Node* parent = nullptr;
+
+    // The key is const to prevent violating the BST structure.
+    const key_type key;
+    value_type value;
+    Color color = RED;
+
+    // Constructs a node with default-initialized key and value.
+    Node();
+
+    // Constructs a node with the given key and value.
+    //
+    // Parameters:
+    //   key: The key for this node.
+    //   value: The value for this node.
+    Node(const key_type& key, const value_type& value);
+  };
+
+  Node* root_;
   size_type size_;
 
   // -- ROTATION OPERATIONS -- //
@@ -188,14 +178,14 @@ class RedBlackTree {
   //
   // Parameters:
   //   node: The pivot node for the rotation.
-  void rotateLeft(Node<K, V>* node);
+  void rotateLeft(Node* node);
 
   // Performs a right rotation around the given node.
   // Used to maintain red-black tree balance properties.
   //
   // Parameters:
   //   node: The pivot node for the rotation.
-  void rotateRight(Node<K, V>* node);
+  void rotateRight(Node* node);
 
   // -- REBALANCING -- //
 
@@ -204,7 +194,7 @@ class RedBlackTree {
   //
   // Parameters:
   //   node: The newly inserted node (initially colored red).
-  void insertFixUp(Node<K, V>* node);
+  void insertFixUp(Node* node);
 
   // Restores red-black tree properties after deletion.
   // Handles recoloring and rotations to fix black-height violations.
@@ -212,7 +202,7 @@ class RedBlackTree {
   // Parameters:
   //   node: The node that may be causing a black-height violation.
   //         May be nullptr if a black leaf was removed.
-  void deleteFixup(Node<K, V>* node, Node<K, V>* parent);
+  void deleteFixup(Node* node, Node* parent);
 
   // Helper function to remove a node with the given key.
   //
@@ -222,7 +212,7 @@ class RedBlackTree {
   //
   // Returns:
   //   true if the key was found and removed, false otherwise.
-  bool removeHelper(Node<K, V>* node, const key_type& key);
+  bool removeHelper(Node* node, const key_type& key);
 
   // -- NODE MANAGEMENT -- //
 
@@ -233,7 +223,7 @@ class RedBlackTree {
   //
   // Returns:
   //   A pointer to the node if found, nullptr otherwise.
-  Node<K, V>* findNode(const key_type& key) const;
+  Node* findNode(const key_type& key) const;
 
   // Finds the node with the minimum key in the subtree rooted at node.
   //
@@ -242,7 +232,7 @@ class RedBlackTree {
   //
   // Returns:
   //   A pointer to the node with the minimum key, or nullptr if node is null.
-  Node<K, V>* minimum(Node<K, V>* node) const;
+  Node* minimum(Node* node) const;
 
   // Finds the node with the maximum key in the subtree rooted at node.
   //
@@ -251,7 +241,7 @@ class RedBlackTree {
   //
   // Returns:
   //   A pointer to the node with the maximum key, or nullptr if node is null.
-  Node<K, V>* maximum(Node<K, V>* node) const;
+  Node* maximum(Node* node) const;
 
   // Replaces the subtree rooted at u with the subtree rooted at v.
   // Updates parent pointers accordingly.
@@ -259,7 +249,7 @@ class RedBlackTree {
   // Parameters:
   //   u: The node to be replaced.
   //   v: The node to replace u (may be nullptr).
-  void transplant(Node<K, V>* u, Node<K, V>* v);
+  void transplant(Node* u, Node* v);
 
   // -- MEMORY MANAGEMENT -- //
 
@@ -267,7 +257,7 @@ class RedBlackTree {
   //
   // Parameters:
   //   node: The root of the subtree to destroy.
-  void destroyTree(Node<K, V>* node);
+  void destroyTree(Node* node);
 
   // Recursively creates a deep copy of the subtree rooted at node.
   //
@@ -277,7 +267,7 @@ class RedBlackTree {
   //
   // Returns:
   //   A pointer to the root of the copied subtree.
-  Node<K, V>* copyTree(Node<K, V>* node, Node<K, V>* parent);
+  Node* copyTree(Node* node, Node* parent);
 
   // Returns the uncle of the given parent node.
   // The uncle is the sibling of the parent in relation to the grandparent.
@@ -287,7 +277,7 @@ class RedBlackTree {
   //
   // Returns:
   //   A pointer to the uncle node, or nullptr if no uncle exists.
-  Node<K, V>* getUncle(Node<K, V>* parent);
+  Node* getUncle(Node* parent);
 
   // Helper function for inserting a key-value pair into a non-empty tree.
   //
@@ -298,10 +288,10 @@ class RedBlackTree {
 };
 
 template <typename K, typename V>
-Node<K, V>::Node() : key(K()), value(V()) {}
+RedBlackTree<K, V>::Node::Node() : key(K()), value(V()) {}
 
 template <typename K, typename V>
-Node<K, V>::Node(const key_type& key, const value_type& value)
+RedBlackTree<K, V>::Node::Node(const typename RedBlackTree<K, V>::key_type& key, const typename RedBlackTree<K, V>::value_type& value)
     : key(key), value(value) {}
 
 template <typename K, typename V>
@@ -328,7 +318,7 @@ RedBlackTree<K, V>::~RedBlackTree() {
 template <typename K, typename V>
 void RedBlackTree<K, V>::insert(const key_type& key, const value_type& value) {
   if (empty()) {
-    root_ = new Node<K, V>(key, value);
+    root_ = new Node(key, value);
     root_->color = BLACK;
     size_++;
   } else {
@@ -340,8 +330,8 @@ template <typename K, typename V>
 void RedBlackTree<K, V>::insertHelper(const key_type& key,
                                       const value_type& value) {
   // Find the correct insertion position.
-  Node<K, V>* parent = nullptr;
-  Node<K, V>* curr = root_;
+  Node* parent = nullptr;
+  Node* curr = root_;
   while (curr != nullptr) {
     parent = curr;
     if (key < curr->key) {
@@ -356,7 +346,7 @@ void RedBlackTree<K, V>::insertHelper(const key_type& key,
   }
 
   // Create and link the new node.
-  Node<K, V>* new_node = new Node<K, V>(key, value);
+  Node* new_node = new Node(key, value);
   new_node->parent = parent;
 
   if (key < parent->key) {
@@ -371,8 +361,8 @@ void RedBlackTree<K, V>::insertHelper(const key_type& key,
 }
 
 template <typename K, typename V>
-Node<K, V>* RedBlackTree<K, V>::getUncle(Node<K, V>* current_parent) {
-  Node<K, V>* grand_parent = current_parent->parent;
+Node* RedBlackTree<K, V>::getUncle(Node* current_parent) {
+  Node* grand_parent = current_parent->parent;
   if (grand_parent == nullptr) {
     return nullptr;
   }
@@ -392,9 +382,9 @@ bool RedBlackTree<K, V>::remove(const key_type& key) {
 }
 
 template <typename K, typename V>
-bool RedBlackTree<K, V>::removeHelper(Node<K, V>* node, const key_type& key) {
+bool RedBlackTree<K, V>::removeHelper(Node* node, const key_type& key) {
   // Find the node to delete.
-  Node<K, V>* curr = root_;
+  Node* curr = root_;
   while (curr != nullptr) {
     if (key < curr->key) {
       curr = curr->left;
@@ -410,8 +400,8 @@ bool RedBlackTree<K, V>::removeHelper(Node<K, V>* node, const key_type& key) {
     return false;
   }
 
-  Node<K, V>* node_to_fix;
-  Node<K, V>* node_to_fix_parent = nullptr;
+  Node* node_to_fix;
+  Node* node_to_fix_parent = nullptr;
   Color original_color = curr->color;
 
   // Case 1: Node has no left child.
@@ -428,7 +418,7 @@ bool RedBlackTree<K, V>::removeHelper(Node<K, V>* node, const key_type& key) {
   }
   // Case 3: Node has two children.
   else {
-    Node<K, V>* new_curr = minimum(curr->right);
+    Node* new_curr = minimum(curr->right);
     original_color = new_curr->color;
     node_to_fix = new_curr->right;
 
@@ -468,7 +458,7 @@ void RedBlackTree<K, V>::clear() {
 template <typename K, typename V>
 typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(
     const key_type& key) {
-  Node<K, V>* node = findNode(key);
+  Node* node = findNode(key);
   if (node == nullptr) {
     return nullptr;
   } else {
@@ -479,7 +469,7 @@ typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(
 template <typename K, typename V>
 const typename RedBlackTree<K, V>::value_type* RedBlackTree<K, V>::find(
     const key_type& key) const {
-  Node<K, V>* node = findNode(key);
+  Node* node = findNode(key);
   if (node == nullptr) {
     return nullptr;
   } else {
@@ -508,11 +498,11 @@ bool RedBlackTree<K, V>::empty() const {
 }
 
 template <typename K, typename V>
-void RedBlackTree<K, V>::rotateLeft(Node<K, V>* pivot) {
+void RedBlackTree<K, V>::rotateLeft(Node* pivot) {
   // Get references to the key nodes.
-  Node<K, V>* new_parent = pivot->right;
-  Node<K, V>* original_parent = pivot->parent;
-  Node<K, V>* inner_subtree = new_parent->left;
+  Node* new_parent = pivot->right;
+  Node* original_parent = pivot->parent;
+  Node* inner_subtree = new_parent->left;
 
   // Perform the pivot: new_parent becomes pivot's parent.
   new_parent->left = pivot;
@@ -538,11 +528,11 @@ void RedBlackTree<K, V>::rotateLeft(Node<K, V>* pivot) {
 }
 
 template <typename K, typename V>
-void RedBlackTree<K, V>::rotateRight(Node<K, V>* pivot) {
-  Node<K, V>* original_parent = pivot->parent;
-  Node<K, V>* new_parent = pivot->left;
+void RedBlackTree<K, V>::rotateRight(Node* pivot) {
+  Node* original_parent = pivot->parent;
+  Node* new_parent = pivot->left;
   // Preserve the new parent's right subtree.
-  Node<K, V>* sub_tree = new_parent->right;
+  Node* sub_tree = new_parent->right;
 
   new_parent->right = pivot;
 
@@ -564,15 +554,15 @@ void RedBlackTree<K, V>::rotateRight(Node<K, V>* pivot) {
 }
 
 template <typename K, typename V>
-void RedBlackTree<K, V>::insertFixUp(Node<K, V>* node) {
+void RedBlackTree<K, V>::insertFixUp(Node* node) {
   // Continue fixing until we reach the root or the parent is black.
   while (node != root_ && node->parent->color == RED) {
-    Node<K, V>* parent = node->parent;
-    Node<K, V>* grand_parent = parent->parent;
+    Node* parent = node->parent;
+    Node* grand_parent = parent->parent;
 
     // Case: Parent is left child of grandparent.
     if (grand_parent->left != nullptr && grand_parent->left == parent) {
-      Node<K, V>* uncle = grand_parent->right;
+      Node* uncle = grand_parent->right;
 
       // Case 1: Uncle is red - recolor.
       if (uncle != nullptr && uncle->color == RED) {
@@ -597,7 +587,7 @@ void RedBlackTree<K, V>::insertFixUp(Node<K, V>* node) {
     }
     // Mirror case: Parent is right child of grandparent.
     else {
-      Node<K, V>* uncle = grand_parent->left;
+      Node* uncle = grand_parent->left;
 
       // Case 1: Uncle is red - recolor.
       if (uncle != nullptr && uncle->color == RED) {
@@ -627,14 +617,14 @@ void RedBlackTree<K, V>::insertFixUp(Node<K, V>* node) {
 }
 
 template <typename K, typename V>
-void RedBlackTree<K, V>::deleteFixup(Node<K, V>* node, Node<K, V>* parent) {
+void RedBlackTree<K, V>::deleteFixup(Node* node, Node* parent) {
   // Continue fixing until node is the root or is red.
   while (node != root_ && (node == nullptr || node->color == BLACK)) {
     // Now we have parent even when node is nullptr!
 
     // Case: Node is the left child.
     if (parent->left == node) {
-      Node<K, V>* sibling = parent->right;
+      Node* sibling = parent->right;
 
       if (sibling == nullptr) break;
 
@@ -675,7 +665,7 @@ void RedBlackTree<K, V>::deleteFixup(Node<K, V>* node, Node<K, V>* parent) {
     }
     // Mirror case: Node is the right child
     else {
-      Node<K, V>* sibling = parent->left;
+      Node* sibling = parent->left;
 
       if (sibling == nullptr) break;
 
@@ -722,12 +712,12 @@ void RedBlackTree<K, V>::deleteFixup(Node<K, V>* node, Node<K, V>* parent) {
 }
 
 template <typename K, typename V>
-Node<K, V>* RedBlackTree<K, V>::findNode(const key_type& key) const {
+Node* RedBlackTree<K, V>::findNode(const key_type& key) const {
   if (root_ == nullptr) {
     return nullptr;
   }
 
-  Node<K, V>* curr = root_;
+  Node* curr = root_;
   while (curr != nullptr) {
     if (curr->key < key) {
       curr = curr->right;
@@ -741,12 +731,12 @@ Node<K, V>* RedBlackTree<K, V>::findNode(const key_type& key) const {
 }
 
 template <typename K, typename V>
-Node<K, V>* RedBlackTree<K, V>::minimum(Node<K, V>* node) const {
+Node* RedBlackTree<K, V>::minimum(Node* node) const {
   if (node == nullptr) {
     return nullptr;
   }
 
-  Node<K, V>* curr = node;
+  Node* curr = node;
   while (curr != nullptr && curr->left != nullptr) {
     curr = curr->left;
   }
@@ -754,12 +744,12 @@ Node<K, V>* RedBlackTree<K, V>::minimum(Node<K, V>* node) const {
 }
 
 template <typename K, typename V>
-Node<K, V>* RedBlackTree<K, V>::maximum(Node<K, V>* node) const {
+Node* RedBlackTree<K, V>::maximum(Node* node) const {
   if (node == nullptr) {
     return nullptr;
   }
 
-  Node<K, V>* curr = node;
+  Node* curr = node;
   while (curr != nullptr && curr->right != nullptr) {
     curr = curr->right;
   }
@@ -767,7 +757,7 @@ Node<K, V>* RedBlackTree<K, V>::maximum(Node<K, V>* node) const {
 }
 
 template <typename K, typename V>
-void RedBlackTree<K, V>::transplant(Node<K, V>* u, Node<K, V>* v) {
+void RedBlackTree<K, V>::transplant(Node* u, Node* v) {
   // u is the root.
   if (u->parent == nullptr) {
     root_ = v;
@@ -787,7 +777,7 @@ void RedBlackTree<K, V>::transplant(Node<K, V>* u, Node<K, V>* v) {
 }
 
 template <typename K, typename V>
-void RedBlackTree<K, V>::destroyTree(Node<K, V>* node) {
+void RedBlackTree<K, V>::destroyTree(Node* node) {
   if (node == nullptr) {
     return;
   }
@@ -797,12 +787,12 @@ void RedBlackTree<K, V>::destroyTree(Node<K, V>* node) {
 }
 
 template <typename K, typename V>
-Node<K, V>* RedBlackTree<K, V>::copyTree(Node<K, V>* node, Node<K, V>* parent) {
+Node* RedBlackTree<K, V>::copyTree(Node* node, Node* parent) {
   if (node == nullptr) {
     return nullptr;
   }
 
-  Node<K, V>* new_node = new Node<K, V>(node->key, node->value);
+  Node* new_node = new Node(node->key, node->value);
   new_node->parent = parent;
   new_node->color = node->color;
 

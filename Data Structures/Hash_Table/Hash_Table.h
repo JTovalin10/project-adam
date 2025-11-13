@@ -10,20 +10,6 @@
 
 // Maximum load factor before rehashing (keep between 0.7-1.0)
 static constexpr double MAX_LOAD_FACTOR = 0.75;
-template<typename K, typename V>
-class Node {
-public:
-    using key_type = K;
-    using value_type = V;
-    
-    const key_type key;
-    value_type value;
-    Node<K, V>* next = nullptr;
-    
-    Node() = default;
-    
-    Node(const key_type& key, const value_type& value) : key(key), value(value), next(nullptr) {}
-};
 
 template<typename K, typename V>
 class HashTable {
@@ -164,8 +150,8 @@ public:
      * RETURNS:
      * pointer to the node if found, nullptr otherwise
      */
-    Node<K, V>* find(const key_type& key);
-    const Node<K, V>* find(const key_type& key) const;
+    Node* find(const key_type& key);
+    const Node* find(const key_type& key) const;
 
     /**
      * Finds the node contains the specified key
@@ -203,7 +189,17 @@ public:
     void rehash();
 
 private:
-    Vector<Node<K, V>*> table_;  // Array of pointers (separate chaining)
+    struct Node {
+        const key_type key;
+        value_type value;
+        Node* next = nullptr;
+        
+        Node() = default;
+        
+        Node(const key_type& key, const value_type& value) : key(key), value(value), next(nullptr) {}
+    };
+
+    Vector<Node*> table_;  // Array of pointers (separate chaining)
     size_type num_elements_;
     size_type num_buckets_;
 
@@ -237,10 +233,10 @@ HashTable<K, V>::HashTable(const HashTable& other)
     }
     // Copy all chains
     for (size_type i = 0; i < other.num_buckets_; ++i) {
-        Node<K, V>* other_curr = other.table_[i];
-        Node<K, V>* this_prev = nullptr;
+        Node* other_curr = other.table_[i];
+        Node* this_prev = nullptr;
         while (other_curr != nullptr) {
-            Node<K, V>* new_node = new Node<K, V>(other_curr->key, other_curr->value);
+            Node* new_node = new Node(other_curr->key, other_curr->value);
             if (this_prev == nullptr) {
                 table_[i] = new_node;
             } else {
@@ -261,7 +257,7 @@ HashTable<K, V>::HashTable(HashTable&& other)
     other.num_elements_ = 0;
     other.num_buckets_ = 10;
     // Reinitialize other's table
-    other.table_ = Vector<Node<K, V>*>();
+    other.table_ = Vector<Node*>();
     for (size_type i = 0; i < other.num_buckets_; ++i) {
         other.table_.push_back(nullptr);
     }
@@ -270,9 +266,9 @@ HashTable<K, V>::HashTable(HashTable&& other)
 template<typename K, typename V>
 HashTable<K, V>::~HashTable() {
     for (size_type i = 0; i < num_buckets_; ++i) {
-        Node<K, V>* curr = table_[i];
+        Node* curr = table_[i];
         while (curr != nullptr) {
-            Node<K, V>* temp = curr->next;
+            Node* temp = curr->next;
             delete curr;
             curr = temp;
         }
@@ -286,9 +282,9 @@ HashTable<K, V>& HashTable<K, V>::operator=(const HashTable& other) {
     }
     // Clean up current table
     for (size_type i = 0; i < num_buckets_; ++i) {
-        Node<K, V>* curr = table_[i];
+        Node* curr = table_[i];
         while (curr != nullptr) {
-            Node<K, V>* temp = curr->next;
+            Node* temp = curr->next;
             delete curr;
             curr = temp;
         }
@@ -297,16 +293,16 @@ HashTable<K, V>& HashTable<K, V>::operator=(const HashTable& other) {
     num_buckets_ = other.num_buckets_;
     num_elements_ = other.num_elements_;
     // Clear and resize table
-    table_ = Vector<Node<K, V>*>();
+    table_ = Vector<Node*>();
     for (size_type i = 0; i < num_buckets_; ++i) {
         table_.push_back(nullptr);
     }
     // Copy all chains
     for (size_type i = 0; i < other.num_buckets_; ++i) {
-        Node<K, V>* other_curr = other.table_[i];
-        Node<K, V>* this_prev = nullptr;
+        Node* other_curr = other.table_[i];
+        Node* this_prev = nullptr;
         while (other_curr != nullptr) {
-            Node<K, V>* new_node = new Node<K, V>(other_curr->key, other_curr->value);
+            Node* new_node = new Node(other_curr->key, other_curr->value);
             if (this_prev == nullptr) {
                 table_[i] = new_node;
             } else {
@@ -326,9 +322,9 @@ HashTable<K, V>& HashTable<K, V>::operator=(HashTable&& other) {
     }
     // Clean up current table
     for (size_type i = 0; i < num_buckets_; ++i) {
-        Node<K, V>* curr = table_[i];
+        Node* curr = table_[i];
         while (curr != nullptr) {
-            Node<K, V>* temp = curr->next;
+            Node* temp = curr->next;
             delete curr;
             curr = temp;
         }
@@ -340,7 +336,7 @@ HashTable<K, V>& HashTable<K, V>::operator=(HashTable&& other) {
     // Reset other to empty state
     other.num_buckets_ = 10;
     other.num_elements_ = 0;
-    other.table_ = Vector<Node<K, V>*>();
+    other.table_ = Vector<Node*>();
     for (size_type i = 0; i < other.num_buckets_; ++i) {
         other.table_.push_back(nullptr);
     }
@@ -364,13 +360,13 @@ typename HashTable<K, V>::size_type HashTable<K, V>::size() const {
 template<typename K, typename V>
 void HashTable<K, V>::insert(const key_type& key, const value_type& value) {
     // Check if key already exists
-    Node<K, V>* existing = find(key);
+    Node* existing = find(key);
     if (existing != nullptr) {
         // Key already exists, do nothing
         return;
     }
     size_type hashed_key = hash(key);
-    Node<K, V>* new_node = new Node<K, V>(key, value);
+    Node* new_node = new Node(key, value);
     if (table_[hashed_key] == nullptr) {
         table_[hashed_key] = new_node;
     } else {
@@ -387,7 +383,7 @@ void HashTable<K, V>::insert(const key_type& key, const value_type& value) {
 template<typename K, typename V>
 void HashTable<K, V>::insert_or_assign(const key_type& key, const value_type& value) {
     size_type hashed_key = hash(key);
-    Node<K, V>* curr = table_[hashed_key];
+    Node* curr = table_[hashed_key];
     while (curr != nullptr) {
         if (curr->key == key) {
             // Key exists, update value
@@ -397,7 +393,7 @@ void HashTable<K, V>::insert_or_assign(const key_type& key, const value_type& va
         curr = curr->next;
     }
     // Key doesn't exist, insert new node
-    Node<K, V>* new_node = new Node<K, V>(key, value);
+    Node* new_node = new Node(key, value);
     if (table_[hashed_key] == nullptr) {
         table_[hashed_key] = new_node;
     } else {
@@ -417,8 +413,8 @@ void HashTable<K, V>::erase(const key_type& key) {
     if (table_[hashed_key] == nullptr) {
         return;
     }
-    Node<K, V>* curr = table_[hashed_key];
-    Node<K, V>* prev = nullptr;
+    Node* curr = table_[hashed_key];
+    Node* prev = nullptr;
     while (curr != nullptr) {
         if (curr->key == key) {
             if (prev == nullptr) {
@@ -441,7 +437,7 @@ void HashTable<K, V>::erase(const key_type& key) {
 template<typename K, typename V>
 typename HashTable<K, V>::value_type& HashTable<K, V>::at(const key_type& key) {
     size_type hashed_key = hash(key);
-    Node<K, V>* curr = table_[hashed_key];
+    Node* curr = table_[hashed_key];
     while (curr != nullptr) {
         if (curr->key == key) {
             return curr->value;
@@ -454,7 +450,7 @@ typename HashTable<K, V>::value_type& HashTable<K, V>::at(const key_type& key) {
 template<typename K, typename V>
 const typename HashTable<K, V>::value_type& HashTable<K, V>::at(const key_type& key) const {
     size_type hashed_key = hash(key);
-    const Node<K, V>* curr = table_[hashed_key];
+    const Node* curr = table_[hashed_key];
     while (curr != nullptr) {
         if (curr->key == key) {
             return curr->value;
@@ -466,7 +462,7 @@ const typename HashTable<K, V>::value_type& HashTable<K, V>::at(const key_type& 
 
 template<typename K, typename V>
 typename HashTable<K, V>::value_type& HashTable<K, V>::operator[](const key_type& key) {
-    Node<K, V>* found = find(key);
+    Node* found = find(key);
     if (found != nullptr) {
         return found->value;
     }
@@ -481,9 +477,9 @@ const typename HashTable<K, V>::value_type& HashTable<K, V>::operator[](const ke
 
 
 template<typename K, typename V>
-Node<K, V>* HashTable<K, V>::find(const key_type& key) {
+typename HashTable<K, V>::Node* HashTable<K, V>::find(const key_type& key) {
     size_type hashed_key = hash(key);
-    Node<K, V>* curr = table_[hashed_key];
+    Node* curr = table_[hashed_key];
     while (curr != nullptr) {
         if (curr->key == key) {
             return curr;
@@ -494,9 +490,9 @@ Node<K, V>* HashTable<K, V>::find(const key_type& key) {
 }
 
 template<typename K, typename V>
-const Node<K, V>* HashTable<K, V>::find(const key_type& key) const {
+const typename HashTable<K, V>::Node* HashTable<K, V>::find(const key_type& key) const {
     size_type hashed_key = hash(key);
-    const Node<K, V>* curr = table_[hashed_key];
+    const Node* curr = table_[hashed_key];
     while (curr != nullptr) {
         if (curr->key == key) {
             return curr;
@@ -509,7 +505,7 @@ const Node<K, V>* HashTable<K, V>::find(const key_type& key) const {
 template<typename K, typename V>
 bool HashTable<K, V>::contains(const key_type& key) const {
     size_type hashed_key = hash(key);
-    const Node<K, V>* curr = table_[hashed_key];
+    const Node* curr = table_[hashed_key];
     while (curr != nullptr) {
         if (curr->key == key) {
             return true;
@@ -538,16 +534,16 @@ template<typename K, typename V>
 void HashTable<K, V>::rehash() {
   size_type old_bucket_size = num_buckets_;
   num_buckets_ *= 2;
-  Vector<Node<K, V>*> new_table;
+  Vector<Node*> new_table;
   for (size_type i = 0; i < num_buckets_; i++) {
     new_table.push_back(nullptr);
   }
   // set num_elements_ to 0 as we are going to use insert
   std::hash<K> hasher;
   for (size_type i = 0; i < old_bucket_size; i++) {
-    Node<K, V>* curr = table_[i];
+    Node* curr = table_[i];
     while (curr != nullptr) {
-      Node<K, V>* next_curr = curr->next;
+      Node* next_curr = curr->next;
       
       size_type hash = hasher(curr->key) % num_buckets_;
       
