@@ -52,8 +52,86 @@ class SkipList {
 
   // helper methods
   size_type randomLevel();
-  Node<K, V>* createNode(const K& key, const V& value, size_type level);
+  Node<K, V>* createNode(const key_type& key, const value_type& value, size_type level);
 };
+
+template<typename K, typename V>
+SkipList<K, V>::SkipList() : head_(nullptr), size_(0), max_level_(DEFAULT_MAX_LEVEL), probability_(DEFAULT_PROBABILITY) {}
+
+}
+
+template<typename K, typename V>
+SkipList<K, V>::SkipList(size_type max_level, float probability) : head_(nullptr), size_(0), max_level_(max_level_), probability_(probability_) {}
+
+template<typename K, typename V>
+SkipList<K, V>::SkipList(const SkipList& other) {
+
+}
+
+template<typename K, typename V>
+SkipList<K, V>::SkipList(SkipList&& other) {
+
+}
+
+template<typename K, typename V>
+SkipList<K, V>::~SkipList() {
+
+}
+
+template<typename K, typename V>
+void SkipList<K, V>::insert(const key_type& key, const value_type& value) {
+
+}
+
+template<typename K, typename V>
+bool SkipList<K, V>::remove(const key_type& key) {
+
+}
+
+template<typename K, typename V>
+std::optional<value_type> SkipList<K, V>::find(const key_type& key) const {
+
+}
+
+template<typename K, typename V>
+bool SkipList<K, V>::contains(const key_type& key) const {
+  std::optional<value_type> value = find(key);
+  if (value.has_value()) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+template<typename K, typename V>
+typename SkipList<K, V>::size_type SkipList<K, V>::size() const {
+  return size_;
+}
+
+template<typename K, typename V>
+bool SkipList<K, V>::empty() const {
+  return size_ == 0;
+}
+
+template<typename K, typename V>
+void SkipList<K, V>::clear() {
+
+}
+
+template<typename K, typename V>
+typename SkipList<K, V>::size_type SkipList<K, V>::randomLevel() {
+
+}
+
+template<typename K, typename V>
+typename SkipList<K, V>::size_type SkipList<K, V>::randomLevel() {
+
+}
+
+template<typename K, typename V>
+Node* SkipList<K, V>::createNode(const key_type& key, const value_type& value, size_type level) {
+
+}
 
 #endif // SKIPLIST_H_
 
