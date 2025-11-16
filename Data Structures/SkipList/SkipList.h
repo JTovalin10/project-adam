@@ -7,7 +7,9 @@
 #include <cstddef>
 #include <optional>
 #include <vector>
+#include <cmath>
 
+// when creating a skiplist we flip a coin with our probability and set a max 
 template<typename K, typename V>
 class SkipList {
   public:
@@ -15,8 +17,14 @@ class SkipList {
   using key_type = K;
   using value_type = V;
 
+  // with our defaults it can store up to 65,536 items
   SkipList();
-  SkipList(size_type max_level, float probability);
+
+  // we use these to calculate the max level with
+  // L = ceil(log_{1/p}(N))
+  // p = probability
+  // N = expected_max_elements
+  SkipList(size_type expected_max_elements, float desired_probability);
 
   SkipList(const SkipList& other);
   SkipList(SkipList&& other);
@@ -57,11 +65,19 @@ class SkipList {
 
 template<typename K, typename V>
 SkipList<K, V>::SkipList() : head_(nullptr), size_(0), max_level_(DEFAULT_MAX_LEVEL), probability_(DEFAULT_PROBABILITY) {}
-
+  
 }
 
+// we use these to calculate the max level with
+// L = ceil(log_{1/p}(N))
+// p = probability
+// N = expected_max_elements
 template<typename K, typename V>
-SkipList<K, V>::SkipList(size_type max_level, float probability) : head_(nullptr), size_(0), max_level_(max_level_), probability_(probability_) {}
+SkipList<K, V>::SkipList(size_type expected_max_elements, float probability) : head_(nullptr), size_(0), probability_(probability_) {
+  // as we cant use a specific log we can use log simplification to get
+  // L = -log(n) / log(p)
+  max_level_ = ceil((-log(expected_max_elements)) / log(probability_));
+}
 
 template<typename K, typename V>
 SkipList<K, V>::SkipList(const SkipList& other) {
