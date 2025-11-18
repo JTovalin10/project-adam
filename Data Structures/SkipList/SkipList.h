@@ -104,11 +104,6 @@ SkipList<K, V>::SkipList(SkipList&& other) : size_(other.size_),
 }
 
 template<typename K, typename V>
-SkipList<K, V>::SkipList(SkipList&& other) {
-
-}
-
-template<typename K, typename V>
 SkipList<K, V>::~SkipList() {
   Node* curr = head_;
   for (curr != nullptr) {
@@ -120,7 +115,6 @@ SkipList<K, V>::~SkipList() {
 
 template<typename K, typename V>
 void SkipList<K, V>::insert(const key_type& key, const value_type& value) {
-
 }
 
 template<typename K, typename V>
@@ -133,18 +127,13 @@ std::optional<value_type> SkipList<K, V>::find(const key_type& key) const {
   if (empty()) {
     return std::nullopt;
   }
-  Node* curr = head_->next_level[current_level_];
-  int level = current_level_;
-  while (curr != nullptr) {
-    int curr_key = curr->key;
-    if (curr_key == nullptr) {
-      level--;
-    } else if (key > curr_key) {
-
-    } else if (key < curr_key) {
-
-    } else {
-      return curr->value;
+  Node* curr = head_
+  for (int i = current_level_; i >= 0; i--) {
+    while (curr != nullptr && curr->key <= key) {
+      if (curr->key == key) {
+        return curr->value;
+      }
+      curr = curr->next_level[i];
     }
   }
   return std::nullopt;
@@ -174,14 +163,16 @@ bool SkipList<K, V>::empty() const {
 
 template<typename K, typename V>
 void SkipList<K, V>::clear() {
-  Node* curr = head_->next_level[0];
-  while (curr != nullptr) {
-    Node* next_curr = curr->next_level[0];
-    delete curr;
-    curr = next_curr;
+  if (!empty()) {
+    Node* curr = head_->next_level[0];
+    while (curr != nullptr) {
+      Node* next_curr = curr->next_level[0];
+      delete curr;
+      curr = next_curr;
+    }
+    size_ = 0;
+    current_level_ = 0;
   }
-  size_ = 0;
-  current_level_ = 0;
 }
 
 template<typename K, typename V>
