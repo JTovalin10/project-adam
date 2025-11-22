@@ -158,7 +158,7 @@ template <typename K, typename V>
 void SkipList<K, V>::insert(const key_type& key, const value_type& value) {
   std::vector<Node*> pred(max_level_ + 1, nullptr);
   Node* curr = head_;
-  for (int i = current_level_ - 1; i >= 0; i--) {
+  for (int i = current_level_; i >= 0; i--) {
     while (curr->next_level[i] != nullptr && curr->next_level[i]->key < key) {
       curr = curr->next_level[i];
     }
@@ -167,22 +167,21 @@ void SkipList<K, V>::insert(const key_type& key, const value_type& value) {
 
   // update the value of the key
   if (curr->next_level[0] != nullptr && curr->next_level[0]->key == key) {
-    curr->next_level[0] = value;
+    curr->next_level[0]->value = value;
     return;
   }
 
   size_type random_level = randomLevel();
   Node* new_node = new Node(key, value, random_level);
   if (random_level > current_level_) {
-    for (int i = current_level_; i < random_level; i++) {
+    for (int i = current_level_ + 1; i <= random_level; i++) {
       pred[i] = head_;
     }
     current_level_ = random_level;
-    head_->next_level[current_level_] = new_node;
   }
 
   // now we want to link everything
-  for (int i = 0; i < random_level; i++) {
+  for (int i = 0; i <= random_level; i++) {
     new_node->next_level[i] = pred[i]->next_level[i];
     pred[i]->next_level[i] = new_node;
   }
@@ -191,7 +190,7 @@ void SkipList<K, V>::insert(const key_type& key, const value_type& value) {
 
 template <typename K, typename V>
 bool SkipList<K, V>::remove(const key_type& key) {
-  std::vector<Node*> pred(max_level_, nullptr);
+  std::vector<Node*> pred(max_level_ + 1, nullptr);
   Node* curr = head_;
   for (int i = current_level_; i >= 0; i--) {
     while (curr->next_level[i] != nullptr && curr->next_level[i]->key < key) {
@@ -201,15 +200,23 @@ bool SkipList<K, V>::remove(const key_type& key) {
   }
 
   // the key is not within the list
-  if (curr->next_level[0] == nullptr ||
-      (curr->next_level[0] != nullptr && curr->next_level[0]->key != key)) {
+  Node* node_to_delete = curr->next_level[0];
+  if (node_to_delete == nullptr || node_to_delete->key != key) {
     return false;
   }
-
-  for (int i = 0; i < current_level_; i++) {
-    pred[i]->next_level[i] = curr->next_level[i];
+  for (int i = 0; i <= current_level_; i++) {
+    if (pred[i]->next_level[i] != node_to_delete) {
+      break;
+    }
+    pred[i]->next_level[i] = node_to_delete->next_level[i];
   }
-  delete curr;
+  delete node_to_delete;
+  // check if the node we deleted was the top level
+  while (current_level_ > 0 && head_->next_level[current_level_] == nullptr) {
+    current_level_--;
+  }
+  size_--;
+  return true;
 }
 
 template <typename K, typename V>
@@ -259,6 +266,10 @@ void SkipList<K, V>::clear() {
       Node* next_curr = curr->next_level[0];
       delete curr;
       curr = next_curr;
+    }
+    // change the next pointers of head so its not reading old memory
+    for (int i = 0; i <= head_->next_level.size(); i++) {
+      head_->next_level[i] = nullptr;
     }
     size_ = 0;
     current_level_ = 0;
