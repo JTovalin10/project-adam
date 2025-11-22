@@ -1,5 +1,5 @@
-#ifndef HASH_TABLE_H_
-#define HASH_TABLE_H_
+#ifndef HASHTABLE_H_
+#define HASHTABLE_H_
 
 #include <cstddef>
 #include <stdexcept>
@@ -566,4 +566,4 @@ typename HashTable<K, V>::size_type HashTable<K, V>::hash(const key_type& key) c
 }
 
 
-#endif // HASH_TABLE_H_
+#endif // HASHTABLE_H_

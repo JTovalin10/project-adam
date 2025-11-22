@@ -6,7 +6,7 @@ GTEST_FLAGS = -lgtest -lgtest_main -pthread
 
 TEST_TARGET = Hash_Table_Test
 
-TEST_SOURCE = Hash_Table_gtest.cpp
+TEST_SOURCE = HashTable_gtest.cpp
 
 all: test
 
@@ -14,7 +14,7 @@ test: $(TEST_TARGET)
 	@echo "Running test..."
 	./$(TEST_TARGET)
 
-$(TEST_TARGET): $(TEST_SOURCE) Hash_Table.h
+$(TEST_TARGET): $(TEST_SOURCE) HashTable.h
 		$(CXX) $(CXXFLAGS) $(TEST_SOURCE) $(GTEST_FLAGS) -o $(TEST_TARGET)
 
 clean:
