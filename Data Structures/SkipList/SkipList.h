@@ -292,14 +292,14 @@ void SkipList<K, V>::insert(const key_type& key, const value_type& value) {
   size_type random_level = randomLevel();
   Node* new_node = new Node(key, value, random_level);
   if (random_level > current_level_) {
-    for (int i = current_level_ + 1; i <= random_level; i++) {
+    for (size_type i = current_level_ + 1; i <= random_level; i++) {
       pred[i] = head_;
     }
     current_level_ = random_level;
   }
 
   // now we want to link everything
-  for (int i = 0; i <= random_level; i++) {
+  for (size_type i = 0; i <= random_level; i++) {
     new_node->next_level[i] = pred[i]->next_level[i];
     pred[i]->next_level[i] = new_node;
   }
@@ -322,7 +322,7 @@ bool SkipList<K, V>::remove(const key_type& key) {
   if (node_to_delete == nullptr || node_to_delete->key != key) {
     return false;
   }
-  for (int i = 0; i <= current_level_; i++) {
+  for (size_type i = 0; i <= current_level_; i++) {
     if (pred[i]->next_level[i] != node_to_delete) {
       break;
     }
