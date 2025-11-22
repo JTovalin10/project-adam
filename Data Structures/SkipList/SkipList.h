@@ -283,6 +283,9 @@ SkipList<K, V>::~SkipList() {
 
 template <typename K, typename V>
 void SkipList<K, V>::insert(const key_type& key, const value_type& value) {
+  if (head_ == nullptr) {
+    return;
+  }
   std::vector<Node*> pred(max_level_ + 1, nullptr);
   Node* curr = head_;
   for (int i = current_level_; i >= 0; i--) {
@@ -317,6 +320,9 @@ void SkipList<K, V>::insert(const key_type& key, const value_type& value) {
 
 template <typename K, typename V>
 bool SkipList<K, V>::remove(const key_type& key) {
+  if (head_ == nullptr) {
+    return false;
+  }
   std::vector<Node*> pred(max_level_ + 1, nullptr);
   Node* curr = head_;
   for (int i = current_level_; i >= 0; i--) {
