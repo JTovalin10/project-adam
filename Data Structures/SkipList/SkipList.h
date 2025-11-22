@@ -71,9 +71,13 @@ class SkipList {
       return *this;
     }
     clear();
+    size_ = 0;
+    delete head_;
+
     max_level_ = other.max_level_;
-    current_level_ = other.current_level_;
+    current_level_ = 0;
     probability_ = other.probability_;
+    head_ = new Node(K(), V(), max_level_);
 
     Node* curr = other.head_->next_level[0];
     while (curr != nullptr) {
@@ -98,7 +102,9 @@ class SkipList {
       return *this;
     }
     clear();
+    delete head_;
     max_level_ = other.max_level_;
+    size_ = other.size_;
     current_level_ = other.current_level_;
     probability_ = other.probability_;
 
@@ -216,6 +222,7 @@ template <typename K, typename V>
 SkipList<K, V>::SkipList()
     : size_(0),
       max_level_(DEFAULT_MAX_LEVEL),
+      current_level_(0),
       probability_(DEFAULT_PROBABILITY) {
   // creates dummy node
   head_ = new Node(K(), V(), max_level_);
@@ -227,7 +234,7 @@ SkipList<K, V>::SkipList()
 // N = expected_max_elements
 template <typename K, typename V>
 SkipList<K, V>::SkipList(size_type expected_max_elements, float probability)
-    : head_(nullptr), size_(0), probability_(probability) {
+    : size_(0), current_level_(0), probability_(probability) {
   // as we cant use a specific log we can use log simplification to get
   // L = -log(n) / log(p)
   max_level_ = ceil((-log(expected_max_elements)) / log(probability_));
@@ -236,12 +243,14 @@ SkipList<K, V>::SkipList(size_type expected_max_elements, float probability)
 }
 
 template <typename K, typename V>
+// TODO: SEGFAULT
 SkipList<K, V>::SkipList(const SkipList& other)
     : max_level_(other.max_level_),
-      current_level_(other.current_level_),
+      current_level_(0),
       probability_(other.probability_) {
   head_ = new Node(K(), V(), max_level_);
   Node* curr = other.head_->next_level[0];
+  size_ = 0;  // reset to zero as insert increments
   while (curr != nullptr) {
     insert(curr->key, curr->value);
     curr = curr->next_level[0];
@@ -258,8 +267,8 @@ SkipList<K, V>::SkipList(SkipList&& other)
 
   other.head_ = nullptr;
   other.size_ = 0;
-  other.max_level_ = 0;
   other.current_level_ = 0;
+  other.max_level_ = 0;
 }
 
 template <typename K, typename V>
@@ -346,7 +355,7 @@ std::optional<V> SkipList<K, V>::find(const key_type& key) const {
   for (int i = current_level_; i >= 0; i--) {
     while (curr->next_level[i] != nullptr && curr->next_level[i]->key <= key) {
       if (curr->next_level[i]->key == key) {
-        return curr->value;
+        return curr->next_level[i]->value;
       }
       curr = curr->next_level[i];
     }
@@ -386,11 +395,11 @@ void SkipList<K, V>::clear() {
       curr = next_curr;
     }
     // change the next pointers of head so its not reading old memory
-    for (int i = 0; i <= head_->next_level.size(); i++) {
+    for (size_type i = 0; i < head_->next_level.size(); i++) {
       head_->next_level[i] = nullptr;
     }
-    size_ = 0;
     current_level_ = 0;
+    size_ = 0;
   }
 }
 
