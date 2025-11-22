@@ -18,18 +18,54 @@ class SkipList {
   using key_type = K;
   using value_type = V;
 
-  // with our defaults it can store up to 65,536 items
+  /**
+   * Initalizes an empty skiplist with the default max level and probability
+   */
   SkipList();
 
-  // we use these to calculate the max level with
-  // L = ceil(log_{1/p}(N))
-  // p = probability
-  // N = expected_max_elements
+  /**
+   * Initalizes a SkipList that uses the given parameters to calculate an
+   * optimal max levels
+   *
+   * PARAMS:
+   * expected_max_elements: the max elements the client expects to see in the
+   * skip list
+   *
+   * desired_probability: the probability of heads the client desires
+   */
   SkipList(size_type expected_max_elements, float desired_probability);
 
+  /**
+   * deep copies the client given skip list
+   *
+   * ARGS:
+   * other: the skip list that will be copied
+   */
   SkipList(const SkipList& other);
+
+  /**
+   * Constructs a skiplist by stealing from the other skiplist, it will leave
+   * the other skiplist empty
+   *
+   * ARGS:
+   * other: the skiplist that will be stolen from
+   */
   SkipList(SkipList&& other);
+
+  /**
+   * Safely deconstructs the skiplist, unallocating all memory
+   */
   ~SkipList();
+
+  /**
+   * Copy assignment operator that copies the other skiplist
+   *
+   * ARGS:
+   * other: the skiplist that will be copied
+   *
+   * RETURNS:
+   * a reference pointer to the new skiplist
+   */
   SkipList& operator=(const SkipList& other) {
     if (this == &other) {
       return *this;
@@ -47,6 +83,16 @@ class SkipList {
     return *this;
   }
 
+  /**
+   * Move assignment operator which steals from the client given skiplist to
+   * give to this skiplist
+   *
+   * ARGS:
+   * other: the skiplist that will be stolen from
+   *
+   * RETURNS:
+   * a reference pointer to the newely constructed skiplist
+   */
   SkipList& operator=(SkipList&& other) {
     if (this == &other) {
       return *this;
@@ -65,13 +111,72 @@ class SkipList {
     return *this;
   }
 
+  /**
+   * adds a new element to the skiplist, if the element already exists then
+   * it will replace the exisiting value with the new one
+   *
+   * ARGS:
+   * key: the unique key that defines the value
+   * value: the value of the key
+   */
   void insert(const key_type& key, const value_type& value);
+
+  /**
+   * removes the given key from the skiplist. If the key doesnt exist in the
+   * skiplist, then nothing happens
+   *
+   * ARGS:
+   * key: the target node that will be removed
+   *
+   * RETURNS:
+   * if the key exists in the skiplist: true
+   * else: false
+   */
   bool remove(const key_type& key);
+
+  /**
+   * checks if the given key exists within the skiplist
+   *
+   * ARGS:
+   * key: the key of the node we are trying to find
+   *
+   * RETURNS:
+   * returns the value of the node if it exists,
+   * if the key doesnt exist in the skiplist then it returns std::nullopt
+   */
   std::optional<value_type> find(const key_type& key) const;
+
+  /**
+   * checksif the given key exists within the skiplist
+   *
+   * ARGS:
+   * key: the key of the node we are trying to find
+   *
+   * RETURNS:
+   * if the key exists then true, else false
+   */
   bool contains(const key_type& key) const;
 
+  /**
+   * returns the number of elements within the skiplist
+   * (excluding the head_)
+   *
+   * RETURNS:
+   * the number of elements in the list
+   */
   size_type size() const;
+
+  /**
+   * Checks if the skiplist contains any elements
+   *
+   * RETURNS:
+   * if no elements are found: true, else false
+   */
   bool empty() const;
+
+  /**
+   * removes all elements from the skiplist
+   */
   void clear();
 
  private:
@@ -80,6 +185,14 @@ class SkipList {
     value_type value;
     std::vector<Node*> next_level;
 
+    /**
+     * constructs a new node
+     *
+     * ARGS:
+     * key: the unique key of the node
+     * value: the value that is tied to the key
+     * level: specificed level we want to give to our vector
+     */
     Node(const key_type& key, const value_type& value, size_type level)
         : key(key), value(value), next_level(level + 1, nullptr) {}
   };
@@ -90,7 +203,12 @@ class SkipList {
   size_type current_level_;
   float probability_;
 
-  // helper methods
+  /**
+   * Helper function that calculates a random level for each inserted node
+   *
+   * RETURNS:
+   * A random level that is 0 <= level <= max_level_
+   */
   size_type randomLevel();
 };
 
