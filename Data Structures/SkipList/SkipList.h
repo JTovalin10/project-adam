@@ -7,7 +7,9 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <iterator>
 #include <optional>
+#include <utility>
 #include <vector>
 
 // when creating a skiplist we flip a coin with our probability and set a max
@@ -184,6 +186,42 @@ class SkipList {
    * removes all elements from the skiplist
    */
   void clear();
+
+  // -- ITERATORS -- //
+
+  // Forward declaration
+  class iterator;
+  class const_iterator;
+
+  /**
+   * Returns an iterator to the first element
+   */
+  iterator begin();
+
+  /**
+   * Returns a const iterator to the first element
+   */
+  const_iterator begin() const;
+
+  /**
+   * Returns a const iterator to the first element
+   */
+  const_iterator cbegin() const;
+
+  /**
+   * Returns an iterator past the last element
+   */
+  iterator end();
+
+  /**
+   * Returns a const iterator past the last element
+   */
+  const_iterator end() const;
+
+  /**
+   * Returns a const iterator past the last element
+   */
+  const_iterator cend() const;
 
  private:
   struct Node {
@@ -417,6 +455,180 @@ typename SkipList<K, V>::size_type SkipList<K, V>::randomLevel() {
     level++;
   }
   return level;
+}
+
+// -- ITERATOR IMPLEMENTATIONS -- //
+
+template <typename K, typename V>
+class SkipList<K, V>::iterator {
+ public:
+  using value_type = std::pair<const key_type, value_type>;
+  using pointer = value_type*;
+  using reference = value_type&;
+  using iterator_category = std::forward_iterator_tag;
+
+  iterator() : current_(nullptr) {}
+
+  explicit iterator(Node* node) : current_(node) {
+    if (current_ != nullptr) {
+      pair_.first = current_->key;
+      pair_.second = current_->value;
+    }
+  }
+
+  reference operator*() {
+    pair_.first = current_->key;
+    pair_.second = current_->value;
+    return pair_;
+  }
+
+  pointer operator->() {
+    pair_.first = current_->key;
+    pair_.second = current_->value;
+    return &pair_;
+  }
+
+  iterator& operator++() {
+    if (current_ != nullptr && !current_->next_level.empty()) {
+      current_ = current_->next_level[0];
+    } else {
+      current_ = nullptr;
+    }
+    return *this;
+  }
+
+  iterator operator++(int) {
+    iterator temp = *this;
+    if (current_ != nullptr && !current_->next_level.empty()) {
+      current_ = current_->next_level[0];
+    } else {
+      current_ = nullptr;
+    }
+    return temp;
+  }
+
+  bool operator==(const iterator& other) const {
+    return current_ == other.current_;
+  }
+
+  bool operator!=(const iterator& other) const {
+    return current_ != other.current_;
+  }
+
+ private:
+  Node* current_;
+  mutable value_type pair_;
+
+  friend class const_iterator;
+};
+
+template <typename K, typename V>
+class SkipList<K, V>::const_iterator {
+ public:
+  using value_type = std::pair<const key_type, value_type>;
+  using pointer = const value_type*;
+  using reference = const value_type&;
+  using iterator_category = std::forward_iterator_tag;
+
+  const_iterator() : current_(nullptr) {}
+
+  explicit const_iterator(const Node* node) : current_(node) {
+    if (current_ != nullptr) {
+      pair_.first = current_->key;
+      pair_.second = current_->value;
+    }
+  }
+
+  // Allow conversion from iterator to const_iterator
+  const_iterator(const iterator& it) : current_(it.current_) {
+    if (current_ != nullptr) {
+      pair_.first = current_->key;
+      pair_.second = current_->value;
+    }
+  }
+
+  reference operator*() const {
+    pair_.first = current_->key;
+    pair_.second = current_->value;
+    return pair_;
+  }
+
+  pointer operator->() const {
+    pair_.first = current_->key;
+    pair_.second = current_->value;
+    return &pair_;
+  }
+
+  const_iterator& operator++() {
+    if (current_ != nullptr && !current_->next_level.empty()) {
+      current_ = current_->next_level[0];
+    } else {
+      current_ = nullptr;
+    }
+    return *this;
+  }
+
+  const_iterator operator++(int) {
+    const_iterator temp = *this;
+    if (current_ != nullptr && !current_->next_level.empty()) {
+      current_ = current_->next_level[0];
+    } else {
+      current_ = nullptr;
+    }
+    return temp;
+  }
+
+  bool operator==(const const_iterator& other) const {
+    return current_ == other.current_;
+  }
+
+  bool operator!=(const const_iterator& other) const {
+    return current_ != other.current_;
+  }
+
+ private:
+  const Node* current_;
+  mutable value_type pair_;
+};
+
+// -- ITERATOR METHODS -- //
+
+template <typename K, typename V>
+typename SkipList<K, V>::iterator SkipList<K, V>::begin() {
+  if (head_ == nullptr || head_->next_level.empty() ||
+      head_->next_level[0] == nullptr) {
+    return end();
+  }
+  return iterator(head_->next_level[0]);
+}
+
+template <typename K, typename V>
+typename SkipList<K, V>::const_iterator SkipList<K, V>::begin() const {
+  if (head_ == nullptr || head_->next_level.empty() ||
+      head_->next_level[0] == nullptr) {
+    return end();
+  }
+  return const_iterator(head_->next_level[0]);
+}
+
+template <typename K, typename V>
+typename SkipList<K, V>::const_iterator SkipList<K, V>::cbegin() const {
+  return begin();
+}
+
+template <typename K, typename V>
+typename SkipList<K, V>::iterator SkipList<K, V>::end() {
+  return iterator(nullptr);
+}
+
+template <typename K, typename V>
+typename SkipList<K, V>::const_iterator SkipList<K, V>::end() const {
+  return const_iterator(nullptr);
+}
+
+template <typename K, typename V>
+typename SkipList<K, V>::const_iterator SkipList<K, V>::cend() const {
+  return end();
 }
 
 #endif  // SKIPLIST_H_

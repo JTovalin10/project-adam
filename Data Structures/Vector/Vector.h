@@ -16,8 +16,8 @@ template<typename T>
 class Vector {
     using value_type = T;
     using size_type = std::size_t;
-    using iterator = Vector;
-    using const_iterator = const Vector;
+    using iterator = value_type*;
+    using const_iterator = const value_type*;
     
     /**
      * Move Constructor - constructs this Vector by stealing from the other Vector

@@ -2,6 +2,8 @@
 #define REDBLACKTREE_H_
 
 #include <cstddef>
+#include <iterator>
+#include <utility>
 
 // Represents the color of a node in the red-black tree.
 enum Color { RED, BLACK };
@@ -146,6 +148,30 @@ class RedBlackTree {
   //   true if the tree contains no elements, false otherwise.
   bool empty() const;
 
+  // -- ITERATORS -- //
+
+  // Forward declaration
+  class iterator;
+  class const_iterator;
+
+  // Returns an iterator to the first element (in-order).
+  iterator begin();
+
+  // Returns a const iterator to the first element (in-order).
+  const_iterator begin() const;
+
+  // Returns a const iterator to the first element (in-order).
+  const_iterator cbegin() const;
+
+  // Returns an iterator past the last element.
+  iterator end();
+
+  // Returns a const iterator past the last element.
+  const_iterator end() const;
+
+  // Returns a const iterator past the last element.
+  const_iterator cend() const;
+
  private:
   struct Node {
     Node* left = nullptr;
@@ -285,6 +311,170 @@ class RedBlackTree {
   //   key: The key to insert.
   //   value: The value to associate with the key.
   void insertHelper(const key_type& key, const value_type& value);
+};
+
+// -- ITERATOR IMPLEMENTATIONS -- //
+
+template <typename K, typename V>
+class RedBlackTree<K, V>::iterator {
+ public:
+  using value_type = std::pair<const key_type, value_type>;
+  using pointer = value_type*;
+  using reference = value_type&;
+  using iterator_category = std::bidirectional_iterator_tag;
+
+  iterator() : node_(nullptr), tree_(nullptr) {}
+
+  explicit iterator(Node* node, const RedBlackTree* tree)
+      : node_(node), tree_(tree) {
+    if (node_ != nullptr) {
+      pair_.first = node_->key;
+      pair_.second = node_->value;
+    }
+  }
+
+  reference operator*() {
+    pair_.first = node_->key;
+    pair_.second = node_->value;
+    return pair_;
+  }
+
+  pointer operator->() {
+    pair_.first = node_->key;
+    pair_.second = node_->value;
+    return &pair_;
+  }
+
+  iterator& operator++() {
+    node_ = successor(node_);
+    return *this;
+  }
+
+  iterator operator++(int) {
+    iterator temp = *this;
+    node_ = successor(node_);
+    return temp;
+  }
+
+  bool operator==(const iterator& other) const {
+    return node_ == other.node_;
+  }
+
+  bool operator!=(const iterator& other) const {
+    return node_ != other.node_;
+  }
+
+ private:
+  Node* successor(Node* node) const {
+    if (node == nullptr) {
+      return nullptr;
+    }
+    // If right subtree exists, find minimum in right subtree
+    if (node->right != nullptr) {
+      Node* curr = node->right;
+      while (curr->left != nullptr) {
+        curr = curr->left;
+      }
+      return curr;
+    }
+    // Otherwise, find the first ancestor where node is in left subtree
+    Node* parent = node->parent;
+    while (parent != nullptr && node == parent->right) {
+      node = parent;
+      parent = parent->parent;
+    }
+    return parent;
+  }
+
+  Node* node_;
+  const RedBlackTree* tree_;
+  mutable value_type pair_;
+
+  friend class const_iterator;
+};
+
+template <typename K, typename V>
+class RedBlackTree<K, V>::const_iterator {
+ public:
+  using value_type = std::pair<const key_type, value_type>;
+  using pointer = const value_type*;
+  using reference = const value_type&;
+  using iterator_category = std::bidirectional_iterator_tag;
+
+  const_iterator() : node_(nullptr), tree_(nullptr) {}
+
+  explicit const_iterator(const Node* node, const RedBlackTree* tree)
+      : node_(node), tree_(tree) {
+    if (node_ != nullptr) {
+      pair_.first = node_->key;
+      pair_.second = node_->value;
+    }
+  }
+
+  // Allow conversion from iterator to const_iterator
+  const_iterator(const iterator& it) : node_(it.node_), tree_(it.tree_) {
+    if (node_ != nullptr) {
+      pair_.first = node_->key;
+      pair_.second = node_->value;
+    }
+  }
+
+  reference operator*() const {
+    pair_.first = node_->key;
+    pair_.second = node_->value;
+    return pair_;
+  }
+
+  pointer operator->() const {
+    pair_.first = node_->key;
+    pair_.second = node_->value;
+    return &pair_;
+  }
+
+  const_iterator& operator++() {
+    node_ = successor(node_);
+    return *this;
+  }
+
+  const_iterator operator++(int) {
+    const_iterator temp = *this;
+    node_ = successor(node_);
+    return temp;
+  }
+
+  bool operator==(const const_iterator& other) const {
+    return node_ == other.node_;
+  }
+
+  bool operator!=(const const_iterator& other) const {
+    return node_ != other.node_;
+  }
+
+ private:
+  const Node* successor(const Node* node) const {
+    if (node == nullptr) {
+      return nullptr;
+    }
+    // If right subtree exists, find minimum in right subtree
+    if (node->right != nullptr) {
+      const Node* curr = node->right;
+      while (curr->left != nullptr) {
+        curr = curr->left;
+      }
+      return curr;
+    }
+    // Otherwise, find the first ancestor where node is in left subtree
+    const Node* parent = node->parent;
+    while (parent != nullptr && node == parent->right) {
+      node = parent;
+      parent = parent->parent;
+    }
+    return parent;
+  }
+
+  const Node* node_;
+  const RedBlackTree* tree_;
+  mutable value_type pair_;
 };
 
 template <typename K, typename V>
@@ -799,6 +989,46 @@ Node* RedBlackTree<K, V>::copyTree(Node* node, Node* parent) {
   new_node->left = copyTree(node->left, new_node);
   new_node->right = copyTree(node->right, new_node);
   return new_node;
+}
+
+// -- ITERATORS -- //
+
+template <typename K, typename V>
+typename RedBlackTree<K, V>::iterator RedBlackTree<K, V>::begin() {
+  if (root_ == nullptr) {
+    return end();
+  }
+  Node* min_node = minimum(root_);
+  return iterator(min_node, this);
+}
+
+template <typename K, typename V>
+typename RedBlackTree<K, V>::const_iterator RedBlackTree<K, V>::begin() const {
+  if (root_ == nullptr) {
+    return end();
+  }
+  const Node* min_node = minimum(root_);
+  return const_iterator(min_node, this);
+}
+
+template <typename K, typename V>
+typename RedBlackTree<K, V>::const_iterator RedBlackTree<K, V>::cbegin() const {
+  return begin();
+}
+
+template <typename K, typename V>
+typename RedBlackTree<K, V>::iterator RedBlackTree<K, V>::end() {
+  return iterator(nullptr, this);
+}
+
+template <typename K, typename V>
+typename RedBlackTree<K, V>::const_iterator RedBlackTree<K, V>::end() const {
+  return const_iterator(nullptr, this);
+}
+
+template <typename K, typename V>
+typename RedBlackTree<K, V>::const_iterator RedBlackTree<K, V>::cend() const {
+  return end();
 }
 
 #endif  // REDBLACKTREE_H_
