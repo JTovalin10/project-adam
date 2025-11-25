@@ -1,5 +1,6 @@
 BasedOnStyle: Google
-Checks: 'readability-*,google-*,modernize-*,performance-*,bugprone-*'
-   WarningsAsErrors: ''
-   HeaderFilterRegex: '.*'
-   FormatStyle: google
+Language: Cpp
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+ColumnLimit: 80
