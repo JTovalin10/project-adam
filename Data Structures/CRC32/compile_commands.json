@@ -1,0 +1,7 @@
+[
+  {
+    "directory": ".",
+    "command": "g++ -std=c++17 -Wall -Wextra CRC32.h",
+    "file": "CRC32.h"
+  }
+]
