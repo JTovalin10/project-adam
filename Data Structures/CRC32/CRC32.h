@@ -55,8 +55,7 @@ void Crc32::Reset() { crc_ = kInitialCrc; }
 
 // fills the array of uint8_t array
 void Crc32::Update(const uint8_t* data, size_t length) {
-  const uint8_t mask = 0xFF;
-  for (int i = 0; i < length; i++) {
+  for (size_t i = 0; i < length; i++) {
     // we want to get the 2 LSB from the xor of kPolynomial and data[i]
     const uint8_t index = (crc_ ^ data[i]) & kByteMask;
     // as we already processed 8 bytes we remove it and then xor the
@@ -92,5 +91,8 @@ bool Crc32::Valid(const uint8_t* data, size_t length,
   uint32_t expected = other.Compute(data, length);
   return expected == other_crc;
 }
+
+std::array<uint32_t, 256> Crc32::table_;
+bool Crc32::table_initialized_ = false;
 
 #endif  // CRC32_H_
