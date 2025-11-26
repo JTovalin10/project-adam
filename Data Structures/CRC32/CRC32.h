@@ -9,17 +9,61 @@ class Crc32 {
  public:
   using size_type = std::size_t;
   using crc_table = std::array<uint32_t, 256>;
+
+  /**
+   * Constructs the CRC32, if multiple instances of CRC32 is called then they
+   * share the constructed table_.
+   */
   Crc32();
 
-  // Compute CRC32 for entire buffer at once
-  // returns the "hash"
+  /* Calculates the crc if the client has all the information they are parsing
+   *
+   * ARGS:
+   * data: an array of uint8_t that will be parsed
+   * length: the length of the array
+   *
+   * RETURNS:
+   * the calculated crc
+   */
   uint32_t Compute(const uint8_t* data, size_type length);
 
-  // Incremental interface
+  /*
+   * Refreshes the crc back to the kInitialCrc
+   */
   void Reset();
+
+  /**
+   * Updates the current crc with the given information
+   *
+   * ARGS:
+   * data: an array of uint8_t which represents each byte of the given data the
+   * client is parsing length: the length of the array
+   */
   void Update(const uint8_t* data, size_type length);
+
+  /**
+   * Once all the data has been parsed, this finalizes the crc with the crc
+   * standard of xoring the crc
+   *
+   * RETURNS:
+   * the finalized crc which is a uint32_t
+   */
   uint32_t Finalize() const;
 
+  /**
+   * Calculates the crc with the given data and length and compares it to the
+   * provided crc to ensure they are same
+   *
+   * ARGS:
+   * data: 1 byte array of data that will be parsed to calculate the crc
+   * length: the length of the array
+   * other_crc: the expected crc that was calaculated with a non-modifed data
+   * and length.
+   *
+   * RETURNS:
+   * if the calculated crc differes from the other_crc (exected crc) return
+   * false, if they are teh same return true
+   */
   bool Valid(const uint8_t* data, size_type length, uint32_t other_crc) const;
 
  private:
