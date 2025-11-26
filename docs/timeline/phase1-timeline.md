@@ -28,7 +28,7 @@
 | [X] | Ring Buffer (Circular Buffer) | 3-4 | Nov 16-19, 2025 | 39-48 |
 | [x] | Skip List | 4-5 | Nov 20-24, 2025 | 43-53 |
 | [X] | CRC32 / Internet Checksum | 2-3 | Nov 25-27, 2025 | 45-56 |
-| [ ] | Token Bucket Algorithm | 3-4 | Nov 28 - Dec 1, 2025 | 48-60 |
+| [x] | Token Bucket Algorithm | 3-4 | Nov 28 - Dec 1, 2025 | 48-60 |
 | [ ] | Leaky Bucket Algorithm | 3-4 | Dec 2-5, 2025 | 51-64 |
 | [ ] | Exponential Backoff | 2-3 | Dec 6-8, 2025 | 53-67 |
 | [ ] | A* Algorithm | 4-5 | Dec 9-13, 2025 | 57-72 |
