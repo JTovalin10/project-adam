@@ -25,7 +25,7 @@ Building essential data structures and algorithms that form the foundation for a
 - Skipping basic sorting/searching algorithms (Quick Sort, Merge Sort, Binary Search) as these are already mastered from NeetCode
 - Skipping Min Heap, Dijkstra's, and Union-Find - Min Heap and Dijkstra's were covered in CSE 332, and Union-Find doesn't provide additional C++ memory management practice beyond what's already learned
 - CSE 422 (Advanced Toolkit for Modern Algorithms) will cover modern algorithmic techniques like sketching algorithms, sampling, and ML algorithms - complementing this low-level systems focus
-- Thread-safe versions of these data structures will be implemented later for networking projects in Phase 2
+- Production networking/concurrency code in Phases 2 and 3 will lean on STL/Boost/absl containers; these custom builds remain educational references
 - Red-Black Tree is the most challenging project in this phase - self-balancing requires careful rotation logic and parent pointer management
 - All projects include comprehensive unit testing (GoogleTest), memory leak checking, and header file documentation per Google C++ Style Guide
 - Each project builds understanding for networking and systems programming, with focus on manual memory management and pointer manipulation

@@ -15,9 +15,9 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 | Metric              | Value                                              |
 | ------------------- | -------------------------------------------------- |
 | **Current Phase**   | Phase 1b: Evolution - Networking Primitives & Advanced Algorithms |
-| **Progress**        | 5/10 items complete                                 |
+| **Progress**        | 6/10 items complete                                 |
 | **Hours Invested**  | 42h 01m                                             |
-| **Current Item**    | Leaky Bucket Algorithm                          |
+| **Current Item**    | Exponential Backoff                          |
 
 **[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1b Details](docs/timeline/genesis-b-timeline.md)**
 
@@ -44,6 +44,8 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 ## Overview
 
 Project Adam is my journey through systems programming, starting with the fundamentals and building up to running multiple Linux virtual machines on a Raspberry Pi 5. Each project builds on the previous ones, creating a cohesive path from basic algorithms to low-level hardware virtualization.
+
+> **Phase 1 implementations are study artifacts only.** Once I move into networking, distributed systems, and OS work, I will rely on industry-standard libraries (STL, Boost, Folly, `absl`, etc.) rather than the custom data structures built in this repository. The custom versions exist purely so I understand their internals.
 
 **Start Date:** October 24, 2025  
 **End Date:** June 2027 (Graduation)  
@@ -76,7 +78,7 @@ Like Adam Warlock—this is my evolution to becoming a cracked programmer. From 
 
 Building essential data structures and algorithms that form the foundation for all networking and systems projects.
 
-Having already completed NeetCode's DSA courses, this phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work under the hood. For data structures that have existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), I will use those libraries in later projects to gain experience with industry-standard tools. I have taken CSE 332 (Data Structures & Parallelism) at UW, which covered Min Heap, Dijkstra's Algorithm, and other fundamental algorithms. Data structures and algorithms covered in CSE 332 are not included here unless they're directly used in projects I'll build. CSE 422 (Advanced Toolkit for Modern Algorithms) will cover modern algorithmic techniques like sketching algorithms, sampling, and ML algorithms, complementing this low-level systems focus.
+Having already completed NeetCode's DSA courses, this phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work under the hood. For data structures that have existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), I will use those libraries in later projects to gain experience with industry-standard tools. These custom implementations are references only—they will not be shipped or reused in later phases. I have taken CSE 332 (Data Structures & Parallelism) at UW, which covered Min Heap, Dijkstra's Algorithm, and other fundamental algorithms. Data structures and algorithms covered in CSE 332 are not included here unless they're directly used in projects I'll build. CSE 422 (Advanced Toolkit for Modern Algorithms) will cover modern algorithmic techniques like sketching algorithms, sampling, and ML algorithms, complementing this low-level systems focus.
 
 **Projects:** Dynamic Array, Singly LinkedList, Doubly LinkedList, Stack, Queue, Hash Table, Trie, LRU Cache, **Red-Black Tree** ⭐ Capstone
 
@@ -91,14 +93,16 @@ Having already completed NeetCode's DSA courses, this phase focuses on **C++ imp
 
 Network-focused phase that builds primitives and algorithms directly used in Phase 2's networking projects (DNS, UDP, TCP).
 
-**Projects:** Bloom Filter, Ring Buffer, **Radix Tree** ⭐ Capstone, Skip List, Sliding Window Protocol, CRC32/Internet Checksum, Token Bucket, Exponential Backoff, Consistent Hashing, Bellman-Ford
+**Projects:** Bloom Filter, Ring Buffer, Skip List, CRC32/Internet Checksum, Token Bucket, Leaky Bucket, Exponential Backoff, Bellman-Ford, A* Algorithm, **Sliding Window Protocol** ⭐ Capstone
+
+**Note:** Radix Tree and Consistent Hashing were removed from this phase—Radix Tree is no longer necessary for later phases and Consistent Hashing will be covered in CSE 422.
 
 **Focus:** Networking-focused data structures and algorithms for Phase 2
 
-**Total Estimated Time:** ~36-47 hours  
+**Total Estimated Time:** ~38-50 hours  
 **Available Time:** 60 days × 1 hour/day = 60 hours
 
-**Phase 1 Total:** ~66-82 hours over 127 days
+**Phase 1 Total:** ~68-85 hours over 127 days
 
 ---
 
@@ -213,7 +217,7 @@ As projects are completed, repositories will be linked here:
 
 **Phase 1: Foundation (DS&A)**
 
-1. [ ] DS&A Library (Core Toolkit & Networking Primitives)
+1. [ ] Phase 1 DS&A Reference Implementations (learning-only; STL/Folly used later)
 
 **Phase 2: Evolution - Network and Concurrency**
 

@@ -13,7 +13,7 @@
 - [x] **Skip List** - Probabilistic alternative to balanced trees with simple implementation | 4-5 hours | Nov 20-24, 2025
 - [x] **CRC32 / Internet Checksum** - Packet integrity validation algorithms (used by UDP and TCP) | 2-3 hours | Nov 25-27, 2025
 - [x] **Token Bucket Algorithm** - Rate limiting and traffic shaping for network congestion | 3-4 hours | Nov 28 - Dec 1, 2025
-- [ ] **Leaky Bucket Algorithm** - Traffic shaping algorithm that smooths bursty traffic (complements Token Bucket) | 3-4 hours | Dec 2-5, 2025
+- [x] **Leaky Bucket Algorithm** - Traffic shaping algorithm that smooths bursty traffic (complements Token Bucket) | 3-4 hours | Dec 2-5, 2025
 - [ ] **Exponential Backoff** - TCP retransmission and congestion control algorithm (used by TCP from Scratch) | 2-3 hours | Dec 6-8, 2025
 - [ ] **A* Algorithm** - Pathfinding algorithm for network routing and topology optimization | 4-5 hours | Dec 9-13, 2025
 - [ ] **Bellman-Ford Algorithm** - Distance-vector routing algorithm (like RIP protocol) | 5-6 hours | Dec 14-19, 2025
@@ -28,6 +28,7 @@
 - Bloom Filter will be used in DNS Server for ad-blocking
 - Token Bucket + Leaky Bucket provide complete understanding of rate limiting and traffic shaping
 - Skipping Consistent Hashing (covered in CSE 422 HW1) and Radix Tree (not essential for Phase 2 networking projects)
+- Phase 1 networking primitives remain educational references; production implementations will favor STL/Boost/Folly/absl components plus vetted networking libraries
 ---
 **Links:**
 - [Phase 1 Overview](../overview/phase1-overview.md)

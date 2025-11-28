@@ -8,7 +8,7 @@
 
 ## Overview
 
-Building network protocols and concurrency primitives. From thread pools to full TCP implementation, creating the foundational systems programming stack.
+Building network protocols and concurrency primitives. From thread pools to full TCP implementation, creating the foundational systems programming stack. All production code here uses industry-standard libraries (STL, Boost, Folly, `absl`, etc.); the hand-written data structures from Phase 1 are retained only as learning references.
 
 ---
 

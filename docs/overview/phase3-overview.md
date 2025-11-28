@@ -8,7 +8,7 @@
 
 ## Overview
 
-Distributed systems and virtualization. Building the capstone project: an ARM hypervisor running multiple Linux VMs on Raspberry Pi 5. Like Adam Warlock's perfection—the ultimate creation.
+Distributed systems and virtualization. Building the capstone project: an ARM hypervisor running multiple Linux VMs on Raspberry Pi 5. Like Adam Warlock's perfection—the ultimate creation. This phase, like Phase 2, is implemented with industry-standard libraries (STL, Boost, Folly, `absl`, libevent, etc.); Phase 1 data structures remain reference material only.
 
 ---
 

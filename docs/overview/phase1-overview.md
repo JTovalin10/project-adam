@@ -12,7 +12,7 @@ Phase 1: Foundation builds the essential data structures, algorithms, and networ
 
 ### Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Nov 11, 2025)
 
-Building essential data structures and algorithms with **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work under the hood. For data structures that have existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), I will use those libraries in later projects to gain experience with industry-standard tools. I have taken CSE 332 (Data Structures & Parallelism) and will take CSE 421 (Algorithms) at UW, so algorithms and data structures covered in those courses are not included here unless they're directly used in projects I'll build.
+Building essential data structures and algorithms with **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work under the hood. For data structures that have existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), I will use those libraries in later projects to gain experience with industry-standard tools. These Phase 1 implementations are educational references only—they will not ship in later networking/concurrency projects. I have taken CSE 332 (Data Structures & Parallelism) and will take CSE 421 (Algorithms) at UW, so algorithms and data structures covered in those courses are not included here unless they're directly used in projects I'll build.
 
 ### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Nov 12, 2025 - Jan 10, 2026)
 
@@ -31,29 +31,26 @@ All time estimates include:
 
 ## Phase 1a Projects
 
-**Data Structures:** Dynamic Array, Singly LinkedList, Doubly LinkedList, Stack, Queue, Hash Table, Min Heap, Trie, LRU Cache, **Red-Black Tree** ⭐ Capstone
+**Data Structures:** Dynamic Array, Singly LinkedList, Doubly LinkedList, Stack, Queue, Hash Table, Trie, LRU Cache, **Red-Black Tree** ⭐ Capstone
 
-**Algorithms:** Dijkstra's Algorithm, Union-Find / Disjoint Set
-
-**Total Estimated Time:** ~50-60 hours  
-**Available Time:** 68 days × 1 hour/day = 68 hours
+> Min Heap, Dijkstra's Algorithm, and Union-Find were removed from this phase because they are covered in CSE 332/421 and do not add new C++ implementation practice right now.
 
 ---
 
 ## Phase 1b Projects
 
-**Networking Data Structures:** Bloom Filter, Ring Buffer, **Radix Tree** ⭐ Capstone, Skip List
+**Networking Data Structures:** Bloom Filter, Ring Buffer, Skip List  
+**Networking Algorithms:** CRC32/Internet Checksum, Token Bucket, Leaky Bucket, Exponential Backoff, A* Algorithm, Bellman-Ford, **Sliding Window Protocol** ⭐ Capstone  
+**Total Estimated Time:** ~38-50 hours  
+**Available Time:** 60 days × 1 hour/day = 60 hours
 
-**Networking Algorithms:** Sliding Window Protocol, CRC32/Internet Checksum, Token Bucket, Exponential Backoff, Consistent Hashing, Bellman-Ford
-
-**Total Estimated Time:** ~36-47 hours  
-**Available Time:** 59 days × 1 hour/day = 59 hours
+> Radix Tree and Consistent Hashing were cut from Phase 1b. Radix Tree is no longer needed for later phases, and Consistent Hashing will be handled in CSE 422 Homework 1.
 
 ---
 
 ## Phase 1 Total
 
-**Total Estimated Time:** ~86-107 hours  
+**Total Estimated Time:** ~68-85 hours  
 **Available Time:** 127 days × 1 hour/day = 127 hours
 
 ---
