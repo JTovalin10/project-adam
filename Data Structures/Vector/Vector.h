@@ -272,8 +272,8 @@ class Vector {
   size_type capacity_;
   size_type size_;
   T* array_;
-  static constexpr size_type initial_capacity = 0;
-  static constexpr double resize_multiplier = 1.5;
+  static constexpr size_type initial_capacity = 1;
+  static constexpr double resize_multiplier = 2.0;
 
   /**
    * Helper function that doubles the size of the array storage when needed
@@ -325,6 +325,7 @@ Vector<T>& Vector<T>::operator=(const Vector& other) {
   for (size_type i = 0; i < other.size_; i++) {
     temp[i] = other.array_[i];
   }
+  delete[] array_;
   array_ = temp.release();
   size_ = new_size;
   capacity_ = new_capacity;
@@ -468,14 +469,12 @@ typename Vector<T>::const_iterator Vector<T>::end() const {
 
 template <typename T>
 void Vector<T>::resize() {
-  size_type new_capacity = 0;
-  if (capacity_ != 0) {
-    new_capacity = resize_multiplier * capacity_;
-  }
+  size_type new_capacity = resize_multiplier * capacity_;
   std::unique_ptr<T[]> temp(new T[new_capacity]);
   for (size_type i = 0; i < size_; i++) {
     temp[i] = array_[i];
   }
+  delete[] array_;
   array_ = temp.release();
   capacity_ = new_capacity;
 }
