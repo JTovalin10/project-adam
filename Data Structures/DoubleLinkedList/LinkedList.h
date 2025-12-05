@@ -506,7 +506,7 @@ LinkedList<T>& LinkedList<T>::operator=(LinkedList&& other) {
   if (this == &other) {
     return *this;
   }
-  Node* curr = head_;
+  Node* curr = head_->next;
   while (curr != tail_) {
     Node* temp = curr->next;
     delete curr;
