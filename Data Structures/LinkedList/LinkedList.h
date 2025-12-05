@@ -9,6 +9,9 @@ class LinkedList {
   using size_type = std::size_t;
   using value_type = T;
 
+ private:
+  struct Node;
+
  public:
   // ---- CONSTRUCTORS ---- //
 
@@ -31,7 +34,7 @@ class LinkedList {
    * ARGS:
    * other: the LinkedList to move from (will be left empty)
    */
-  LinkedList(LinkedList&& other);
+  LinkedList(LinkedList&& other) noexcept;
 
   /**
    * Destroys LinkedList and safely deallocates the allocated memory
@@ -52,7 +55,7 @@ class LinkedList {
    * ARGS:
    * other: the LinkedList to move from (will be left empty)
    */
-  LinkedList& operator=(LinkedList&& other);
+  LinkedList& operator=(LinkedList&& other) noexcept;
 
   /**
    * bracket operator - retrieves the value at given index
@@ -82,6 +85,109 @@ class LinkedList {
    */
   const value_type& operator[](size_type index) const;
 
+  // ---- ITERATOR ---- //
+
+  class Iterator {
+   public:
+    /**
+     * LinkedList Iterator constructor
+     *
+     * ARGS:
+     * node: the node where we are going to start the iterator
+     * tail: the end of the linkedlist
+     */
+    Iterator(Node* node, Node* tail) : current_node(node), tail_(tail) {}
+
+    /**
+     * Checks if the iterator has a next node
+     *
+     * RETURNS:
+     * true if the iterator has progress, else false
+     */
+    bool hasNext() { return current_node->next != tail_; }
+
+    /**
+     * Gets the next value in the list following the iter
+     *
+     * RETURNS:
+     * value_type that is the node->val
+     */
+    value_type next() {
+      current_node = current_node->next;
+      return current_node->val;
+    }
+
+    /**
+     * Function to dereference the iterator mean in a for auto loop
+     *
+     * RETURNS:
+     * returns the node->val
+     */
+    value_type& operator*() { return current_node->val; }
+
+    /**
+     * Function that increments the iter for a for auto loop
+     *
+     * RETURNS:
+     * returns the next iterator in the chain
+     */
+    Iterator& operator++() {
+      current_node = current_node->next;
+      return *this;
+    }
+
+    /**
+     * comparsion check for for loop
+     *
+     * PARAM:
+     * other: the other Iterator we are comparing against to ensure
+     * they are not the same
+     *
+     * RETURNS:
+     * if they are not the same returns true, else false
+     */
+    bool operator!=(const Iterator& other) const {
+      return current_node != other.current_node;
+    }
+    bool operator==(const Iterator& other) const {
+      return current_node == other.current_node;
+    }
+
+   private:
+    Node* current_node;
+    Node* tail_;
+  };
+
+  class ConstIterator {
+   public:
+    ConstIterator(const Node* node, const Node* tail)
+        : current_node(node), tail_(tail) {}
+
+    // Allow conversion from Iterator to ConstIterator
+    ConstIterator(const Iterator& it)
+        : current_node(it.current_node), tail_(it.tail_) {}
+
+    const value_type& operator*() const { return current_node->val; }
+
+    ConstIterator& operator++() {
+      current_node = current_node->next;
+      return *this;
+    }
+
+    bool operator!=(const ConstIterator& other) const {
+      return current_node != other.current_node;
+    }
+    bool operator==(const ConstIterator& other) const {
+      return current_node == other.current_node;
+    }
+
+   private:
+    const Node* current_node;
+    const Node* tail_;
+
+    friend class Iterator;  // Allow Iterator to access private members for
+                            // conversion
+  };
   // ---- SETTER AND GETTER ---- //
 
   /**
@@ -146,7 +252,7 @@ class LinkedList {
    * RETURNS:
    * if the target is found it will return Node*, else nullptr
    */
-  Node* find(const value_type& target);
+  Iterator find(const value_type& target);
 
   /**
    * looks for the first instance of the given target
@@ -157,7 +263,7 @@ class LinkedList {
    * RETURNS:
    * if the target is found it will return Node*, else nullptr
    */
-  const Node* find(const value_type& target) const;
+  ConstIterator find(const value_type& target) const;
 
   /**
    * returns the size of the LinkedList
@@ -219,68 +325,6 @@ class LinkedList {
    */
   const value_type& back() const;
 
-  // ---- ITERATOR ---- //
-
-  class Iterator {
-   public:
-    /**
-     * LinkedList Iterator constructor
-     *
-     * ARGS:
-     * node: the node where we are going to start the iterator
-     * tail: the end of the linkedlist
-     */
-    Iterator(Node* node, Node* tail);
-
-    /**
-     * Checks if the iterator has a next node
-     *
-     * RETURNS:
-     * true if the iterator has progress, else false
-     */
-    bool hasNext();
-
-    /**
-     * Gets the next value in the list following the iter
-     *
-     * RETURNS:
-     * value_type that is the node->val
-     */
-    value_type next();
-
-    /**
-     * Function to dereference the iterator mean in a for auto loop
-     *
-     * RETURNS:
-     * returns the node->val
-     */
-    value_type& operator*();
-
-    /**
-     * Function that increments the iter for a for auto loop
-     *
-     * RETURNS:
-     * returns the next iterator in the chain
-     */
-    Iterator& operator++();
-
-    /**
-     * comparsion check for for loop
-     *
-     * PARAM:
-     * other: the other Iterator we are comparing against to ensure
-     * they are not the same
-     *
-     * RETURNS:
-     * if they are not the same returns true, else false
-     */
-    bool operator!=(const Iterator& other) const;
-
-   private:
-    Node* current_node;
-    Node* tail_;
-  };
-
   /**
    * Initalizes the start of the iterator by returning the start of
    * the linkedlist
@@ -289,6 +333,7 @@ class LinkedList {
    * Iterator which points to the start of the LinkedList
    */
   Iterator begin();
+  ConstIterator cbegin() const;
 
   /**
    * Defines the end of the iterator so we have a end point
@@ -297,6 +342,7 @@ class LinkedList {
    * Iterator which points to the end of the LinkedList
    */
   Iterator end();
+  ConstIterator cend() const;
 
   // ---- OTHER ---- //
 
@@ -307,8 +353,8 @@ class LinkedList {
 
  private:
   struct Node {
-    Node* next;
     value_type val;
+    Node* next;
 
     /**
      * Initalizes a Node with only a value
@@ -316,7 +362,7 @@ class LinkedList {
      * ARGS:
      * val: the value of the node
      */
-    Node(value_type val);
+    explicit Node(value_type val);
 
     /**
      * Initalizes a Node with only a value
@@ -337,12 +383,10 @@ class LinkedList {
 // Following Google C++ Style Guide: template implementations belong in header
 
 template <typename T>
-LinkedList<T>::Node::Node(typename LinkedList<T>::value_type val)
-    : val(val), next(nullptr) {}
+LinkedList<T>::Node::Node(value_type val) : val(val), next(nullptr) {}
 
 template <typename T>
-LinkedList<T>::Node::Node(typename LinkedList<T>::value_type val, Node* next)
-    : val(val), next(next) {}
+LinkedList<T>::Node::Node(value_type val, Node* next) : val(val), next(next) {}
 
 template <typename T>
 LinkedList<T>::LinkedList() : size_(0) {
@@ -367,7 +411,7 @@ LinkedList<T>::LinkedList(const LinkedList& other) : size_(other.size_) {
 }
 
 template <typename T>
-LinkedList<T>::LinkedList(LinkedList&& other)
+LinkedList<T>::LinkedList(LinkedList&& other) noexcept
     : head_(other.head_), tail_(other.tail_), size_(other.size_) {
   other.head_ = new Node(T());
   other.tail_ = new Node(T());
@@ -377,12 +421,14 @@ LinkedList<T>::LinkedList(LinkedList&& other)
 
 template <typename T>
 LinkedList<T>::~LinkedList() {
-  Node* curr = head_;
-  while (curr != nullptr) {
+  Node* curr = head_->next;
+  while (curr != tail_) {
     Node* nextCurr = curr->next;
     delete curr;
     curr = nextCurr;
   }
+  delete head_;
+  delete tail_;
 }
 
 template <typename T>
@@ -410,7 +456,7 @@ LinkedList<T>& LinkedList<T>::operator=(const LinkedList& other) {
 }
 
 template <typename T>
-LinkedList<T>& LinkedList<T>::operator=(LinkedList&& other) {
+LinkedList<T>& LinkedList<T>::operator=(LinkedList&& other) noexcept {
   if (this == &other) {
     return *this;
   }
@@ -551,28 +597,28 @@ void LinkedList<T>::erase(size_type index) {
 }
 
 template <typename T>
-typename LinkedList<T>::Node* LinkedList<T>::find(const value_type& target) {
+typename LinkedList<T>::Iterator LinkedList<T>::find(const value_type& target) {
   Node* curr = head_->next;
   while (curr != tail_) {
     if (curr->val == target) {
-      return curr;
+      return Iterator(curr, tail_);
     }
     curr = curr->next;
   }
-  return nullptr;
+  return end();
 }
 
 template <typename T>
-const typename LinkedList<T>::Node* LinkedList<T>::find(
+typename LinkedList<T>::ConstIterator LinkedList<T>::find(
     const value_type& target) const {
   const Node* curr = head_->next;
   while (curr != tail_) {
     if (curr->val == target) {
-      return curr;
+      return ConstIterator(curr, tail_);
     }
     curr = curr->next;
   }
-  return nullptr;
+  return cend();
 }
 
 template <typename T>
@@ -626,51 +672,6 @@ const typename LinkedList<T>::value_type& LinkedList<T>::back() const {
 }
 
 template <typename T>
-LinkedList<T>::Iterator::Iterator(typename Node* node, Node* tail)
-    : current_node(node), tail_(tail) {}
-
-template <typename T>
-typename LinkedList<T>::value_type& LinkedList<T>::Iterator::operator*() {
-  return current_node->val;
-}
-
-template <typename T>
-typename LinkedList<T>::Iterator& LinkedList<T>::Iterator::operator++() {
-  current_node = current_node->next;
-  return *this;
-}
-
-template <typename T>
-bool LinkedList<T>::Iterator::operator!=(const Iterator& other) const {
-  return current_node != other.current_node;
-}
-
-template <typename T>
-bool LinkedList<T>::Iterator::hasNext() {
-  if (current_node->next == tail_) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-template <typename T>
-typename LinkedList<T>::value_type LinkedList<T>::Iterator::next() {
-  current_node = current_node->next;
-  return current_node->val;
-}
-
-template <typename T>
-typename LinkedList<T>::Iterator LinkedList<T>::begin() {
-  return Iterator(head_->next, tail_);
-}
-
-template <typename T>
-typename LinkedList<T>::Iterator LinkedList<T>::end() {
-  return Iterator(tail_, tail_);
-}
-
-template <typename T>
 void LinkedList<T>::reverse() {
   Node* prev = head_;
   Node* curr = head_->next;
@@ -688,4 +689,23 @@ void LinkedList<T>::reverse() {
   tail_ = temp;
 }
 
+template <typename T>
+typename LinkedList<T>::Iterator LinkedList<T>::begin() {
+  return Iterator(head_->next, tail_);
+}
+
+template <typename T>
+typename LinkedList<T>::ConstIterator LinkedList<T>::cbegin() const {
+  return ConstIterator(head_->next, tail_);
+}
+
+template <typename T>
+typename LinkedList<T>::Iterator LinkedList<T>::end() {
+  return Iterator(tail_, tail_);
+}
+
+template <typename T>
+typename LinkedList<T>::ConstIterator LinkedList<T>::cend() const {
+  return ConstIterator(tail_, tail_);
+}
 #endif  // LINKEDLIST_H_
