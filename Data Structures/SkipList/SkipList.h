@@ -281,7 +281,6 @@ SkipList<K, V>::SkipList(size_type expected_max_elements, float probability)
 }
 
 template <typename K, typename V>
-// TODO: SEGFAULT
 SkipList<K, V>::SkipList(const SkipList& other)
     : max_level_(other.max_level_),
       current_level_(0),
@@ -410,11 +409,7 @@ std::optional<V> SkipList<K, V>::find(const key_type& key) const {
 template <typename K, typename V>
 bool SkipList<K, V>::contains(const key_type& key) const {
   std::optional<value_type> value = find(key);
-  if (value.has_value()) {
-    return true;
-  } else {
-    return false;
-  }
+  return value.has_value();
 }
 
 template <typename K, typename V>
@@ -462,7 +457,6 @@ typename SkipList<K, V>::size_type SkipList<K, V>::randomLevel() {
 template <typename K, typename V>
 class SkipList<K, V>::iterator {
  public:
-  using value_type = std::pair<const key_type, value_type>;
   using pointer = value_type*;
   using reference = value_type&;
   using iterator_category = std::forward_iterator_tag;
@@ -525,7 +519,6 @@ class SkipList<K, V>::iterator {
 template <typename K, typename V>
 class SkipList<K, V>::const_iterator {
  public:
-  using value_type = std::pair<const key_type, value_type>;
   using pointer = const value_type*;
   using reference = const value_type&;
   using iterator_category = std::forward_iterator_tag;
