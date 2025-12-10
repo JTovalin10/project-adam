@@ -318,7 +318,7 @@ class RedBlackTree {
 template <typename K, typename V>
 class RedBlackTree<K, V>::iterator {
  public:
-  using value_type = std::pair<const key_type, value_type>;
+  using iterator_value_type = std::pair<const key_type, value_type>;
   using pointer = value_type*;
   using reference = value_type&;
   using iterator_category = std::bidirectional_iterator_tag;
@@ -356,13 +356,9 @@ class RedBlackTree<K, V>::iterator {
     return temp;
   }
 
-  bool operator==(const iterator& other) const {
-    return node_ == other.node_;
-  }
+  bool operator==(const iterator& other) const { return node_ == other.node_; }
 
-  bool operator!=(const iterator& other) const {
-    return node_ != other.node_;
-  }
+  bool operator!=(const iterator& other) const { return node_ != other.node_; }
 
  private:
   Node* successor(Node* node) const {
@@ -388,7 +384,7 @@ class RedBlackTree<K, V>::iterator {
 
   Node* node_;
   const RedBlackTree* tree_;
-  mutable value_type pair_;
+  mutable iterator_value_type pair_;
 
   friend class const_iterator;
 };
@@ -396,7 +392,7 @@ class RedBlackTree<K, V>::iterator {
 template <typename K, typename V>
 class RedBlackTree<K, V>::const_iterator {
  public:
-  using value_type = std::pair<const key_type, value_type>;
+  using const_iterator_value_type = std::pair<const key_type, value_type>;
   using pointer = const value_type*;
   using reference = const value_type&;
   using iterator_category = std::bidirectional_iterator_tag;
@@ -474,14 +470,16 @@ class RedBlackTree<K, V>::const_iterator {
 
   const Node* node_;
   const RedBlackTree* tree_;
-  mutable value_type pair_;
+  mutable const_iterator_value_type pair_;
 };
 
 template <typename K, typename V>
 RedBlackTree<K, V>::Node::Node() : key(K()), value(V()) {}
 
 template <typename K, typename V>
-RedBlackTree<K, V>::Node::Node(const typename RedBlackTree<K, V>::key_type& key, const typename RedBlackTree<K, V>::value_type& value)
+RedBlackTree<K, V>::Node::Node(
+    const typename RedBlackTree<K, V>::key_type& key,
+    const typename RedBlackTree<K, V>::value_type& value)
     : key(key), value(value) {}
 
 template <typename K, typename V>
@@ -551,12 +549,12 @@ void RedBlackTree<K, V>::insertHelper(const key_type& key,
 }
 
 template <typename K, typename V>
-Node* RedBlackTree<K, V>::getUncle(Node* current_parent) {
-  Node* grand_parent = current_parent->parent;
+typename RedBlackTree<K, V>::Node* RedBlackTree<K, V>::getUncle(Node* parent) {
+  Node* grand_parent = parent->parent;
   if (grand_parent == nullptr) {
     return nullptr;
   }
-  if (grand_parent->left == current_parent) {
+  if (grand_parent->left == parent) {
     return grand_parent->right;
   } else {
     return grand_parent->left;
@@ -902,7 +900,8 @@ void RedBlackTree<K, V>::deleteFixup(Node* node, Node* parent) {
 }
 
 template <typename K, typename V>
-Node* RedBlackTree<K, V>::findNode(const key_type& key) const {
+typename RedBlackTree<K, V>::Node* RedBlackTree<K, V>::findNode(
+    const key_type& key) const {
   if (root_ == nullptr) {
     return nullptr;
   }
@@ -921,7 +920,8 @@ Node* RedBlackTree<K, V>::findNode(const key_type& key) const {
 }
 
 template <typename K, typename V>
-Node* RedBlackTree<K, V>::minimum(Node* node) const {
+typename RedBlackTree<K, V>::Node* RedBlackTree<K, V>::minimum(
+    Node* node) const {
   if (node == nullptr) {
     return nullptr;
   }
@@ -934,7 +934,8 @@ Node* RedBlackTree<K, V>::minimum(Node* node) const {
 }
 
 template <typename K, typename V>
-Node* RedBlackTree<K, V>::maximum(Node* node) const {
+typename RedBlackTree<K, V>::Node* RedBlackTree<K, V>::maximum(
+    Node* node) const {
   if (node == nullptr) {
     return nullptr;
   }
@@ -977,7 +978,8 @@ void RedBlackTree<K, V>::destroyTree(Node* node) {
 }
 
 template <typename K, typename V>
-Node* RedBlackTree<K, V>::copyTree(Node* node, Node* parent) {
+typename RedBlackTree<K, V>::Node* RedBlackTree<K, V>::copyTree(Node* node,
+                                                                Node* parent) {
   if (node == nullptr) {
     return nullptr;
   }
