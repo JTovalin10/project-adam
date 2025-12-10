@@ -11,10 +11,13 @@
 #include "../Vector/Vector.h"
 
 // Maximum load factor before rehashing (keep between 0.7-1.0)
-static constexpr double MAX_LOAD_FACTOR = 0.75;
+inline constexpr double MAX_LOAD_FACTOR = 0.75;
 
 template <typename K, typename V>
 class HashTable {
+ private:
+  struct Node;
+
  public:
   using key_type = K;
   using value_type = V;
@@ -73,7 +76,7 @@ class HashTable {
    * RETURNS:
    * true if the table contains no elements, else false
    */
-  bool empty() const;
+  bool empty() const { return num_elements_ == 0; }
 
   /**
    * Returns the number of elements within the HashTable
@@ -81,7 +84,7 @@ class HashTable {
    * RETURNS:
    * the number of key-value pairs in the HashTable
    */
-  size_type size() const;
+  size_type size() const { return num_elements_; }
 
   // -- MODIFIERS -- //
 
@@ -196,13 +199,32 @@ class HashTable {
   class const_iterator;
 
   // -- ITERATORS -- //
-  iterator begin();
-  const_iterator begin() const;
-  const_iterator cbegin() const;
+  iterator begin() {
+    for (size_type i = 0; i < num_buckets_; ++i) {
+      if (table_[i] != nullptr) {
+        return iterator(this, i, table_[i]);
+      }
+    }
+    return end();
+  }
 
-  iterator end();
-  const_iterator end() const;
-  const_iterator cend() const;
+  const_iterator begin() const {
+    for (size_type i = 0; i < num_buckets_; ++i) {
+      if (table_[i] != nullptr) {
+        return const_iterator(this, i, table_[i]);
+      }
+    }
+    return end();
+  }
+
+  const_iterator cbegin() const { return begin(); }
+
+  iterator end() { return iterator(this, num_buckets_, nullptr); }
+  const_iterator end() const {
+    return const_iterator(this, num_buckets_, nullptr);
+  }
+
+  const_iterator cend() const { return end(); }
 
   // Forward iterator for HashTable that traverses all key-value pairs.
   class iterator {
@@ -281,7 +303,8 @@ class HashTable {
     // Constructs an end iterator.
     const_iterator();
 
-    // Constructs a const iterator pointing to the given node in the given bucket.
+    // Constructs a const iterator pointing to the given node in the given
+    // bucket.
     //
     // Parameters:
     //   table: Pointer to the HashTable being iterated.
@@ -499,18 +522,6 @@ HashTable<K, V>& HashTable<K, V>::operator=(HashTable&& other) {
     other.table_.push_back(nullptr);
   }
   return *this;
-}
-
-// -- CAPACITY -- //
-
-template <typename K, typename V>
-bool HashTable<K, V>::empty() const {
-  return num_elements_ == 0;
-}
-
-template <typename K, typename V>
-typename HashTable<K, V>::size_type HashTable<K, V>::size() const {
-  return num_elements_;
 }
 
 // -- MODIFIERS -- //
@@ -733,7 +744,8 @@ typename HashTable<K, V>::size_type HashTable<K, V>::hash(
 // ----------------------------------------------------------------------------
 
 template <typename K, typename V>
-HashTable<K, V>::iterator::iterator(HashTable* table, size_type bucket, Node* node)
+HashTable<K, V>::iterator::iterator(HashTable* table, size_type bucket,
+                                    Node* node)
     : table_(table), bucket_index_(bucket), current_(node) {
   if (current_ == nullptr && table_ != nullptr) {
     advance_to_next();
@@ -741,7 +753,8 @@ HashTable<K, V>::iterator::iterator(HashTable* table, size_type bucket, Node* no
 }
 
 template <typename K, typename V>
-HashTable<K, V>::iterator::iterator() : table_(nullptr), bucket_index_(0), current_(nullptr) {}
+HashTable<K, V>::iterator::iterator()
+    : table_(nullptr), bucket_index_(0), current_(nullptr) {}
 
 template <typename K, typename V>
 typename HashTable<K, V>::Node& HashTable<K, V>::iterator::operator*() {
@@ -801,8 +814,8 @@ void HashTable<K, V>::iterator::advance_to_next() {
 
 template <typename K, typename V>
 HashTable<K, V>::const_iterator::const_iterator(const HashTable* table,
-                                                 size_type bucket,
-                                                 const Node* node)
+                                                size_type bucket,
+                                                const Node* node)
     : table_(table), bucket_index_(bucket), current_(node) {
   if (current_ == nullptr && table_ != nullptr) {
     advance_to_next();
@@ -810,24 +823,30 @@ HashTable<K, V>::const_iterator::const_iterator(const HashTable* table,
 }
 
 template <typename K, typename V>
-HashTable<K, V>::const_iterator::const_iterator() : table_(nullptr), bucket_index_(0), current_(nullptr) {}
+HashTable<K, V>::const_iterator::const_iterator()
+    : table_(nullptr), bucket_index_(0), current_(nullptr) {}
 
 template <typename K, typename V>
 HashTable<K, V>::const_iterator::const_iterator(const iterator& it)
-    : table_(it.table_), bucket_index_(it.bucket_index_), current_(it.current_) {}
+    : table_(it.table_),
+      bucket_index_(it.bucket_index_),
+      current_(it.current_) {}
 
 template <typename K, typename V>
-const typename HashTable<K, V>::Node& HashTable<K, V>::const_iterator::operator*() const {
+const typename HashTable<K, V>::Node&
+HashTable<K, V>::const_iterator::operator*() const {
   return *current_;
 }
 
 template <typename K, typename V>
-const typename HashTable<K, V>::Node* HashTable<K, V>::const_iterator::operator->() const {
+const typename HashTable<K, V>::Node*
+HashTable<K, V>::const_iterator::operator->() const {
   return current_;
 }
 
 template <typename K, typename V>
-typename HashTable<K, V>::const_iterator& HashTable<K, V>::const_iterator::operator++() {
+typename HashTable<K, V>::const_iterator&
+HashTable<K, V>::const_iterator::operator++() {
   if (current_ != nullptr) {
     current_ = current_->next;
     if (current_ == nullptr) {
@@ -838,19 +857,22 @@ typename HashTable<K, V>::const_iterator& HashTable<K, V>::const_iterator::opera
 }
 
 template <typename K, typename V>
-typename HashTable<K, V>::const_iterator HashTable<K, V>::const_iterator::operator++(int) {
+typename HashTable<K, V>::const_iterator
+HashTable<K, V>::const_iterator::operator++(int) {
   const_iterator temp = *this;
   ++(*this);
   return temp;
 }
 
 template <typename K, typename V>
-bool HashTable<K, V>::const_iterator::operator==(const const_iterator& other) const {
+bool HashTable<K, V>::const_iterator::operator==(
+    const const_iterator& other) const {
   return current_ == other.current_;
 }
 
 template <typename K, typename V>
-bool HashTable<K, V>::const_iterator::operator!=(const const_iterator& other) const {
+bool HashTable<K, V>::const_iterator::operator!=(
+    const const_iterator& other) const {
   return !(*this == other);
 }
 
@@ -866,50 +888,6 @@ void HashTable<K, V>::const_iterator::advance_to_next() {
   } else {
     current_ = nullptr;
   }
-}
-
-// ----------------------------------------------------------------------------
-// --- BEGIN/END IMPLEMENTATIONS
-// ----------------------------------------------------------------------------
-
-template <typename K, typename V>
-typename HashTable<K, V>::iterator HashTable<K, V>::begin() {
-  for (size_type i = 0; i < num_buckets_; ++i) {
-    if (table_[i] != nullptr) {
-      return iterator(this, i, table_[i]);
-    }
-  }
-  return end();
-}
-
-template <typename K, typename V>
-typename HashTable<K, V>::iterator HashTable<K, V>::end() {
-  return iterator(this, num_buckets_, nullptr);
-}
-
-template <typename K, typename V>
-typename HashTable<K, V>::const_iterator HashTable<K, V>::begin() const {
-  for (size_type i = 0; i < num_buckets_; ++i) {
-    if (table_[i] != nullptr) {
-      return const_iterator(this, i, table_[i]);
-    }
-  }
-  return end();
-}
-
-template <typename K, typename V>
-typename HashTable<K, V>::const_iterator HashTable<K, V>::end() const {
-  return const_iterator(this, num_buckets_, nullptr);
-}
-
-template <typename K, typename V>
-typename HashTable<K, V>::const_iterator HashTable<K, V>::cbegin() const {
-  return begin();
-}
-
-template <typename K, typename V>
-typename HashTable<K, V>::const_iterator HashTable<K, V>::cend() const {
-  return end();
 }
 
 #endif  // HASHTABLE_H_

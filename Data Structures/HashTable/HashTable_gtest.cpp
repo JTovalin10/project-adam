@@ -1,4 +1,4 @@
-#include "Hash_Table.h"
+#include "HashTable.h"
 #include "gtest/gtest.h"
 
 TEST(HashTableTest, default_constructor) {
@@ -145,7 +145,7 @@ TEST(HashTableTest, erase) {
 TEST(HashTableTest, at) {
   HashTable<int, int> ht;
   for (int i = 0; i < 3; i++) {
-    ht.insert(i ,i);
+    ht.insert(i, i);
   }
   ASSERT_EQ(ht.at(0), 0);
   ASSERT_EQ(ht.at(1), 1);
@@ -155,7 +155,7 @@ TEST(HashTableTest, at) {
 TEST(HashTableTest, const_at) {
   HashTable<int, int> h;
   for (int i = 0; i < 3; i++) {
-    h.insert(i ,i);
+    h.insert(i, i);
   }
   const HashTable<int, int> ht = h;
   ASSERT_EQ(ht.at(0), 0);
@@ -166,7 +166,7 @@ TEST(HashTableTest, const_at) {
 TEST(HashTableTest, bracket_operator) {
   HashTable<int, int> ht;
   for (int i = 0; i < 3; i++) {
-    ht.insert(i ,i);
+    ht.insert(i, i);
   }
   ASSERT_EQ(ht[0], 0);
   ASSERT_EQ(ht[1], 1);
@@ -178,7 +178,7 @@ TEST(HashTableTest, bracket_operator) {
 TEST(HashTableTest, const_bracket_operator) {
   HashTable<int, int> h;
   for (int i = 0; i < 3; i++) {
-    h.insert(i ,i);
+    h.insert(i, i);
   }
   const HashTable<int, int> ht = h;
   ASSERT_EQ(ht[0], 0);
@@ -192,17 +192,16 @@ TEST(HashTableTest, find) {
   for (int i = 0; i < 3; i++) {
     ht.insert(i, i);
   }
-  Node<int, int>* pointer = ht.find(0);
-
-  ASSERT_EQ(pointer->key, 0);
+  auto pointer = ht.find(0);
+  ASSERT_NE(pointer, nullptr);
   ASSERT_EQ(pointer->value, 0);
-  pointer = pointer->next;
 
-  ASSERT_EQ(pointer->key, 1);
+  pointer = ht.find(1);
+  ASSERT_NE(pointer, nullptr);
   ASSERT_EQ(pointer->value, 1);
-  pointer = pointer->next;
 
-  ASSERT_EQ(pointer->key, 2);
+  pointer = ht.find(2);
+  ASSERT_NE(pointer, nullptr);
   ASSERT_EQ(pointer->value, 2);
 }
 
@@ -212,17 +211,17 @@ TEST(HashTableTest, const_find) {
     h.insert(i, i);
   }
   const HashTable<int, int> ht = h;
-  const Node<int, int>* pointer = ht.find(0);
 
-  ASSERT_EQ(pointer->key, 0);
+  auto pointer = ht.find(0);
+  ASSERT_NE(pointer, nullptr);
   ASSERT_EQ(pointer->value, 0);
-  pointer->next;
 
-  ASSERT_EQ(pointer->key, 1);
+  pointer = ht.find(1);
+  ASSERT_NE(pointer, nullptr);
   ASSERT_EQ(pointer->value, 1);
-  pointer->next;
 
-  ASSERT_EQ(pointer->key, 2);
+  pointer = ht.find(2);
+  ASSERT_NE(pointer, nullptr);
   ASSERT_EQ(pointer->value, 2);
 }
 
