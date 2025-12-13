@@ -8,15 +8,15 @@
 **Note:** All time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), comprehensive unit testing (GoogleTest), and header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
 ---
 ## Project List
-- [X] **Bloom Filter** - Probabilistic data structure for fast membership testing (used by DNS Server for ad-blocking) | 3-4 hours | Nov 12-15, 2025
+- [X] **Bloom Filter** - Probabilistic data structure for fast membership testing | 3-4 hours | Nov 12-15, 2025
 - [X] **Ring Buffer (Circular Buffer)** - Fixed-size circular buffer for packet buffering and producer-consumer patterns | 3-4 hours | Nov 16-19, 2025
 - [x] **Skip List** - Probabilistic alternative to balanced trees with simple implementation | 4-5 hours | Nov 20-24, 2025
-- [x] **CRC32 / Internet Checksum** - Packet integrity validation algorithms (used by UDP and TCP) | 2-3 hours | Nov 25-27, 2025
+- [x] **CRC32 / Internet Checksum** - Packet integrity validation algorithms | 2-3 hours | Nov 25-27, 2025
 - [x] **Token Bucket Algorithm** - Rate limiting and traffic shaping for network congestion | 3-4 hours | Nov 28 - Dec 1, 2025
-- [x] **Leaky Bucket Algorithm** - Traffic shaping algorithm that smooths bursty traffic (complements Token Bucket) | 3-4 hours | Dec 2-5, 2025
-- [ ] **Exponential Backoff** - TCP retransmission and congestion control algorithm (used by TCP from Scratch) | 2-3 hours | Dec 6-8, 2025
+- [x] **Leaky Bucket Algorithm** - Traffic shaping algorithm that smooths bursty traffic | 3-4 hours | Dec 2-5, 2025
+- [X] **Exponential Backoff** - TCP retransmission and congestion control algorithm | 2-3 hours | Dec 6-8, 2025
 - [ ] **A* Algorithm** - Pathfinding algorithm for network routing and topology optimization | 4-5 hours | Dec 9-13, 2025
-- [ ] **Bellman-Ford Algorithm** - Distance-vector routing algorithm (like RIP protocol) | 5-6 hours | Dec 14-19, 2025
+- [ ] **Bellman-Ford Algorithm** - Distance-vector routing algorithm | 5-6 hours | Dec 14-19, 2025
 - [ ] **Sliding Window Protocol** ⭐ Capstone - TCP flow control mechanism for reliable data transmission (Go-Back-N and Selective Repeat variants) | 8-10 hours | Dec 20, 2025 - Jan 8, 2026
 **Total Estimated Time:** ~38-50 hours
 ---
