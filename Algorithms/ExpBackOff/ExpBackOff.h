@@ -4,6 +4,8 @@
 #include <chrono>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
+#include <exception>
 #include <random>
 #include <thread>
 
@@ -11,35 +13,40 @@ class ExponentialBackOff {
  public:
   using size_type = std::size_t;
 
-  ExponentialBackOff(size_type max_retries = default_max_retries,
-                     size_type base_delay_ms = default_base_delay_ms,
-                     size_type max_delay_ms = default_max_delay_ms);
+  ExponentialBackOff() {}
 
   template <typename Func>
-  bool Execute(Func operation) {}
+  auto Execute(Func&& operation,
+               std::chrono::milliseconds base_delay = DEFAULT_BASE_DELAY,
+               std::chrono::seconds max_delay = DEFAULT_MAX_DELAY,
+               size_type retries = DEFAULT_MAX_RETRIES)
+      -> decltype(operation()) {
+    thread_local std::mt19937 rng(std::random_device{}());
+    for (size_type attempt = 0; attempt < retries; attempt++) {
+      try {
+        return operation();
+      } catch (const std::exception& e) {
+        if (attempt == retries - 1) {
+          throw;
+        }
+      }
+      auto exp_delay = base_delay * (1 << attempt);
+      if (exp_delay > max_delay) {
+        exp_delay = max_delay;
+      }
+      std::uniform_int_distribution<uint64_t> dist(0, exp_delay.count());
+      auto jittered_delay = std::chrono::milliseconds(dist(rng));
+      std::this_thread::sleep_for(jittered_delay);
+    }
+    throw;
+  }
 
  private:
-  size_type max_retries_;
-  size_type base_delay_ms_;
-  size_type max_delay_ms_;
-
-  static constexpr size_type default_max_retries = 5;
-  static constexpr size_type default_base_delay_ms = 100;
-  static constexpr size_type default_max_delay_ms = 32000;
-
-  int CalculateDelay(size_type attempt);
+  static constexpr size_type DEFAULT_MAX_RETRIES = 5;
+  static constexpr std::chrono::milliseconds DEFAULT_BASE_DELAY =
+      std::chrono::milliseconds(500);
+  static constexpr std::chrono::seconds DEFAULT_MAX_DELAY =
+      std::chrono::seconds(30);
 };
-
-ExponentialBackOff::ExponentialBackOff(size_type max_retries,
-                                       size_type base_delay_ms,
-                                       size_type max_delay_ms)
-    : max_retries_(max_retries),
-      base_delay_ms_(base_delay_ms),
-      max_delay_ms_(max_delay_ms) {}
-
-template <typename Func>
-bool ExponentialBackOff::Execute(Func operation) {}
-
-int ExponentialBackOff::CalculateDelay(size_type attempt) {}
 
 #endif  // EXPBACKOFF_H_
