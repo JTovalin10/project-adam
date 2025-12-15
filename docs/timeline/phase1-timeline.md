@@ -31,7 +31,6 @@
 | [x] | Token Bucket Algorithm | 3-4 | Nov 28 - Dec 1, 2025 | 48-60 |
 | [x] | Leaky Bucket Algorithm | 3-4 | Dec 2-5, 2025 | 51-64 |
 | [x ] | Exponential Backoff | 2-3 | Dec 6-8, 2025 | 53-67 |
-| [ ] | A* Algorithm | 4-5 | Dec 9-13, 2025 | 57-72 |
 | [ ] | Bellman-Ford Algorithm | 5-6 | Dec 14-19, 2025 | 62-78 |
 | [ ] | Sliding Window Protocol ⭐ Capstone | 8-10 | Dec 20, 2025 - Jan 8, 2026 | 70-88 |
 **Progress:** 6/10 complete (60%)
