@@ -1,0 +1,60 @@
+#ifndef GBN_SENDER_H_
+#define GBN_SENDER_H_
+
+#include <condition_variable>
+#include <deque>
+#include <mutex>
+
+#include "packet.h"
+
+namespace network {
+
+class GBNSender {
+ public:
+  // Constructor
+  // window_size: maximum number of unacknowledged packets
+  // timeout_ms: milliseconds before retransmission
+  GBNSender(size_t window_size, uint32_t timeout_ms);
+
+  // Destructor
+  ~GBNSender();
+
+  // Send data (blocks if window is full)
+  // Returns true on success
+  bool Send(const std::vector<uint8_t>& data);
+
+  // Process cumulative acknowledgment
+  // ack_num: all packets up to and including this number are acknowledged
+  void ProcessAck(uint32_t ack_num);
+
+  // Check for timeouts and return packets that need retransmission
+  // Returns vector of packets to retransmit (empty if no timeouts)
+  std::vector<Packet> CheckTimeouts();
+
+  // Get the base sequence number (oldest unacknowledged)
+  uint32_t GetBase() const;
+
+  // Get the next sequence number to be assigned
+  uint32_t GetNextSeqNum() const;
+
+  // Get current window usage (number of packets in flight)
+  size_t GetWindowUsage() const;
+
+  // Check if window is full
+  bool IsWindowFull() const;
+
+ private:
+  const size_t window_size_;
+  const uint32_t timeout_ms_;
+
+  uint32_t base_;          // Oldest unacknowledged sequence number
+  uint32_t next_seq_num_;  // Next sequence number to use
+
+  std::deque<SenderFrame> window_;  // Frames currently in flight
+  mutable std::mutex mtx_;
+  std::condition_variable cv_window_available_;
+};
+
+}  // namespace network
+
+#endif  // GBN_SENDER_H_
