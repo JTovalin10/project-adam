@@ -14,10 +14,11 @@ class GBNSender {
   // Constructor
   // window_size: maximum number of unacknowledged packets
   // timeout_ms: milliseconds before retransmission
-  GBNSender(size_t window_size, uint32_t timeout_ms);
-
-  // Destructor
-  ~GBNSender();
+  GBNSender(size_t window_size, uint32_t timeout_ms)
+      : window_size_(window_size),
+        timeout_ms_(timeout_ms),
+        base_(0),
+        next_seq_num_(0) {}
 
   // Send data (blocks if window is full)
   // Returns true on success
@@ -32,16 +33,28 @@ class GBNSender {
   std::vector<Packet> CheckTimeouts();
 
   // Get the base sequence number (oldest unacknowledged)
-  uint32_t GetBase() const;
+  uint32_t GetBase() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return base_;
+  }
 
   // Get the next sequence number to be assigned
-  uint32_t GetNextSeqNum() const;
+  uint32_t GetNextSeqNum() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return next_seq_num_;
+  }
 
   // Get current window usage (number of packets in flight)
-  size_t GetWindowUsage() const;
+  size_t GetWindowUsage() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return next_seq_num_ - base_;
+  }
 
   // Check if window is full
-  bool IsWindowFull() const;
+  bool IsWindowFull() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return (next_seq_num_ - base_) == window_size_;
+  }
 
  private:
   const size_t window_size_;

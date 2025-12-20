@@ -1,42 +1,33 @@
 #include "gbn_receiver.h"
 
+#include <mutex>
+
 namespace network {
 
-GBNReceiver::GBNReceiver(size_t window_size)
-    : window_size_(window_size), expected_seq_num_(0) {
-  // TODO: Initialize if needed
-}
-
-GBNReceiver::~GBNReceiver() {
-  // TODO: Cleanup if needed
-}
-
 uint32_t GBNReceiver::ReceivePacket(const Packet& packet) {
-  // TODO: Implement
-  // 1. Lock mutex
-  // 2. Check if packet.seq_num == expected_seq_num_
-  // 3. If yes:
-  //    - Add to delivered_packets_
-  //    - Increment expected_seq_num_
-  //    - Return ACK for this packet (expected_seq_num_ - 1)
-  // 4. If no (out of order):
-  //    - Discard packet
-  //    - Return ACK for last in-order packet (expected_seq_num_ - 1)
-  return 0;
+  std::lock_guard<std::mutex> lock(mtx_);
+
+  if (packet.seq_num == expected_seq_num_) {
+    delivered_packets_.push_back(packet);
+    expected_seq_num_++;
+    return expected_seq_num_ - 1;
+  }
+  // it is out of order
+  return expected_seq_num_ - 1;
 }
 
 std::optional<Packet> GBNReceiver::GetNextPacket() {
-  // TODO: Implement
-  // 1. Lock mutex
-  // 2. Check if delivered_packets_ is empty
-  // 3. If empty: return nullopt
-  // 4. If not: pop front packet and return it
-  return std::nullopt;
-}
+  std::lock_guard<std::mutex> lock(mtx_);
 
-uint32_t GBNReceiver::GetExpectedSeqNum() const {
-  // TODO: Implement
-  return 0;
+  // if our deque is empty
+  if (delivered_packets_.empty()) {
+    return std::nullopt;
+    // if it is not empty
+  } else {
+    Packet packet = delivered_packets_.front();
+    delivered_packets_.pop_front();
+    return packet;
+  }
 }
 
 }  // namespace network

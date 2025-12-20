@@ -12,10 +12,11 @@ namespace network {
 class SRSender {
  public:
   // Constructor
-  SRSender(size_t window_size, uint32_t timeout_ms);
-
-  // Destructor
-  ~SRSender();
+  SRSender(size_t window_size, uint32_t timeout_ms)
+      : window_size_(window_size),
+        timeout_ms_(timeout_ms),
+        base_(0),
+        next_seq_num_(0) {}
 
   // Send data (blocks if window is full)
   bool Send(const std::vector<uint8_t>& data);
@@ -28,10 +29,16 @@ class SRSender {
   std::vector<Packet> CheckTimeouts();
 
   // Get the base sequence number
-  uint32_t GetBase() const;
+  uint32_t GetBase() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return base_;
+  }
 
   // Get the next sequence number
-  uint32_t GetNextSeqNum() const;
+  uint32_t GetNextSeqNum() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return next_seq_num_;
+  }
 
  private:
   struct FrameInfo {

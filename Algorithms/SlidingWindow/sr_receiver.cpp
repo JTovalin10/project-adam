@@ -2,15 +2,6 @@
 
 namespace network {
 
-SRReceiver::SRReceiver(size_t window_size)
-    : window_size_(window_size), rcv_base_(0) {
-  // TODO: Initialize if needed
-}
-
-SRReceiver::~SRReceiver() {
-  // TODO: Cleanup if needed
-}
-
 uint32_t SRReceiver::ReceivePacket(const Packet& packet) {
   // TODO: Implement
   // 1. Lock mutex
@@ -34,11 +25,6 @@ std::optional<Packet> SRReceiver::GetNextPacket() {
   // 3. If available, remove from buffer and return
   // 4. Otherwise return nullopt
   return std::nullopt;
-}
-
-uint32_t SRReceiver::GetBase() const {
-  // TODO: Implement
-  return 0;
 }
 
 bool SRReceiver::IsInWindow(uint32_t seq_num) const {

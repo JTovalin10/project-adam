@@ -12,10 +12,8 @@ namespace network {
 class GBNReceiver {
  public:
   // Constructor
-  explicit GBNReceiver(size_t window_size);
-
-  // Destructor
-  ~GBNReceiver();
+  explicit GBNReceiver(size_t window_size)
+      : window_size_(window_size), expected_seq_num_(0) {}
 
   // Process received packet
   // Returns: ACK number to send back to sender
@@ -26,7 +24,10 @@ class GBNReceiver {
   std::optional<Packet> GetNextPacket();
 
   // Get the expected sequence number
-  uint32_t GetExpectedSeqNum() const;
+  uint32_t GetExpectedSeqNum() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return expected_seq_num_;
+  }
 
  private:
   const size_t window_size_;

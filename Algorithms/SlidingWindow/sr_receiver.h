@@ -12,10 +12,8 @@ namespace network {
 class SRReceiver {
  public:
   // Constructor
-  explicit SRReceiver(size_t window_size);
-
-  // Destructor
-  ~SRReceiver();
+  explicit SRReceiver(size_t window_size)
+      : window_size_(window_size), rcv_base_(0) {}
 
   // Process received packet
   // Returns: Individual ACK for this specific packet
@@ -25,7 +23,10 @@ class SRReceiver {
   std::optional<Packet> GetNextPacket();
 
   // Get the base sequence number
-  uint32_t GetBase() const;
+  uint32_t GetBase() const {
+    std::lock_guard<std::mutex> lock(mtx_);
+    return rcv_base_;
+  }
 
  private:
   const size_t window_size_;

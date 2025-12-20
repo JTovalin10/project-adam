@@ -12,7 +12,8 @@ struct Packet {
   uint32_t seq_num;
   std::vector<uint8_t> data;
 
-  Packet(uint32_t seq, const std::vector<uint8_t>& payload);
+  Packet(uint32_t seq, const std::vector<uint8_t>& payload)
+      : seq_num(seq), data(payload) {}
 };
 
 // Frame with timing info for sender
@@ -21,7 +22,10 @@ struct SenderFrame {
   std::chrono::steady_clock::time_point sent_time;
   bool acknowledged;
 
-  explicit SenderFrame(const Packet& pkt);
+  explicit SenderFrame(const Packet& pkt)
+      : packet(pkt),
+        acknowledged(false),
+        sent_time(std::chrono::steady_clock::now()) {}
 };
 
 }  // namespace network

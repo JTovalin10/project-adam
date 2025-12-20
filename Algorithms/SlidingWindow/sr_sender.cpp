@@ -2,23 +2,6 @@
 
 namespace network {
 
-SRSender::FrameInfo::FrameInfo(const Packet& pkt)
-    : packet(pkt),
-      sent_time(std::chrono::steady_clock::now()),
-      acknowledged(false) {}
-
-SRSender::SRSender(size_t window_size, uint32_t timeout_ms)
-    : window_size_(window_size),
-      timeout_ms_(timeout_ms),
-      base_(0),
-      next_seq_num_(0) {
-  // TODO: Initialize if needed
-}
-
-SRSender::~SRSender() {
-  // TODO: Cleanup if needed
-}
-
 bool SRSender::Send(const std::vector<uint8_t>& data) {
   // TODO: Implement
   // 1. Lock mutex
@@ -52,19 +35,8 @@ std::vector<Packet> SRSender::CheckTimeouts() {
   return std::vector<Packet>();
 }
 
-uint32_t SRSender::GetBase() const {
-  // TODO: Implement
-  return 0;
-}
-
-uint32_t SRSender::GetNextSeqNum() const {
-  // TODO: Implement
-  return 0;
-}
-
 bool SRSender::IsInWindow(uint32_t seq_num) const {
   // TODO: Implement
-  // Return: seq_num >= base_ && seq_num < base_ + window_size_
   return false;
 }
 
