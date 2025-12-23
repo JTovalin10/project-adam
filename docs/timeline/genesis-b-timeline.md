@@ -14,9 +14,9 @@
 - [x] **CRC32 / Internet Checksum** - Packet integrity validation algorithms | 2-3 hours | Nov 25-27, 2025
 - [x] **Token Bucket Algorithm** - Rate limiting and traffic shaping for network congestion | 3-4 hours | Nov 28 - Dec 1, 2025
 - [x] **Leaky Bucket Algorithm** - Traffic shaping algorithm that smooths bursty traffic | 3-4 hours | Dec 2-5, 2025
-- [X] **Exponential Backoff** - TCP retransmission and congestion control algorithm | 2-3 hours | Dec 6-8, 2025
-- [ ] **Bellman-Ford Algorithm** - Distance-vector routing algorithm | 5-6 hours | Dec 14-19, 2025
-- [ ] **Sliding Window Protocol** ⭐ Capstone - TCP flow control mechanism for reliable data transmission (Go-Back-N and Selective Repeat variants) | 8-10 hours | Dec 20, 2025 - Jan 8, 2026
+- [x] **Exponential Backoff** - TCP retransmission and congestion control algorithm | 2-3 hours | Dec 6-8, 2025
+- [x] **Bellman-Ford Algorithm** - Distance-vector routing algorithm | 5-6 hours | Dec 14-19, 2025
+- [x] **Sliding Window Protocol** ⭐ Capstone - TCP flow control mechanism for reliable data transmission (Go-Back-N and Selective Repeat variants) | 8-10 hours | Dec 20, 2025 - Jan 8, 2026
 **Total Estimated Time:** ~38-50 hours
 ---
 ## Notes

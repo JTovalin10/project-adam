@@ -14,12 +14,12 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 
 | Metric              | Value                                              |
 | ------------------- | -------------------------------------------------- |
-| **Current Phase**   | Phase 1b: Evolution - Networking Primitives & Advanced Algorithms |
-| **Progress**        | 7/10 items complete                                 |
-| **Hours Invested**  | 42h 01m                                             |
-| **Current Item**    | A*                          |
+| **Current Phase**   | Phase 2: Mastery - Network protocols and concurrency primitives |
+| **Progress**        | 1/5 items complete                                 |
+| **Hours Invested**  | 45h 50m                                             |
+| **Current Item**    | Thread Pool with Work-Stealing                         |
 
-**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1b Details](docs/timeline/genesis-b-timeline.md)**
+**[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/mastery-timeline.md)**
 
 ---
 

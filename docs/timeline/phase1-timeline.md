@@ -17,7 +17,6 @@
 | [x] | Trie (Prefix Tree) | 3-4 | Nov 9-12, 2025 | 18-21 |
 | [X] | LRU Cache | 3-4 | Nov 13-16, 2025 | 21-25 |
 | [x] | Red-Black Tree ⭐ Capstone | 12-15 | Nov 17-30, 2025 | 33-40 |
-**Progress:** 9/9 complete (100%)
 ---
 ## Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Nov 12, 2025 - Jan 10, 2026)
 **Total Estimated Time:** ~38-50 hours  
@@ -30,15 +29,9 @@
 | [X] | CRC32 / Internet Checksum | 2-3 | Nov 25-27, 2025 | 45-56 |
 | [x] | Token Bucket Algorithm | 3-4 | Nov 28 - Dec 1, 2025 | 48-60 |
 | [x] | Leaky Bucket Algorithm | 3-4 | Dec 2-5, 2025 | 51-64 |
-| [x ] | Exponential Backoff | 2-3 | Dec 6-8, 2025 | 53-67 |
-| [ ] | Bellman-Ford Algorithm | 5-6 | Dec 14-19, 2025 | 62-78 |
-| [ ] | Sliding Window Protocol ⭐ Capstone | 8-10 | Dec 20, 2025 - Jan 8, 2026 | 70-88 |
-**Progress:** 6/10 complete (60%)
----
-## Phase 1 Total Progress
-**Completed:** 14/19 projects  
-**Total Estimated Time:** ~68-85 hours  
-**Available Time:** 127 hours
+| [x] | Exponential Backoff | 2-3 | Dec 6-8, 2025 | 53-67 |
+| [x] | Bellman-Ford Algorithm | 5-6 | Dec 14-19, 2025 | 62-78 |
+| [x] | Sliding Window Protocol ⭐ Capstone | 8-10 | Dec 20, 2025 - Jan 8, 2026 | 70-88 |
 ---
 ## Notes
 - All time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), comprehensive unit testing (GoogleTest), and header file documentation per Google C++ Style Guide
