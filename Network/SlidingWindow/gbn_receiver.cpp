@@ -13,7 +13,7 @@ uint32_t GBNReceiver::ReceivePacket(const Packet& packet) {
     return expected_seq_num_ - 1;
   }
   // it is out of order
-  return expected_seq_num_ - 1;
+  return (expected_seq_num_ > 0) ? expected_seq_num_ - 1 : 0;
 }
 
 std::optional<Packet> GBNReceiver::GetNextPacket() {

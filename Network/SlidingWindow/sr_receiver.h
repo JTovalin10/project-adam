@@ -1,6 +1,7 @@
 #ifndef SR_RECEIVER_H_
 #define SR_RECEIVER_H_
 
+#include <deque>
 #include <mutex>
 #include <optional>
 #include <unordered_map>
@@ -27,18 +28,18 @@ class SRReceiver {
     return rcv_base_;
   }
 
+  bool IsInWindow(uint32_t seq_num) const {
+    return seq_num >= rcv_base_ && seq_num < rcv_base_ + window_size_;
+  }
+
  private:
   const size_t window_size_;
   uint32_t rcv_base_{0};  // Smallest sequence number not yet delivered
 
   // Buffer for out-of-order packets
+  std::deque<Packet> message_queue_;  // for in-order
   std::unordered_map<uint32_t, Packet> buffer_;
   mutable std::mutex mtx_;
-
-  // Helper: check if sequence number is in current window
-  bool IsInWindow(uint32_t seq_num) const {
-    return buffer_.count(seq_num) == 1;
-  }
 };
 
 }  // namespace network

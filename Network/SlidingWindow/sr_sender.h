@@ -45,6 +45,7 @@ class SRSender {
         std::chrono::steady_clock::now()};
     bool acknowledged{false};
 
+    FrameInfo() = default;
     explicit FrameInfo(const Packet& pkt) : packet(pkt) {}
   };
 

@@ -18,17 +18,20 @@ uint32_t SRReceiver::ReceivePacket(const Packet& packet) {
   //    - Ignore
   std::lock_guard<std::mutex> lock(mtx_);
   uint32_t seq_num{packet.seq_num};
+  if (seq_num < rcv_base_) {
+    return seq_num;
+  }
+
   if (IsInWindow(seq_num)) {
     buffer_[seq_num] = packet;
-    while (buffer_.count(seq_num) == 1) {
+    while (buffer_.count(rcv_base_) == 1) {
+      message_queue_.push_back(buffer_[rcv_base_]);
+      buffer_.erase(rcv_base_);
       rcv_base_++;
     }
     return seq_num;
-  } else if (seq_num < rcv_base_) {
-    return seq_num;
-  } else {
-    return (rcv_base_ > 0) ? rcv_base_ - 1 : 0;
   }
+  return (rcv_base_ > 0) ? rcv_base_ - 1 : 0;
 }
 
 std::optional<Packet> SRReceiver::GetNextPacket() {
@@ -37,10 +40,9 @@ std::optional<Packet> SRReceiver::GetNextPacket() {
   // 3. If available, remove from buffer and return
   // 4. Otherwise return nullopt
   std::lock_guard<std::mutex> lock(mtx_);
-  if (buffer_.count(rcv_base_) == 1) {
-    Packet packet = buffer_[rcv_base_];
-    buffer_.erase(rcv_base_);
-    rcv_base_++;
+  if (!message_queue_.empty()) {
+    Packet packet = message_queue_.front();
+    message_queue_.pop_front();
     return packet;
   }
   return std::nullopt;

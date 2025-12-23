@@ -10,9 +10,11 @@ bool GBNSender::Send(const std::vector<uint8_t>& data) {
   // we have a unique lock as std::condtional_variable requires it to use wait
   std::unique_lock<std::mutex> lock(mtx_);
   // we pass in this into [] so that it has access to all functions
-  cv_window_available_.wait(lock, [this]() { return !IsWindowFull(); });
+  cv_window_available_.wait(
+      lock, [this]() { return (next_seq_num_ - base_) != window_size_; });
   Packet new_packet(next_seq_num_, data);
   SenderFrame new_frame(new_packet);
+  window_.push_back(new_frame);
   next_seq_num_++;
   return true;
 }
@@ -31,6 +33,9 @@ void GBNSender::ProcessAck(uint32_t ack_num) {
 
 std::vector<Packet> GBNSender::CheckTimeouts() {
   std::lock_guard<std::mutex> lock(mtx_);
+  if (window_.empty()) {
+    return {};
+  }
   // calculate time difference between base_ time and current time
   auto now = std::chrono::steady_clock::now();
   auto oldest_frame_time = window_.front().sent_time;
@@ -43,6 +48,7 @@ std::vector<Packet> GBNSender::CheckTimeouts() {
     std::vector<Packet> packets;
     packets.reserve(window_size_);
     for (auto& frame : window_) {
+      frame.sent_time = now;
       packets.push_back(frame.packet);
     }
     return packets;
