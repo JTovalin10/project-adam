@@ -15,10 +15,7 @@ class GBNSender {
   // window_size: maximum number of unacknowledged packets
   // timeout_ms: milliseconds before retransmission
   GBNSender(size_t window_size, uint32_t timeout_ms)
-      : window_size_(window_size),
-        timeout_ms_(timeout_ms),
-        base_(0),
-        next_seq_num_(0) {}
+      : window_size_(window_size), timeout_ms_(timeout_ms) {}
 
   // Send data (blocks if window is full)
   // Returns true on success
@@ -60,8 +57,8 @@ class GBNSender {
   const size_t window_size_;
   const uint32_t timeout_ms_;
 
-  uint32_t base_;          // Oldest unacknowledged sequence number
-  uint32_t next_seq_num_;  // Next sequence number to use
+  uint32_t base_{0};          // Oldest unacknowledged sequence number
+  uint32_t next_seq_num_{0};  // Next sequence number to use
 
   std::deque<SenderFrame> window_;  // Frames currently in flight
   mutable std::mutex mtx_;

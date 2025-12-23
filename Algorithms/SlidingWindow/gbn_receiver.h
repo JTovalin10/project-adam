@@ -12,8 +12,7 @@ namespace network {
 class GBNReceiver {
  public:
   // Constructor
-  explicit GBNReceiver(size_t window_size)
-      : window_size_(window_size), expected_seq_num_(0) {}
+  explicit GBNReceiver(size_t window_size) : window_size_(window_size) {}
 
   // Process received packet
   // Returns: ACK number to send back to sender
@@ -31,7 +30,7 @@ class GBNReceiver {
 
  private:
   const size_t window_size_;
-  uint32_t expected_seq_num_;
+  uint32_t expected_seq_num_{0};
 
   std::deque<Packet>
       delivered_packets_;  // Packets ready to deliver to application

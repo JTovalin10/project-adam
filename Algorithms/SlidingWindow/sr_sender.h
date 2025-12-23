@@ -1,6 +1,7 @@
 #ifndef SR_SENDER_H_
 #define SR_SENDER_H_
 
+#include <chrono>
 #include <condition_variable>
 #include <mutex>
 #include <unordered_map>
@@ -13,10 +14,7 @@ class SRSender {
  public:
   // Constructor
   SRSender(size_t window_size, uint32_t timeout_ms)
-      : window_size_(window_size),
-        timeout_ms_(timeout_ms),
-        base_(0),
-        next_seq_num_(0) {}
+      : window_size_(window_size), timeout_ms_(timeout_ms) {}
 
   // Send data (blocks if window is full)
   bool Send(const std::vector<uint8_t>& data);
@@ -43,17 +41,18 @@ class SRSender {
  private:
   struct FrameInfo {
     Packet packet;
-    std::chrono::steady_clock::time_point sent_time;
-    bool acknowledged;
+    std::chrono::steady_clock::time_point sent_time{
+        std::chrono::steady_clock::now()};
+    bool acknowledged{false};
 
-    explicit FrameInfo(const Packet& pkt);
+    explicit FrameInfo(const Packet& pkt) : packet(pkt) {}
   };
 
   const size_t window_size_;
   const uint32_t timeout_ms_;
 
-  uint32_t base_;
-  uint32_t next_seq_num_;
+  uint32_t base_{0};
+  uint32_t next_seq_num_{0};
 
   // Map sequence number -> FrameInfo for selective tracking
   std::unordered_map<uint32_t, FrameInfo> window_;
@@ -61,7 +60,9 @@ class SRSender {
   std::condition_variable cv_window_available_;
 
   // Helper: check if sequence number is in current window
-  bool IsInWindow(uint32_t seq_num) const;
+  bool IsInWindow(uint32_t seq_num) const {
+    return window_.count(seq_num) == 1;
+  }
 };
 
 }  // namespace network
