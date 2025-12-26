@@ -16,8 +16,8 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 | ------------------- | -------------------------------------------------- |
 | **Current Phase**   | Phase 2: Mastery - Network protocols and concurrency primitives |
 | **Progress**        | 1/5 items complete                                 |
-| **Hours Invested**  | 45h 50m                                             |
-| **Current Item**    | Thread Pool with Work-Stealing                         |
+| **Hours Invested**  | 46h 50m                                             |
+| **Current Item**    | Lock-Free Data Structures                         |
 
 **[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/mastery-timeline.md)**
 

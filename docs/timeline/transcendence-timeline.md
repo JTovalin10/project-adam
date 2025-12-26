@@ -16,9 +16,9 @@ Distributed systems and virtualization. Building the capstone project: an ARM hy
 
 ## Project List
 
-- [ ] **BitTorrent Client** - P2P file-sharing with Distributed Hash Table (uses Consistent Hashing from Evolution) | 40-50 hours | Jan 1 - Feb 19, 2027
-- [ ] **Custom Memory Allocators** - Buddy, slab, and pool allocators for efficient memory management (used by ARM Hypervisor) | 30-40 hours | Feb 20 - Mar 31, 2027
-- [ ] **ARM Hypervisor** ⭐⭐⭐⭐⭐ Capstone - Type-2 hypervisor running multiple Linux VMs (uses Custom Memory Allocators) | 80-100 hours | Apr 1 - Jun 30, 2027
+- [ ] **BitTorrent Client** - P2P file-sharing with Distributed Hash Table | 40-50 hours | Jan 1 - Feb 19, 2027
+- [ ] **Custom Memory Allocators** - Buddy, slab, and pool allocators for efficient memory management | 30-40 hours | Feb 20 - Mar 31, 2027
+- [ ] **ARM Hypervisor** ⭐⭐⭐⭐⭐ Capstone - Type-2 hypervisor running multiple Linux VMs | 80-100 hours | Apr 1 - Jun 30, 2027
 
 **Total Estimated Time:** ~150-190 hours
 
