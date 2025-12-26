@@ -13,30 +13,29 @@
 
 class WorkStealingThreadPool {
  public:
-  // HINT: Need to populate queues_ with WorkQueue objects
-  // Problem: WorkQueue contains mutex (non-copyable)
-  // Question: How do you add non-copyable objects to a vector?
-  //
-  // HINT: Need to spawn threads that run WorkerThread
-  // Problem: WorkerThread is a member function needing 'this' pointer
-  // Question: How do you pass member function + 'this' to std::thread
-  // constructor? Question: Each thread needs unique ID - how do you pass it?
+  /**
+   * Constructs the ThreadPool
+   *
+   * ARGS:
+   * num_threads: a size_t integer that represents the number of threads the
+   * client wants to use
+   *
+   */
   explicit WorkStealingThreadPool(size_t num_threads);
 
-  // HINT: Threads are in infinite loops
-  // Question: How do you signal all threads to stop looping?
-  // Question: Some threads might be sleeping on cv_ - wake one or all?
-  // Question: What happens if you destroy pool while threads still running?
-  // Question: What vector operation waits for thread to finish?
+  /**
+   * Deconstructor for the ThreadPool, it will execute all tasks before
+   * deconstruction
+   */
   ~WorkStealingThreadPool();
 
-  // HINT: Task needs to go into some queue
-  // Question: Which queue? Does it matter for correctness? For performance?
-  // Question: How do you ensure even distribution across queues?
-  //
-  // HINT: Threads might be sleeping waiting for work
-  // Question: How do you wake a sleeping thread?
-  // Question: Wake one thread or all threads?
+  /**
+   * Adds a task to the workpool in a round robin way to evenly distibute the
+   * work
+   *
+   * ARGS:
+   * task: the task to add to the pool
+   */
   void Submit(std::function<void()> task);
 
  private:
@@ -44,20 +43,24 @@ class WorkStealingThreadPool {
     std::deque<std::function<void()>> tasks;
     std::mutex mutex;
 
-    // HINT: Multiple threads might access this deque concurrently
-    // Question: What happens without synchronization?
-    // Question: Which end of deque - front or back? Does it matter?
-    // Question: What RAII pattern ensures mutex is always unlocked?
+    /**
+     * Adds task to the WorkQueue
+     *
+     * ARGS:
+     * task: task to add
+     */
     void PushBottom(std::function<void()>&& task) {
       std::lock_guard lock(mutex);
 
       tasks.push_back(std::move(task));
     }
 
-    // HINT: Owner thread takes tasks from its own queue
-    // Question: Same end you pushed to, or opposite end? Why?
-    // Question: What if deque is empty? Can't return task that doesn't exist
-    // Question: Still need to lock mutex even though you "own" this queue?
+    /**
+     * removes the task at the back of the queue and returns it
+     *
+     * RETURNS:
+     * if a task exist it returns the task. Else, it will return nullopt
+     */
     std::optional<std::function<void()>> PopBottom() {
       std::lock_guard lock(mutex);
       if (tasks.empty()) {
@@ -67,10 +70,13 @@ class WorkStealingThreadPool {
       tasks.pop_back();
       return task;
     }
-    // HINT: Thief thread steals from victim's queue
-    // Question: Same end as PopBottom or opposite end? Why does it matter?
-    // Question: Do you need mutex even though different thread from owner?
-    // Question: What if queue is empty when you try to steal?
+
+    /**
+     * Steals task from the front of the queue and returns it
+     *
+     * RETURNS:
+     * if a task exists it returns the task, else it will return nullopt
+     */
     std::optional<std::function<void()>> Steal() {
       std::lock_guard lock(mutex);
 
@@ -86,33 +92,26 @@ class WorkStealingThreadPool {
     }
   };
 
-  // HINT: This is the main loop each thread runs
-  // Question: Loop forever or until some condition? What condition?
-  //
-  // HINT: Thread needs work - where to look first?
-  // Question: Which queue should this thread check first?
-  // Question: Which WorkQueue method does owner call on its own queue?
-  //
-  // HINT: No local work found - what's fallback strategy?
-  // Question: Give up immediately or try stealing?
-  // Question: How do you steal from other threads?
-  //
-  // HINT: No work anywhere in entire pool
-  // Question: Busy-spin checking queues or sleep? Which is better for CPU?
-  // Question: How do you make thread sleep until work arrives?
-  // Question: What object makes threads sleep/wake?
-  // Question: Sleeping requires a mutex - which one? Why?
-  //
-  // HINT: Got a task (either local or stolen)
-  // Question: Execute inside lock or outside lock? Why does it matter?
+  /**
+   * main function that loops infinitely executing its own or stealing tasks
+   * until deconstruction
+   *
+   * ARGS:
+   * thread_id: a size_t integer that represents the thread id that goes from 0
+   * - num_threads
+   *
+   */
   void WorkerThread(const size_t thread_id);
 
-  // HINT: Try to find work by stealing from other threads
-  // Question: Can you steal from your own queue? Why not?
-  // Question: How do you iterate other threads without hitting yourself?
-  // Question: Check queues in order, randomly, or round-robin?
-  // Question: What if every queue you check is empty?
-  // Question: Which WorkQueue method does thief call on victim's queue?
+  /**
+   * attempts to steal from another thread to do its work
+   *
+   * ARGS:
+   * thief_id: the id of the thief so that we dont attempt to steal our own work
+   *
+   * RETURNS:
+   * std::function<void()> if a task was found. else, nullopt
+   */
   std::optional<std::function<void()>> TrySteal(const size_t thief_id);
 
   std::vector<std::unique_ptr<WorkQueue>> queues_;
