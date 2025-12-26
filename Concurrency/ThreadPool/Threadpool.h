@@ -1,6 +1,8 @@
+#ifndef WORK_STEALING_POOL_H_
+#define WORK_STEALING_POOL_H_
+
 #include <atomic>
 #include <condition_variable>
-#include <cstddef>
 #include <deque>
 #include <functional>
 #include <mutex>
@@ -19,7 +21,7 @@ class WorkStealingThreadPool {
   // Problem: WorkerThread is a member function needing 'this' pointer
   // Question: How do you pass member function + 'this' to std::thread
   // constructor? Question: Each thread needs unique ID - how do you pass it?
-  explicit WorkStealingThreadPool(std::size_t num_threads);
+  explicit WorkStealingThreadPool(size_t num_threads);
 
   // HINT: Threads are in infinite loops
   // Question: How do you signal all threads to stop looping?
@@ -47,7 +49,8 @@ class WorkStealingThreadPool {
     // Question: Which end of deque - front or back? Does it matter?
     // Question: What RAII pattern ensures mutex is always unlocked?
     void PushBottom(std::function<void()> task) {
-      std::lock_guard<std::mutex> lock(mutex);
+      std::lock_guard lock(mutex);
+
       tasks.push_back(task);
     }
 
@@ -56,28 +59,24 @@ class WorkStealingThreadPool {
     // Question: What if deque is empty? Can't return task that doesn't exist
     // Question: Still need to lock mutex even though you "own" this queue?
     std::optional<std::function<void()>> PopBottom() {
-      std::lock_guard<std::mutex> lock(mutex);
-
+      std::lock_guard lock(mutex);
       if (tasks.empty()) {
         return std::nullopt;
       }
-
       std::function<void()> task = tasks.back();
       tasks.pop_back();
       return task;
     }
-
     // HINT: Thief thread steals from victim's queue
     // Question: Same end as PopBottom or opposite end? Why does it matter?
     // Question: Do you need mutex even though different thread from owner?
     // Question: What if queue is empty when you try to steal?
     std::optional<std::function<void()>> Steal() {
-      std::lock_guard<std::mutex> lock(mutex);
+      std::lock_guard lock(mutex);
 
       if (tasks.empty()) {
         return std::nullopt;
       }
-
       std::function<void()> task = tasks.back();
       tasks.pop_back();
       return task;
@@ -89,7 +88,7 @@ class WorkStealingThreadPool {
   //
   // HINT: Thread needs work - where to look first?
   // Question: Which queue should this thread check first?
-  // Question: Whi:wakech WorkQueue method does owner call on its own queue?
+  // Question: Which WorkQueue method does owner call on its own queue?
   //
   // HINT: No local work found - what's fallback strategy?
   // Question: Give up immediately or try stealing?
@@ -103,7 +102,7 @@ class WorkStealingThreadPool {
   //
   // HINT: Got a task (either local or stolen)
   // Question: Execute inside lock or outside lock? Why does it matter?
-  void WorkerThread(size_t thread_id);
+  void WorkerThread(const size_t thread_id);
 
   // HINT: Try to find work by stealing from other threads
   // Question: Can you steal from your own queue? Why not?
@@ -111,7 +110,7 @@ class WorkStealingThreadPool {
   // Question: Check queues in order, randomly, or round-robin?
   // Question: What if every queue you check is empty?
   // Question: Which WorkQueue method does thief call on victim's queue?
-  std::optional<std::function<void()>> TrySteal(size_t thief_id);
+  std::optional<std::function<void()>> TrySteal(const size_t thief_id);
 
   std::vector<std::unique_ptr<WorkQueue>> queues_;
   std::vector<std::thread> threads_;
@@ -120,3 +119,5 @@ class WorkStealingThreadPool {
   std::mutex global_mutex_;
   std::atomic<size_t> next_queue_{0};
 };
+
+#endif  // WORK_STEALING_POOL_H_
