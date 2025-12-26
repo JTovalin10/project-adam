@@ -48,10 +48,10 @@ class WorkStealingThreadPool {
     // Question: What happens without synchronization?
     // Question: Which end of deque - front or back? Does it matter?
     // Question: What RAII pattern ensures mutex is always unlocked?
-    void PushBottom(std::function<void()> task) {
+    void PushBottom(std::function<void()>&& task) {
       std::lock_guard lock(mutex);
 
-      tasks.push_back(task);
+      tasks.push_back(std::move(task));
     }
 
     // HINT: Owner thread takes tasks from its own queue
@@ -63,7 +63,7 @@ class WorkStealingThreadPool {
       if (tasks.empty()) {
         return std::nullopt;
       }
-      std::function<void()> task = tasks.back();
+      std::function<void()> task = std::move(tasks.back());
       tasks.pop_back();
       return task;
     }
@@ -77,8 +77,11 @@ class WorkStealingThreadPool {
       if (tasks.empty()) {
         return std::nullopt;
       }
-      std::function<void()> task = tasks.back();
-      tasks.pop_back();
+      // grab from the front as its more likely to be cold so ~300 cpu cycles
+      // this way the owner is more likely to have the task in L1 cache so ~3
+      // cpu cycles
+      std::function<void()> task = std::move(tasks.front());
+      tasks.pop_front();
       return task;
     }
   };

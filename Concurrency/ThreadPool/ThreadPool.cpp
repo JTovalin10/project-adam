@@ -1,6 +1,7 @@
 #include "ThreadPool.h"
 
 #include <cstddef>
+#include <iostream>
 #include <memory>
 #include <mutex>
 #include <random>
@@ -28,27 +29,34 @@ void WorkStealingThreadPool::Submit(std::function<void()> task) {
   // round robin technique to add the job
   size_t index = next_queue_.fetch_add(1) % queues_.size();
 
-  queues_[index]->PushBottom(task);
+  queues_[index]->PushBottom(std::move(task));
 
   cv_.notify_one();
 }
 
 void WorkStealingThreadPool::WorkerThread(const size_t thread_id) {
-  while (!shutdown_) {
+  while (true) {
     std::optional<std::function<void()>> task = queues_[thread_id]->PopBottom();
 
+    // check if we have a task and if not try to steal one
     if (!task.has_value()) {
       task = TrySteal(thread_id);
     }
 
+    // execute the task and try again (it will grab its own task or steal again)
     if (task.has_value()) {
       (*task)();
+      continue;
     }
 
-    if (!task.has_value()) {
-      std::unique_lock lock(global_mutex_);
-      cv_.wait(lock);
+    // shut down once we hit deconstructor
+    if (shutdown_) {
+      break;
     }
+
+    // if all is false, then just sleep until we submit
+    std::unique_lock lock(global_mutex_);
+    cv_.wait(lock);
   }
 }
 
@@ -62,7 +70,7 @@ std::optional<std::function<void()>> WorkStealingThreadPool::TrySteal(
   static thread_local std::mt19937 gen(std::random_device{}());
 
   static thread_local std::uniform_int_distribution<size_t> dist(
-      0, queues_.size());
+      0, queues_.size() - 1);
 
   size_t start = dist(gen);
 
