@@ -84,7 +84,7 @@ CGStack<T>::~CGStack() {
 template <typename T>
 void CGStack<T>::push(type_name item) {
   std::lock_guard<std::shared_mutex> lock(mtx_);
-  Node* new_node = new Node(item);
+  Node* new_node = new Node(std::move(item));
 
   Node* old_head = head_->next;
   new_node->next = old_head;
