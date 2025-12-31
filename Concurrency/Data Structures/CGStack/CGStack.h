@@ -28,12 +28,14 @@ class CGStack {
    * other: rvalue CGStack
    */
   CGStack(CGStack&& other) noexcept {
-    std::scoped_lock lock(mtx_, other.mtx_);
-    head_ = other.head_;
-    tail_ = other.tail_;
+    if (this != &other) {
+      std::scoped_lock lock(mtx_, other.mtx_);
+      head_ = other.head_;
+      tail_ = other.tail_;
 
-    other.head_ = nullptr;
-    other.tail_ = nullptr;
+      other.head_ = nullptr;
+      other.tail_ = nullptr;
+    }
   }
 
   /**
