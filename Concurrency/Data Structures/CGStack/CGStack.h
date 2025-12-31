@@ -19,20 +19,27 @@ class CGStack {
 
   ~CGStack();
 
-  CGStack& operator=(const CGStack& other) {
+  CGStack& operator=(const CGStack& other) = delete;
+
+  CGStack& operator=(CGStack&& other) noexcept {
+    std::unique_lock<std::shared_mutex> lock(other.mtx_);
     if (this != &other) {
-      Node* curr = head_;
+      Node* curr = head_->next;
       while (curr != tail_) {
         Node* temp = curr->next;
         delete curr;
         curr = temp;
       }
       delete tail_;
+
+      head_ = other.head_;
+      tail_ = other.tail_;
+
+      other.head_ = nullptr;
+      other.tail_ = nullptr;
     }
     return *this;
   }
-
-  CGStack& operator=(CGStack&& other) = delete;
 
   void push(T item);
 
@@ -49,6 +56,8 @@ class CGStack {
 
     explicit Node(type_name data) : data(std::move(data)) {};
   };
+
+  bool unsafe_empty() const { return head_->next == tail_; }
 
   Node* head_ = new Node();
   Node* tail_ = new Node();
@@ -95,26 +104,25 @@ template <typename T>
 std::shared_ptr<T> CGStack<T>::pop() {
   std::lock_guard<std::shared_mutex> lock(mtx_);
   // if empty
-  if (head_->next != tail_) {
-    Node* item = head_->next;
-
-    // remove it from the LL
-    head_->next = item->next;
-    T data = item->data;
-    delete item;
-    return std::make_shared<T>(data);
+  if (unsafe_empty()) {
+    return nullptr;
   }
-  return nullptr;
+  Node* item = head_->next;
+  std::shared_ptr<T> res = std::make_shared<T>(std::move(item->data));
+  // if the make_shared did not throw then we remove from the LL
+  head_->next = item->next;
+  delete item;
+  return res;
 }
 
 template <typename T>
 std::shared_ptr<T> CGStack<T>::peek() const {
   std::shared_lock<std::shared_mutex> lock(mtx_);
   // if empty
-  if (head_->next != tail_) {
-    return std::make_shared<T>(head_->next->data);
+  if (unsafe_empty()) {
+    return nullptr;
   }
-  return nullptr;
+  return std::make_shared<T>(head_->next->data);
 }
 
 #endif  // CGSTACK_H_
