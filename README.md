@@ -54,10 +54,6 @@ C++ provides the low-level control necessary for deep systems understanding. Unl
 
 The skills developed through C++ systems programming transfer broadly to other languages and domains. Understanding pointers, memory management, concurrency primitives, and hardware interaction creates a foundation that makes higher-level abstractions more intuitive.
 
-### Why "Project Adam"?
-
-The project name references Adam Warlock's evolution toward perfection, symbolizing the progression from fundamental data structures to sophisticated distributed systems.
-
 ---
 
 ## The Journey
