@@ -9,7 +9,7 @@ class LFStack {
   using type_name = T;
 
  public:
-  LFStack();
+  LFStack() = default;
 
   LFStack(const LFStack& other) = delete;
   LFStack(LFStack&& other) = delete;
@@ -22,16 +22,28 @@ class LFStack {
 
   std::shared_ptr<T> pop();
 
-  bool is_empty() const;
+  bool empty() const;
 
  private:
   struct Node {
-    T data;
+    std::shared_ptr<T> data;
     Node* next{nullptr};
-    Node(T data = T()) : data(std::move(data)) {}
+    Node(T data = T()) : data(std::make_shared<T>(std::move(data))) {}
   };
 
   std::atomic<Node*> head_{nullptr};
 };
+
+template <typename T>
+LFStack<T>::~LFStack() {}
+
+template <typename T>
+void LFStack<T>::push(type_name item) {}
+
+template <typename T>
+std::shared_ptr<T> LFStack<T>::pop() {}
+
+template <typename T>
+bool LFStack<T>::empty() const {}
 
 #endif  // LFSTACK_H_
