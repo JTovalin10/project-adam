@@ -72,6 +72,7 @@ CGStack<T>::CGStack() {
 template <typename T>
 CGStack<T>::CGStack(CGStack&& other) noexcept {
   std::lock_guard<std::shared_mutex> lock(other.mtx_);
+  // set these head and tail to the others
   head_ = other.head_;
   tail_ = other.tail_;
 
@@ -95,8 +96,12 @@ void CGStack<T>::push(type_name item) {
   std::lock_guard<std::shared_mutex> lock(mtx_);
   Node* new_node = new Node(std::move(item));
 
+  // grab the old head
   Node* old_head = head_->next;
+  // set the new nodes next to the old head [new_node -> old_head]
   new_node->next = old_head;
+  // make the next of the current head the new node [head_ -> new_node ->
+  // old_head]
   head_->next = new_node;
 }
 
