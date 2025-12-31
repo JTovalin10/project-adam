@@ -1,22 +1,28 @@
-# Phase 1: Foundation - Overview
+# Phase 1: The Basics - Overview
 
-**Duration:** Oct 24, 2025 - Feb 28, 2026 (127 days)  
-**Work Schedule:** 1 hour/day average  
+**Duration:** Oct 24, 2025 - Jan 10, 2026 (78 days)
+**Work Schedule:** 1 hour/day average
 **Total Hours Available:** 127 hours
 
 ---
 
 ## Overview
 
-Phase 1: Foundation builds the essential data structures, algorithms, and networking primitives that form the foundation for all networking and systems projects. This phase is split into two parts:
+Phase 1: The Basics builds essential data structures, algorithms, and networking primitives that form the foundation for all subsequent systems projects.
 
-### Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Nov 11, 2025)
+This phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work internally. For data structures with existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), production code in later phases will use those libraries. These Phase 1 implementations are educational references only—they will not be used in production code.
 
-Building essential data structures and algorithms with **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work under the hood. For data structures that have existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), I will use those libraries in later projects to gain experience with industry-standard tools. These Phase 1 implementations are educational references only—they will not ship in later networking/concurrency projects. I have taken CSE 332 (Data Structures & Parallelism) and will take CSE 421 (Algorithms) at UW, so algorithms and data structures covered in those courses are not included here unless they're directly used in projects I'll build.
+Data structures covered in CSE 332 (Data Structures & Parallelism) and CSE 421 (Algorithms) are excluded unless directly used in planned projects. CSE 422 (Advanced Toolkit for Modern Algorithms) covers complementary topics like sketching algorithms, sampling, and ML algorithms.
 
-### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Nov 12, 2025 - Jan 10, 2026)
+The phase is organized into two focus areas:
 
-Network-focused phase that builds primitives and algorithms directly used in Phase 2's networking projects (DNS, UDP, TCP). This phase prioritizes practical networking knowledge over academic algorithms.
+### Core Data Structures (Oct 24 - Nov 11, 2025)
+
+Fundamental data structures for C++ implementation mastery and manual memory management practice.
+
+### Networking Primitives (Nov 12, 2025 - Jan 10, 2026)
+
+Network-focused data structures and algorithms directly used in Phase 3's networking projects (DNS, UDP, TCP).
 
 ---
 
@@ -29,22 +35,26 @@ All time estimates include:
 
 ---
 
-## Phase 1a Projects
+## Core Data Structures Projects
 
-**Data Structures:** Dynamic Array, Singly LinkedList, Doubly LinkedList, Stack, Queue, Hash Table, Trie, LRU Cache, **Red-Black Tree** ⭐ Capstone
+**Projects:** Dynamic Array, Singly LinkedList, Doubly LinkedList, Stack, Queue, Hash Table, Trie, LRU Cache, **Red-Black Tree** ⭐
 
-> Min Heap, Dijkstra's Algorithm, and Union-Find were removed from this phase because they are covered in CSE 332/421 and do not add new C++ implementation practice right now.
+**Total Estimated Time:** ~30-35 hours
+**Available Time:** 68 days × 1 hour/day = 68 hours
+
+> Min Heap, Dijkstra's Algorithm, and Union-Find are excluded because they are covered in CSE 332/421.
 
 ---
 
-## Phase 1b Projects
+## Networking Primitives Projects
 
-**Networking Data Structures:** Bloom Filter, Ring Buffer, Skip List  
-**Networking Algorithms:** CRC32/Internet Checksum, Token Bucket, Leaky Bucket, Exponential Backoff, A* Algorithm, Bellman-Ford, **Sliding Window Protocol** ⭐ Capstone  
-**Total Estimated Time:** ~38-50 hours  
+**Data Structures:** Bloom Filter, Ring Buffer, Skip List
+**Algorithms:** CRC32/Internet Checksum, Token Bucket, Leaky Bucket, Exponential Backoff, Bellman-Ford, **Sliding Window Protocol** ⭐
+
+**Total Estimated Time:** ~38-50 hours
 **Available Time:** 60 days × 1 hour/day = 60 hours
 
-> Radix Tree and Consistent Hashing were cut from Phase 1b. Radix Tree is no longer needed for later phases, and Consistent Hashing will be handled in CSE 422 Homework 1.
+> Radix Tree and Consistent Hashing are excluded. Radix Tree is not needed for later phases, and Consistent Hashing will be covered in CSE 422.
 
 ---
 
@@ -58,7 +68,5 @@ All time estimates include:
 ## Links
 
 - [Phase 1 Timeline](../timeline/phase1-timeline.md) - Detailed timeline with completion tracking
-- [Phase 1a: Genesis Timeline](../timeline/genesis-a-timeline.md) - Phase 1a detailed breakdown
-- [Phase 1b: Evolution Timeline](../timeline/genesis-b-timeline.md) - Phase 1b detailed breakdown
 - [Back to README](../../README.md)
 

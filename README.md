@@ -2,9 +2,7 @@
 
 > "Building systems from first principles"
 
-A 20-month systems engineering roadmap from data structures to ARM hypervisors, with a focus on **networking, distributed systems.**
-
-**Note:** This is a networking and distributed systems-focused project. Algorithms and data structures taught in class won't be covered unless they're used for something I will build.
+A 20-month systems engineering roadmap from data structures to distributed systems, with a focus on **concurrency, networking, and distributed systems.**
 
 ---
 
@@ -12,296 +10,221 @@ A 20-month systems engineering roadmap from data structures to ARM hypervisors, 
 
 **Progress:** AHEAD OF SCHEDULE
 
-| Metric              | Value                                              |
-| ------------------- | -------------------------------------------------- |
-| **Current Phase**   | Phase 2: Mastery - Network protocols and concurrency primitives |
-| **Progress**        | 1/5 items complete                                 |
-| **Hours Invested**  | 46h 50m                                             |
-| **Current Item**    | Lock-Free Data Structures                         |
+| Metric             | Value                     |
+| ------------------ | ------------------------- |
+| **Current Phase**  | Phase 2: Concurrency      |
+| **Progress**       | 1/2 items complete        |
+| **Hours Invested** | 46h 50m                   |
+| **Current Item**   | Lock-Free Data Structures |
 
-**[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/mastery-timeline.md)**
+**[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/phase2-timeline.md)**
 
 ---
 
 ## Quick Navigation
 
-- [Overview](#overview)
-- [Current Status](#current-status)
-- [Phase Summaries](#the-journey)
-  - [Phase 1: Foundation](docs/overview/phase1-overview.md)
-    - [Phase 1 Timeline](docs/timeline/phase1-timeline.md) - Completion tracking
-    - [Phase 1a: Genesis](docs/timeline/genesis-a-timeline.md)
-    - [Phase 1b: Evolution](docs/timeline/genesis-b-timeline.md)
-  - [Phase 2: Evolution - Network and Concurrency](docs/overview/phase2-overview.md) - [Timeline](docs/timeline/mastery-timeline.md)
-  - [Phase 3: Perfection - The World](docs/overview/phase3-overview.md) - [Timeline](docs/timeline/transcendence-timeline.md)
-- [Project Highlights](#project-highlights)
-- [Timeline](#timeline)
-- [Repositories](#repositories)
-- [Commitment](#commitment)
+**Phases:**
+- [Phase 1: The Basics](docs/overview/phase1-overview.md) - [Timeline](docs/timeline/phase1-timeline.md)
+- [Phase 2: Concurrency](docs/overview/phase2-overview.md) - [Timeline](docs/timeline/phase2-timeline.md)
+- [Phase 3: Networking](docs/overview/phase3-overview.md) - [Timeline](docs/timeline/phase3-timeline.md)
+- [Phase 4: Magnum Opus](docs/overview/phase4-overview.md) - [Timeline](docs/timeline/phase4-timeline.md)
+- [Phase 5: Beyond (Optional)](docs/overview/phase5-overview.md)
+
+**Resources:**
+- [Open Source Recommendations](docs/open-source-recommendations.md)
+- [Books & Resources](docs/books-and-resources.md)
 
 ---
 
 ## Overview
 
-Project Adam is my journey through systems programming, starting with the fundamentals and building up to running multiple Linux virtual machines on a Raspberry Pi 5. Each project builds on the previous ones, creating a cohesive path from basic algorithms to low-level hardware virtualization.
+Project Adam is a comprehensive journey through systems programming, progressing from fundamental data structures to sophisticated distributed systems. Each project builds on previous work, creating a cohesive path from basic algorithms to production-grade networking and distributed systems.
 
-> **Phase 1 implementations are study artifacts only.** Once I move into networking, distributed systems, and OS work, I will rely on industry-standard libraries (STL, Boost, Folly, `absl`, etc.) rather than the custom data structures built in this repository. The custom versions exist purely so I understand their internals.
-
-**Start Date:** October 24, 2025  
-**End Date:** June 2027 (Graduation)  
-**Total Projects:** 14-15 (9 personal + 5-6 class projects)  
-**Primary Language:** C++  
+**Duration:** October 24, 2025 - June 2027
+**Core Projects (Phases 1-4):** 7 projects
+**Optional Projects (Phase 5):** 6 additional projects
+**Primary Language:** C++
 **Hardware:** Raspberry Pi 5 (16GB RAM)
-**Code Standards:** All projects follow [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html) with comprehensive unit testing (GoogleTest) and header file documentation. Time estimates include project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`), implementation, testing, and documentation.
+
+> **Note:** Phase 1 implementations are educational artifacts only. Production code in later phases uses industry-standard libraries (STL, Boost, Folly, `absl`, etc.).
 
 ### Why C++?
 
-I'm moving to C++ because I want a low-level understanding of the computer. Web development wasn't cutting it anymore—I needed to understand how things actually work at the machine level. C++ forces you to think about memory, hardware, and performance in ways that high-level languages abstract away.
+C++ provides the low-level control necessary for deep systems understanding. Unlike high-level languages that abstract away hardware details, C++ requires explicit management of memory, hardware resources, and performance optimization.
 
-The skills I build here will transfer exponentially to other languages. Once you understand pointers, memory management, concurrency primitives, and hardware interaction, everything else becomes easier. You can't truly understand systems without understanding what's happening close to the metal.
-
-**I got tired of web development. Time to build real systems.**
+The skills developed through C++ systems programming transfer broadly to other languages and domains. Understanding pointers, memory management, concurrency primitives, and hardware interaction creates a foundation that makes higher-level abstractions more intuitive.
 
 ### Why "Project Adam"?
 
-Like Adam Warlock—this is my evolution to becoming a cracked programmer. From the first data structure to creating entire virtual worlds, every project builds toward mastery.
+The project name references Adam Warlock's evolution toward perfection, symbolizing the progression from fundamental data structures to sophisticated distributed systems.
 
 ---
 
 ## The Journey
 
-### Phase 1: Foundation (Oct 24, 2025 - Jan 10, 2026)
+### Phase 1: The Basics (Oct 2025 - Jan 2026)
+**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)**
 
-#### Phase 1a: Genesis - Data Structures and Algorithms (Oct 24 - Dec 31, 2025)
+Building essential data structures and algorithms. C++ implementation mastery with manual memory management.
 
-**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1a Details](docs/timeline/genesis-a-timeline.md)**
+**Projects:** Dynamic Array, LinkedLists, Stack, Queue, Hash Table, Trie, LRU Cache, Red-Black Tree, Bloom Filter, Ring Buffer, Skip List, Sliding Window Protocol
 
-Building essential data structures and algorithms that form the foundation for all networking and systems projects.
-
-Having already completed NeetCode's DSA courses, this phase focuses on **C++ implementation mastery**: correct syntax, robust testing, and manual memory management (pointers, `new`/`delete`). The goal is to understand how these data structures work under the hood. For data structures that have existing industry-standard libraries (e.g., `std::vector`, `std::unordered_map`), I will use those libraries in later projects to gain experience with industry-standard tools. These custom implementations are references only—they will not be shipped or reused in later phases. I have taken CSE 332 (Data Structures & Parallelism) at UW, which covered Min Heap, Dijkstra's Algorithm, and other fundamental algorithms. Data structures and algorithms covered in CSE 332 are not included here unless they're directly used in projects I'll build. CSE 422 (Advanced Toolkit for Modern Algorithms) will cover modern algorithmic techniques like sketching algorithms, sampling, and ML algorithms, complementing this low-level systems focus.
-
-**Projects:** Dynamic Array, Singly LinkedList, Doubly LinkedList, Stack, Queue, Hash Table, Trie, LRU Cache, **Red-Black Tree** ⭐ Capstone
-
-**Focus:** C++ implementation mastery with manual memory management and pointer manipulation
-
-**Total Estimated Time:** ~30-35 hours  
-**Available Time:** 68 days × 1 hour/day = 68 hours
-
-#### Phase 1b: Evolution - Networking Primitives & Advanced Algorithms (Nov 12, 2025 - Jan 10, 2026)
-
-**[Overview](docs/overview/phase1-overview.md)** | **[Timeline](docs/timeline/phase1-timeline.md)** | **[Phase 1b Details](docs/timeline/genesis-b-timeline.md)**
-
-Network-focused phase that builds primitives and algorithms directly used in Phase 2's networking projects (DNS, UDP, TCP).
-
-**Projects:** Bloom Filter, Ring Buffer, Skip List, CRC32/Internet Checksum, Token Bucket, Leaky Bucket, Exponential Backoff, Bellman-Ford, A* Algorithm, **Sliding Window Protocol** ⭐ Capstone
-
-**Note:** Radix Tree and Consistent Hashing were removed from this phase—Radix Tree is no longer necessary for later phases and Consistent Hashing will be covered in CSE 422.
-
-**Focus:** Networking-focused data structures and algorithms for Phase 2
-
-**Total Estimated Time:** ~38-50 hours  
-**Available Time:** 60 days × 1 hour/day = 60 hours
-
-**Phase 1 Total:** ~68-85 hours over 127 days
+**Time:** ~68-85 hours
 
 ---
 
-### Phase 2: Evolution - Network and Concurrency (Jan 2026 - Dec 2026)
+### Phase 2: Concurrency (Jan 2026 - Apr 2026)
+**[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/phase2-timeline.md)**
 
-**[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/mastery-timeline.md)**
+Building concurrency primitives and exploring parallel computing.
 
-Building network protocols and concurrency primitives.
+**Projects:**
+- Thread Pool with Work-Stealing
+- **Lock-Free Data Structures** ⭐⭐ Capstone
 
-**Projects:** Thread Pool with Work-Stealing, Lock-Free Data Structures, DNS Server, UDP from Scratch, **TCP from Scratch** ⭐⭐⭐ Capstone
-
-**Focus:** Concurrency primitives and network protocol implementation
-
-**Total Estimated Time:** ~235-295 hours  
-**Available Time:** ~305 days × 1 hour/day = ~305 hours
+**Time:** ~45-55 hours
 
 ---
 
-### Phase 3: Perfection - The World (Jan 2027 - June 2027)
+### Phase 3: Networking (May 2026 - Dec 2026)
+**[Overview](docs/overview/phase3-overview.md)** | **[Timeline](docs/timeline/phase3-timeline.md)**
 
-**[Overview](docs/overview/phase3-overview.md)** | **[Timeline](docs/timeline/transcendence-timeline.md)**
+Building network protocols from scratch.
 
-Distributed systems and virtualization. Like Adam Warlock's perfection—the ultimate creation.
+**Projects:**
+- DNS Server
+- UDP from Scratch
+- **TCP from Scratch** ⭐⭐⭐ Capstone
 
-**Projects:** BitTorrent Client, Custom Memory Allocators, **ARM Hypervisor** ⭐⭐⭐⭐⭐ Capstone
-
-**Focus:** Distributed systems and virtualization
-
-**Total Estimated Time:** ~150-190 hours  
-**Available Time:** ~181 days × 1 hour/day = ~181 hours
-
----
-
-### Class Projects (Integrated Throughout)
-
-- Memory-Mapped Files (CSE 451 - Winter 2026)
-- Distributed Key-Value Store (CSE 452 - Spring 2026)
-- MiniJava Compiler (CSE 401 - Spring 2026)
-- Software-Defined Networking (CSE 461 - Fall 2026 or Winter 2027)
-- Data Center Systems (CSE 453 - Fall 2026 or Winter 2027)†
-- SimpleDB (CSE 444 - if schedule permits)†
-
-†Schedule to be confirmed when courses are announced
+**Time:** ~190-240 hours
 
 ---
 
-## Project Highlights
+### Phase 4: Magnum Opus (Apr 2027 - Jun 2027)
+**[Overview](docs/overview/phase4-overview.md)** | **[Timeline](docs/timeline/phase4-timeline.md)**
 
-### TCP from Scratch (Aug - Dec 2026)
+The capstone project combining everything learned: concurrency, networking, and distributed systems.
 
-Complete implementation of TCP protocol including:
+**Project:**
+- **Distributed CDN/Cache with Geo-Replication** ⭐⭐⭐⭐⭐
+  - Multi-region cache nodes with geographic routing
+  - Kubernetes deployment across AWS/GCP/Azure
+  - Prometheus metrics and observability
 
-- Three-way handshake and connection management
-- Sliding window flow control
-- Congestion control (Reno, Cubic, BBR)
-- Packet reordering and retransmission
-- Benchmarks vs kernel stack
+**Time:** ~70-90 hours
 
-### ARM Hypervisor (Apr - June 2027) Capstone
+**This completes Project Adam's core roadmap.**
 
-Type-2 hypervisor on Raspberry Pi 5:
+---
 
-- ARM EL2 (Hypervisor mode) implementation
-- Stage-2 page tables for memory virtualization
-- Device emulation (UART, timer, storage, network)
-- Multiple Linux VMs running simultaneously
-- Can SSH into virtualized guests
+### Phase 5: Beyond (Post-Graduation - Optional)
+**[Overview](docs/overview/phase5-overview.md)**
+
+Optional advanced projects for continued learning after mastering the core roadmap.
+
+**Projects:** BitTorrent Client, Custom Memory Allocators, HTTP/2 Server, gRPC Server, Service Mesh Data Plane, QUIC Protocol
+
+**Recommendation:** Prioritize open source contributions over solo projects for maximum career impact.
 
 ---
 
 ## Technology Stack
 
-**Languages:** C++17, ARM Assembly, JavaScript  
-**Systems:** Linux, bare-metal ARM  
+**Languages:** C++17, ARM Assembly
+**Systems:** Linux, bare-metal ARM
 **Hardware:** Raspberry Pi 5 (16GB, Cortex-A76)
-**Tools:** GCC, GDB, Valgrind, Git  
-**Concepts:** Concurrency, networking, distributed systems, virtualization
+**Tools:** GCC, GDB, Valgrind, Git
+**Standards:** [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), GoogleTest
 
 ---
 
-## Timeline
+## Timeline Summary
 
-**2025**
-
-- Oct 24 - Dec 31: Phase 1a: Genesis (Data Structures and Algorithms)
-
-**2026**
-
-- Jan 10: Phase 1b complete (moved up from Feb 28)
-
-**Phase 1: Foundation (Oct 2025 - Feb 2026)**
-
-- [Overview](docs/overview/phase1-overview.md) | [Timeline](docs/timeline/phase1-timeline.md)
-- Mar - Dec: Phase 2: Evolution - Network and Concurrency (DNS, UDP, TCP)
-  - [Overview](docs/overview/phase2-overview.md) | [Timeline](docs/timeline/mastery-timeline.md)
-  - Aug-Dec: TCP from Scratch (4 months)
+**2025-2026**
+- Oct 2025 - Jan 2026: Phase 1 (The Basics)
+- Jan 2026 - Apr 2026: Phase 2 (Concurrency)
+- May 2026 - Dec 2026: Phase 3 (Networking)
 
 **2027**
-
-- Jan - Jun: Phase 3: Perfection - The World (BitTorrent, Hypervisor)
-  - [Overview](docs/overview/phase3-overview.md) | [Timeline](docs/timeline/transcendence-timeline.md)
-  - Apr-Jun: ARM Hypervisor (Capstone)
-- **Graduate June 2027**
+- Jan - Mar: Break / Open Source / Class Projects
+- Apr - Jun: Phase 4 (Magnum Opus)
+- **Graduate June 2027** - Project Adam Complete
+- Jun+: Phase 5 (Optional)
 
 ---
 
 ## Repositories
 
-As projects are completed, repositories will be linked here:
+### Core Projects (Phases 1-4)
 
-### Personal Projects (9 total)
+**Phase 1:**
+1. [x] DS&A Reference Implementations
 
-**Phase 1: Foundation (DS&A)**
+**Phase 2:**
+2. [x] Thread Pool with Work-Stealing
+3. [ ] Lock-Free Data Structures ⭐⭐
 
-1. [ ] Phase 1 DS&A Reference Implementations (learning-only; STL/Folly used later)
-
-**Phase 2: Evolution - Network and Concurrency**
-
-2. [ ] Thread Pool
-3. [ ] Lock-Free Structures
+**Phase 3:**
 4. [ ] DNS Server
 5. [ ] UDP from Scratch
 6. [ ] TCP from Scratch ⭐⭐⭐
 
-**Phase 3: Perfection - The World**
+**Phase 4:**
+7. [ ] Distributed CDN/Cache with Geo-Replication ⭐⭐⭐⭐⭐
 
-7. [ ] BitTorrent Client
-8. [ ] Custom Allocators
-9. [ ] ARM Hypervisor ⭐⭐⭐⭐⭐
+### Optional Projects (Phase 5)
 
-### Class Projects (5-6 total)
+8. [ ] BitTorrent Client
+9. [ ] Custom Memory Allocators
+10. [ ] HTTP/2 Server
+11. [ ] gRPC Server
+12. [ ] Service Mesh Data Plane
+13. [ ] QUIC Protocol
+
+### Outside Project Adam Scope
+
+- [ ] Open Source Contributions - See [recommendations](docs/open-source-recommendations.md)
+
+### Class Projects
 
 1. [ ] Memory-Mapped Files (CSE 451)
 2. [ ] Distributed KV Store (CSE 452)
 3. [ ] MiniJava Compiler (CSE 401)
 4. [ ] Software-Defined Networking (CSE 461)
-5. [ ] Data Center Systems (CSE 453)†
-6. [ ] SimpleDB (CSE 444)†
+5. [ ] Data Center Systems (CSE 453)
+6. [ ] SimpleDB (CSE 444)
+
+---
+
+## Resources
+
+- **[Open Source Recommendations](docs/open-source-recommendations.md)** - C/C++, Rust, Go, and Java projects to contribute to
+- **[Books & Resources](docs/books-and-resources.md)** - Reading progress and learning resources
 
 ---
 
 ## Goals
 
-**Technical:** Master systems programming from algorithms to hardware, with emphasis on networking  
-**Academic:** Apply coursework to real-world projects  
-**Professional:** Build portfolio demonstrating complete systems mastery  
-**Personal:** Become cracked through deliberate practice and building from scratch
+**Technical:** Master systems programming from algorithms to hardware
+**Academic:** Apply coursework to real-world projects
+**Professional:** Build portfolio demonstrating complete systems mastery
+**Personal:** Achieve technical excellence through deliberate practice
 
 ---
 
 ## Commitment
 
-**Daily:** 1 hour on personal projects  
-**Class Projects:** As needed (separate from daily hour)  
-**Total Time Investment:** ~730 hours over 20 months  
-**Philosophy:** Quality over quantity—focus on networking-critical implementations
+**Daily:** 1 hour on personal projects
+**Class Projects:** As needed (separate from daily hour)
+**Total Time Investment:** ~730 hours over 20 months
+**Philosophy:** Quality over quantity
 
 ---
 
-## The Path to Mastery
-
-Each phase is a step toward perfection:
-
-1. **Phase 1: Foundation** - Create the foundations (Data Structures & Algorithms & Networking Primitives)
-2. **Phase 2: Evolution** - Build network protocols and concurrency primitives (DNS, UDP, TCP)
-3. **Phase 3: Perfection** - Make new worlds (Hypervisor, Virtual Machines)
-
-By June 2027, I'll have built everything from scratch—from the first linked list to running multiple operating systems on hardware I control completely.
+**Status:** Phase 2: Concurrency
+**Last Updated:** December 30, 2025
+**Next Milestone:** Lock-Free Data Structures completion
 
 ---
 
-## Resources & Learning
-
-Throughout this journey, I'll be documenting:
-
-- Technical blog posts on key learnings
-- Architecture diagrams and design decisions
-- Code snippets and debugging stories
-- Resources and references that helped
-
----
-
-**Status:** Phase 1b: Evolution - Networking Primitives & Advanced Algorithms  
-**Last Updated:** November 11, 2025  
-**Next Milestone:** Phase 1a: Genesis (Data Structures and Algorithms) complete (December 31, 2025)
-
----
-
-## License
-
-Each project repository will have its own license. Generally using MIT License for educational projects.
-
-## Acknowledgments
-
-- University of Washington Computer Science & Engineering
-- CSE 451, 452, 401, 461, 444 course staff
-- ARM Architecture Reference Manual
-- The systems programming community
-
----
-
-_From the ground up. Every line of code. Every protocol. Every algorithm. Ascending to perfection._
+_Building systems from first principles: from fundamental data structures to production-grade geo-distributed systems._
