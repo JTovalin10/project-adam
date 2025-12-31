@@ -1,14 +1,16 @@
-# Phase 2: Evolution - Network and Concurrency - Overview
+# Phase 2: Concurrency - Overview
 
-**Duration:** Mar 2026 - Dec 2026 (10 months, ~305 days)  
-**Work Schedule:** 1 hour/day average  
-**Total Hours Available:** ~305 hours
+**Duration:** Jan 2026 - Apr 2026 (~90 days)
+**Work Schedule:** 1 hour/day average
+**Total Hours Available:** ~90 hours
 
 ---
 
 ## Overview
 
-Building network protocols and concurrency primitives. From thread pools to full TCP implementation, creating the foundational systems programming stack. All production code here uses industry-standard libraries (STL, Boost, Folly, `absl`, etc.); the hand-written data structures from Phase 1 are retained only as learning references.
+Building concurrency primitives and exploring parallel computing. This phase focuses on thread synchronization, lock-free programming, and ARM-specific memory model optimizations. Production code uses industry-standard libraries (STL, Boost, Folly, `absl`, etc.); Phase 1 data structures remain educational references only.
+
+This phase establishes the concurrency foundation needed for high-performance networking in Phase 3 and the distributed systems capstone in Phase 4.
 
 ---
 
@@ -17,7 +19,7 @@ Building network protocols and concurrency primitives. From thread pools to full
 All time estimates include:
 - Project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`)
 - Comprehensive unit testing (GoogleTest)
-- Integration testing
+- Integration testing and benchmarks
 - Header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 
 ---
@@ -25,31 +27,34 @@ All time estimates include:
 ## Projects
 
 **Concurrency Primitives:**
-- Thread Pool with Work-Stealing (20-25 hours)
-- Lock-Free Data Structures (25-30 hours)
+- **Thread Pool with Work-Stealing** (20-25 hours)
+  - Custom scheduler with ARM optimization
+  - Work-stealing algorithm for load balancing
+  - Benchmarks vs std::async and other thread pool implementations
 
-**Network Protocols:**
-- DNS Server (30-40 hours)
-- UDP from Scratch (40-50 hours)
-- **TCP from Scratch** ⭐⭐⭐ Capstone (120-150 hours)
+- **Lock-Free Data Structures** ⭐⭐ Capstone (25-30 hours)
+  - Atomics and ARM memory model
+  - Lock-free stack, queue, and hash table
+  - Memory ordering and ABA problem solutions
+  - Performance comparison vs lock-based implementations
 
-**Total Estimated Time:** ~235-295 hours  
-**Available Time:** ~305 days × 1 hour/day = ~305 hours
+**Total Estimated Time:** ~45-55 hours
+**Available Time:** ~90 days × 1 hour/day = ~90 hours
 
 ---
 
-## Key Milestones
+## Key Learning Outcomes
 
-- **Mar:** Thread Pool foundation
-- **Apr:** Lock-Free structures
-- **May-Jun:** DNS Server
-- **Jun-Jul:** UDP protocol
-- **Aug-Dec:** TCP protocol (4 months)
+- Understanding of C++ atomics and memory ordering
+- ARM memory model specifics (TSO vs weak ordering)
+- Lock-free algorithm design patterns
+- Performance implications of synchronization primitives
+- Work-stealing scheduler implementation
 
 ---
 
 ## Links
 
-- [Phase 2 Timeline](../timeline/mastery-timeline.md)
+- [Phase 2 Timeline](../timeline/phase2-timeline.md)
 - [Back to README](../../README.md)
 
