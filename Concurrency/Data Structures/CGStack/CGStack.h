@@ -89,7 +89,7 @@ class CGStack {
    * shared_ptr with the element that was at the top of the stack, if the stack
    * was empty then the shared_ptr contains a nullptr
    */
-  std::shared_ptr<T> pop();
+  std::unique_ptr<T> pop();
 
   /**
    * Removes the element from tjhe top of the stack and returns it, if the stack
@@ -98,7 +98,7 @@ class CGStack {
    * RETURNS:
    * shared_ptr that is guarentted to contain an element of type T
    */
-  std::shared_ptr<T> wait_and_pop();
+  std::unique_ptr<T> wait_and_pop();
 
   /**
    * Looks at the top of the stack and returns what is there
@@ -199,24 +199,24 @@ void CGStack<T>::push(type_name item) {
 }
 
 template <typename T>
-std::shared_ptr<T> CGStack<T>::pop() {
+std::unique_ptr<T> CGStack<T>::pop() {
   std::lock_guard<std::shared_mutex> lock(mtx_);
   if (unsafe_empty()) {
     return nullptr;
   }
   Node* node_to_remove = head_->next;
-  std::shared_ptr<T> res = std::make_shared<T>(std::move(node_to_remove->data));
+  std::unique_ptr<T> res = std::make_unique<T>(std::move(node_to_remove->data));
   // if the make_shared did not throw then we remove from the LL
   unsafe_remove_node(head_, node_to_remove);
   return res;
 }
 
 template <typename T>
-std::shared_ptr<T> CGStack<T>::wait_and_pop() {
+std::unique_ptr<T> CGStack<T>::wait_and_pop() {
   std::unique_lock<std::shared_mutex> lock(mtx_);
   cv_.wait(lock, [this] { return unsafe_not_empty(); });
   Node* node_to_remove = head_->next;
-  std::shared_ptr<T> res = std::make_shared<T>(std::move(node_to_remove->data));
+  std::unique_ptr<T> res = std::make_unique<T>(std::move(node_to_remove->data));
   unsafe_remove_node(head_, node_to_remove);
   return res;
 }
