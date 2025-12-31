@@ -22,7 +22,7 @@ class LFStack {
 
   std::shared_ptr<T> pop();
 
-  bool is_empty() const;
+  bool empty() const;
 
  private:
   struct Node {
@@ -35,6 +35,7 @@ class LFStack {
 };
 
 template <typename T>
+<<<<<<< HEAD
 LFStack<T>::~LFStack() {
   Node* curr = head_.load();
   while (curr != nullptr) {
@@ -75,5 +76,17 @@ template <typename T>
 bool LFStack<T>::is_empty() const {
   return head_.load() == nullptr;
 }
+=======
+LFStack<T>::~LFStack() {}
+
+template <typename T>
+void LFStack<T>::push(type_name item) {}
+
+template <typename T>
+std::shared_ptr<T> LFStack<T>::pop() {}
+
+template <typename T>
+bool LFStack<T>::empty() const {}
+>>>>>>> fcb4072 (complete skeleton to LFStack.h)
 
 #endif  // LFSTACK_H_
