@@ -5,7 +5,7 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -pthread
 GTEST_FLAGS = -lgtest -lgtest_main -pthread
 
 TARGET = hazard_test
-SOURCES = HazardPointer.cpp HazardPointer_gtest.cpp
+SOURCES = HazardPointer_gtest.cpp
 HEADERS = HazardPointer.h
 
 all: $(TARGET)
