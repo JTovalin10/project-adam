@@ -15,3 +15,6 @@ test: $(TEST_SOURCE)
 
 $(TEST_SOURCE): $(TEST_FILE) SPSCQueue.h
 	$(CXX) $(CXX_FLAGS) $(TEST_FILE) $(GTEST_FLAGS) -o $(TEST_SOURCE)
+
+clean:
+	rm -f $(TEST_SOURCE) *.o
