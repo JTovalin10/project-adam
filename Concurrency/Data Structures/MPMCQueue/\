@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <memory>
 #include <new>
-#include <optional>
 #include <vector>
 
 #include "../utils/HazardPointer/HazardPointer.h"
@@ -18,7 +17,7 @@ class MPMCQueue {
 
  public:
   explicit MPMCQueue(size_t capacity)
-      : capacity_(capacity), buffer_(capacity), hp_(64) {
+      : capacity_(capacity), buffer_(capacity_), hp_(10) {
     for (size_t i{}; i < capacity_; i++) {
       buffer_[i].store(nullptr, std::memory_order_relaxed);
     }
@@ -28,14 +27,7 @@ class MPMCQueue {
 
   MPMCQueue& operator=(const MPMCQueue& other) = delete;
 
-  ~MPMCQueue() {
-    for (size_t i{}; i < capacity_; i++) {
-      T* item = buffer_[i].load(std::memory_order_relaxed);
-      if (item) {
-        delete item;
-      }
-    }
-  }
+  ~MPMCQueue() = default;
 
   MPMCQueue(MPMCQueue&& other) = delete;
 
@@ -54,7 +46,7 @@ class MPMCQueue {
       if (producer_.index.compare_exchange_weak(current, next,
                                                 std::memory_order_release,
                                                 std::memory_order_relaxed)) {
-        buffer_[current].store(item, std::memory_order_release);
+        buffer_[current].store(item);
         break;
       }
     }
@@ -83,71 +75,58 @@ class MPMCQueue {
     return false;
   }
 
-  std::optional<T> pop() {
+  std::shared_ptr<T> pop() {
     while (true) {
       size_t current = consumer_.index.load(std::memory_order_relaxed);
       size_t next = (current + 1) % capacity_;
 
       // if empty
       if (current == producer_.index.load(std::memory_order_acquire)) {
-        return std::nullopt;
+        return std::shared_ptr<T>();
       }
 
       T* item = buffer_[current].load(std::memory_order_acquire);
-      if (!item) {
-        return std::nullopt;
+      while (item == nullptr) {
+        item = buffer_[current].load(std::memory_order_acquire);
       }
       hp_.protect(item);
-
-      if (buffer_[current].load(std::memory_order_acquire) != item) {
-        hp_.release();
-        continue;
-      }
 
       if (consumer_.index.compare_exchange_weak(current, next,
                                                 std::memory_order_release,
                                                 std::memory_order_relaxed)) {
         // set to nullptr for the spin lock
         buffer_[current].store(nullptr, std::memory_order_release);
-        T value = std::move(*item);
         hp_.release();
-        hp_.retire(item);
-        return value;
+        auto deleter = [this](T* ptr) { hp_.retire(ptr); };
+        return std::shared_ptr<T>(item, deleter);
       }
 
       hp_.release();
     }
   }
 
-  std::optional<T> try_pop() {
+  std::shared_ptr<T> try_pop() {
     size_t current = consumer_.index.load(std::memory_order_relaxed);
     size_t next = (current + 1) % capacity_;
-    if (current == producer_.index.load(std::memory_order_acquire)) {
-      return std::nullopt;
+    if (next == producer_.index.load(std::memory_order_acquire)) {
+      return false;
     }
 
     T* item = buffer_[current].load(std::memory_order_acquire);
-    if (!item) {
-      return std::nullopt;
+    while (item == nullptr) {
+      item = buffer_[current].load(std::memory_order_acquire);
     }
     hp_.protect(item);
-
-    if (buffer_[current].load(std::memory_order_acquire) != item) {
-      hp_.release();
-      return std::nullopt;
-    }
 
     if (consumer_.index.compare_exchange_weak(current, next,
                                               std::memory_order_release,
                                               std::memory_order_relaxed)) {
       buffer_[current].store(nullptr, std::memory_order_release);
-      T value = std::move(*item);
+      auto deleter = [this](T* ptr) { return hp_.retire(ptr); };
       hp_.release();
-      hp_.retire(item);
-      return value;
+      return std::shared_ptr<T>(item, deleter);
     }
     hp_.release();
-    return std::nullopt;
   }
 
   bool empty() const {
@@ -160,11 +139,11 @@ class MPMCQueue {
   std::vector<std::atomic<T*>> buffer_;
   HazardPointer<T> hp_;
   alignas(CACHE_SIZE) struct {
-    std::atomic<size_t> index{0};
+    std::atomic<size_t> index;
   } consumer_;
 
   alignas(CACHE_SIZE) struct {
-    std::atomic<size_t> index{0};
+    std::atomic<size_t> index;
   } producer_;
 };
 

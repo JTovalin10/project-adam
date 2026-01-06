@@ -79,9 +79,9 @@ std::shared_ptr<T> LFStack<T>::pop() {
                                     std::memory_order_release,
                                     std::memory_order_relaxed)) {
       hp_.release();
-      std::shared_ptr<T> result = node_to_remove->data;
+      std::shared_ptr<T> res = (node_to_remove->data);
       hp_.retire(node_to_remove);
-      return result;
+      return res;
     }
     hp_.release();
   }

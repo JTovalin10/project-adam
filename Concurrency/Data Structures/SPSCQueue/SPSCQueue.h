@@ -43,9 +43,9 @@ class SPSCQueue {
   }
 
   std::shared_ptr<T> try_pop() {
-    size_t current_consumer = consumer_.value.load(std::memory_order_acquire);
+    size_t current_consumer = consumer_.value.load(std::memory_order_relaxed);
     // if the buffer is empty
-    if (current_consumer == producer_.value.load(std::memory_order_relaxed)) {
+    if (current_consumer == producer_.value.load(std::memory_order_acquire)) {
       return std::shared_ptr<T>();
     }
     std::shared_ptr<T> result = buffer_[current_consumer];
@@ -56,11 +56,6 @@ class SPSCQueue {
 
   bool empty() const {
     return producer_.value.load(std::memory_order_relaxed) ==
-           consumer_.value.load(std::memory_order_relaxed);
-  }
-
-  size_type size() const {
-    return producer_.value.load(std::memory_order_relaxed) -
            consumer_.value.load(std::memory_order_relaxed);
   }
 
