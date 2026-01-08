@@ -1,175 +1,227 @@
-# Phase 4: Magnum Opus - Overview
+# Phase 4: Beyond - Optional Projects
 
-**Duration:** Apr 2027 - June 2027 (90 days)
-**Work Schedule:** 1 hour/day average
-**Total Hours Available:** ~90 hours
+**Timeline:** Post-graduation (June 2027+) or during free time
+**Work Schedule:** As time permits
+**Purpose:** Advanced projects for continued learning after mastering the core roadmap
 
 ---
 
 ## Overview
 
-The capstone phase combining all skills learned: concurrency, networking, and distributed systems. This phase focuses on building a production-grade geo-distributed CDN/Cache system.
+Phase 5 contains optional advanced projects that build upon the skills from Phases 1-4. These projects are not required for the core learning path but provide additional depth in specific areas. They can be completed after graduation, during breaks, or whenever you want to explore a particular topic more deeply.
 
-Unlike CSE 451 (OS kernel), CSE 444 (database), and CSE 452 (distributed KV store), this phase explores distributed caching and content delivery - a critical cloud infrastructure component.
-
-**This marks the completion of Project Adam's core roadmap.**
+**Key Principle:** These are "nice to have" projects. The core roadmap (Phases 1-4) provides complete systems mastery. Phase 5 exists for continued growth and exploration.
 
 ---
 
-## Code Standards
+## Optional Projects
 
-All time estimates include:
-- Project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`)
-- Comprehensive unit testing (GoogleTest)
-- Integration testing across multiple nodes
-- Load testing and performance benchmarks
-- Header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
-- Cloud deployment configuration (Kubernetes manifests, Terraform)
+### 1. BitTorrent Client
 
----
+**Estimated Time:** 40-50 hours
 
-## Project: Distributed CDN/Cache with Geo-Replication ⭐⭐⭐⭐⭐
+**Overview:**
+Peer-to-peer file sharing client implementing the BitTorrent protocol and Distributed Hash Table (DHT).
 
-**Duration:** 70-90 hours
+**Key Features:**
+- BitTorrent protocol implementation (BEP 3)
+- Distributed Hash Table for peer discovery (BEP 5)
+- Piece selection algorithms (rarest-first, random-first, endgame mode)
+- Integration with real BitTorrent network
+- Tracker communication and peer exchange
+- Upload/download rate limiting
 
-### Overview
+**Skills Demonstrated:**
+- Peer-to-peer networking
+- Distributed hash tables
+- File chunking and reassembly
+- Protocol implementation
 
-A globally distributed cache with geographic replication, similar to CloudFlare's edge cache or AWS CloudFront. This project demonstrates mastery of distributed systems, high-performance caching, and cloud-native deployment.
-
-### Core Features
-
-**Geographic Distribution:**
-- Multi-region cache nodes deployed across different geographic locations
-- Automatic geo-routing based on client location (latency-based or geography-based)
-- Content replication across regions with configurable consistency models
-- Health checking and automatic failover between regions
-
-**High-Performance Caching:**
-- In-memory LRU cache with configurable eviction policies
-- Optional persistent cache layer for durability
-- Smart pre-fetching and cache warming
-- Efficient serialization for cached objects
-- Custom memory allocators (from Phase 3) for performance
-
-**Cache Coherence:**
-- Cache invalidation protocols (time-based TTL, event-based)
-- Eventual consistency across geo-distributed nodes
-- Configurable consistency levels (strong vs eventual)
-- Version vectors or logical clocks for conflict resolution
-
-**Content Delivery:**
-- HTTP/HTTPS origin server integration
-- Smart content routing to nearest cache node
-- Support for static assets and dynamic content
-- Partial content support (HTTP range requests)
-
-**Observability:**
-- Prometheus metrics (hit rate, latency, bandwidth by region)
-- Distributed tracing for cache lookup paths
-- Dashboard for monitoring cache performance globally
-- Alerting for cache node failures
-
-**Cloud Deployment:**
-- Multi-region deployment on AWS/GCP/Azure
-- Kubernetes manifests with horizontal pod autoscaling
-- Terraform/CloudFormation for infrastructure as code
-- Load balancing with geographic routing (Route53/Cloud DNS)
-
-### Technical Challenges
-
-1. **Consistency vs Performance:** Balance between cache consistency and performance across geographies
-2. **Cache Invalidation:** Propagating invalidations across distributed nodes efficiently
-3. **Network Optimization:** Minimizing inter-region bandwidth while maintaining freshness
-4. **Geographic Routing:** Intelligent routing based on latency and cache hit probability
-5. **Thundering Herd:** Handling cache misses for popular content without overwhelming origin
-
-### Skills Demonstrated
-
-- **Networking:** HTTP protocol, DNS, geographic routing, latency optimization
-- **Concurrency:** High-throughput request handling, thread-safe caching
-- **Distributed Systems:** Geo-replication, consistency models, distributed coordination
-- **Cloud Engineering:** Multi-region deployment, Kubernetes, infrastructure as code
-- **Performance:** Cache algorithms, memory management, zero-copy optimizations
-
-### Deliverables
-
-- Multi-region deployable cache system
-- Client library for cache access
-- Performance benchmarks (latency, throughput, hit rate by region)
-- Documentation on architecture and deployment
-- Comparison with commercial CDNs (CloudFlare, CloudFront)
+**Why Optional:**
+- Demonstrates distributed systems, but CDN project already shows this
+- P2P is less relevant to cloud engineering than client-server
+- Time better spent on open source contributions
 
 ---
 
-## Integration with Previous Phases
+### 2. Custom Memory Allocators
 
-**Phase 1 (The Basics):**
-- LRU Cache algorithm
-- Bloom Filter for cache membership testing
-- Hash Table for cache storage
+**Estimated Time:** 30-40 hours
 
-**Phase 2 (Concurrency):**
-- Thread pool for handling concurrent requests
-- Lock-free data structures for high-throughput access
+**Overview:**
+High-performance memory allocators for different allocation patterns.
 
-**Phase 3 (Networking):**
-- TCP for inter-node communication
-- Custom memory allocators for zero-copy operations
-- Network protocol implementation skills
+**Allocator Types:**
+- **Buddy Allocator:** Power-of-2 sized allocations with efficient coalescing
+- **Slab Allocator:** Frequently-used objects with minimal fragmentation
+- **Pool Allocator:** Fixed-size allocations with O(1) alloc/free
 
-**Coursework Integration:**
-- CSE 451: OS-level optimization knowledge
-- CSE 444: Storage and indexing techniques
-- CSE 452: Distributed systems and replication patterns
+**Key Features:**
+- Performance benchmarks vs malloc/free
+- Memory fragmentation analysis
+- Thread-safe versions of each allocator
+- Integration with custom containers
 
----
+**Skills Demonstrated:**
+- Memory management internals
+- Performance optimization
+- Low-level systems programming
 
-## Key Learning Outcomes
-
-- Geo-distributed system design and deployment
-- Cloud-native architecture patterns
-- Content delivery and caching strategies
-- Multi-region consistency and replication
-- Production deployment and monitoring
-- Open source contribution workflow
+**Why Optional:**
+- Can use standard allocators in CDN project
+- Interesting but not critical for cloud roles
+- Good for deepening systems knowledge
 
 ---
 
-## Deployment Architecture
+### 3. HTTP/2 Server
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Global DNS / Router                   │
-│              (Route53 / Cloud DNS)                      │
-└────────────┬──────────────┬──────────────┬──────────────┘
-             │              │              │
-    ┌────────▼─────┐ ┌─────▼──────┐ ┌─────▼──────┐
-    │ US-West Region│ │ US-East Region│ │ EU Region │
-    │  Cache Nodes  │ │  Cache Nodes  │ │Cache Nodes│
-    │  (k8s cluster)│ │  (k8s cluster)│ │(k8s cluster)│
-    └────────┬──────┘ └──────┬───────┘ └─────┬──────┘
-             │                │                │
-             └────────────────┼────────────────┘
-                              │
-                       ┌──────▼───────┐
-                       │ Origin Server │
-                       │  (fallback)   │
-                       └──────────────┘
-```
+**Estimated Time:** 30-40 hours
+
+**Overview:**
+HTTP/2 server implementation on top of the TCP stack from Phase 3.
+
+**Key Features:**
+- Binary framing layer
+- Stream multiplexing (multiple requests over one connection)
+- Header compression (HPACK)
+- Server push
+- Flow control
+- Priority and dependency handling
+
+**Skills Demonstrated:**
+- Binary protocol implementation
+- Advanced HTTP features
+- Building on custom TCP stack
+
+**Why Optional:**
+- Already have HTTP/1.1 server from CSE 333
+- May appear redundant on resume
+- Good for protocol learning but not unique enough
 
 ---
 
-## Success Metrics
+### 4. gRPC Server
 
-- **Performance:** Sub-50ms latency for cache hits from nearest region
-- **Scalability:** Handle 10,000+ requests/second per region
-- **Availability:** 99.9% uptime with automatic failover
-- **Efficiency:** >80% cache hit rate for typical workload
-- **Cost:** Optimize inter-region bandwidth to minimize cloud costs
+**Estimated Time:** 25-35 hours
+
+**Overview:**
+gRPC server implementation showing modern microservices RPC patterns.
+
+**Key Features:**
+- Protocol Buffers integration
+- Unary RPC, server streaming, client streaming, bidirectional streaming
+- Metadata and error handling
+- Interceptors for logging/auth
+- Load balancing client
+
+**Skills Demonstrated:**
+- Modern RPC frameworks
+- Protocol Buffers
+- Microservices patterns
+
+**Why Optional:**
+- Shows understanding of modern service communication
+- Relevant to cloud/microservices roles
+- Good complement to HTTP/REST knowledge
+
+---
+
+### 5. Service Mesh Data Plane (Mini-Envoy)
+
+**Estimated Time:** 50-70 hours
+
+**Overview:**
+Layer 7 proxy with service mesh capabilities, similar to Envoy Proxy.
+
+**Key Features:**
+- Layer 7 load balancing (round-robin, least connections, consistent hashing)
+- Health checking and circuit breaking
+- Retry logic and timeouts
+- TLS termination and mTLS
+- Traffic splitting (canary, A/B testing)
+- Service discovery integration
+- Metrics and distributed tracing
+
+**Skills Demonstrated:**
+- Advanced networking (L7 proxying)
+- Service mesh patterns
+- Production-grade reliability features
+- Cloud-native architecture
+
+**Why Optional:**
+- Extremely relevant to cloud engineering roles
+- Shows understanding of Envoy/Istio internals
+- Very impressive but time-intensive
+- Could be done if pursuing infrastructure/platform roles
+
+---
+
+### 6. QUIC Protocol Implementation
+
+**Estimated Time:** 60-80 hours
+
+**Overview:**
+Next-generation transport protocol (HTTP/3 foundation), UDP-based with built-in encryption.
+
+**Key Features:**
+- Connection establishment with 0-RTT
+- Multiplexed streams without head-of-line blocking
+- Connection migration (survive network changes)
+- Built-in TLS 1.3
+- Congestion control
+
+**Skills Demonstrated:**
+- Cutting-edge protocol implementation
+- Understanding of TCP limitations and solutions
+- Cryptography integration
+
+**Why Optional:**
+- Extremely advanced and unique
+- Very few people build this
+- Requires significant time investment
+- Best for those pursuing networking specialization
+
+---
+
+## Recommended Prioritization
+
+**If pursuing infrastructure/cloud engineering:**
+1. Service Mesh Data Plane (shows Envoy/Istio understanding)
+2. gRPC Server (microservices relevance)
+3. Custom Memory Allocators (performance optimization)
+
+**If pursuing distributed systems:**
+1. BitTorrent Client (P2P patterns)
+2. QUIC Protocol (next-gen networking)
+3. gRPC Server (modern RPC)
+
+**If pursuing networking specialization:**
+1. QUIC Protocol (cutting-edge)
+2. Service Mesh Data Plane (L7 networking)
+3. HTTP/2 Server (protocol mastery)
+
+**If maximizing resume impact:**
+- Skip most of these, spend time on **more open source contributions** instead
+- Production codebases >> greenfield solo projects
+
+---
+
+## When to Work on Phase 5
+
+**Good times:**
+- After completing Phases 1-4 and securing a job offer
+- During employment (side projects for learning)
+- When exploring a specific specialization
+- For fun and continued growth
+
+**Not recommended:**
+- Before completing core roadmap (Phases 1-4)
+- When time could be spent on open source contributions
+- When preparing for interviews (focus on core projects instead)
 
 ---
 
 ## Links
 
-- [Phase 4 Timeline](../timeline/phase4-timeline.md)
 - [Back to README](../../README.md)

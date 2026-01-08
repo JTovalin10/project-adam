@@ -3,24 +3,25 @@
 **Duration:** May 2026 - Dec 2026 (~8 months, ~245 days)
 **Work Schedule:** 1 hour/day average
 **Total Hours Available:** ~245 hours
+**Language:** C (POSIX API focus)
 
 ---
 
 ## Overview
 
-Building network protocols from scratch. This phase progresses from DNS resolution to a complete TCP stack. Like previous phases, production code uses industry-standard libraries (STL, Boost, Folly, `absl`, libevent, etc.); Phase 1 data structures remain educational references only.
+Building network protocols from scratch using C to develop a deep understanding of the POSIX API. This foundational knowledge of POSIX networking primitives will be essential when working with C++ networking libraries like Boost.Asio in future projects and open source contributions.
 
-This phase establishes deep networking expertise that will be essential for the distributed systems capstone in Phase 4.
+This phase progresses from DNS resolution to a complete TCP stack, focusing on raw socket programming, system calls, and low-level protocol implementation. Unlike previous phases that used C++, Phase 3 uses pure C to master POSIX networking APIs (`socket()`, `bind()`, `listen()`, `accept()`, `select()`, `epoll`, etc.) before applying this knowledge to higher-level C++ abstractions.
 
 ---
 
 ## Code Standards
 
 All time estimates include:
-- Project setup (`.h`, `.cpp`, `gtest.cpp`, `makefile`)
-- Comprehensive unit testing (GoogleTest)
+- Project setup (`.h`, `.c`, test files, `makefile`)
+- Comprehensive unit testing (using a C testing framework)
 - Integration testing and protocol compliance testing
-- Header file documentation following the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
+- Header file documentation and proper code commenting
 - Performance benchmarks where applicable
 
 ---
@@ -42,11 +43,16 @@ All time estimates include:
   - Testing with standard tools (netcat, wireshark)
 
 - **TCP from Scratch** ⭐⭐⭐ (120-150 hours)
-  - Three-way handshake and connection management
-  - Sliding window flow control
-  - Congestion control (Reno, Cubic, BBR)
-  - Packet reordering and retransmission
+  - Built from [Level-IP](https://github.com/saminiir/level-ip) by Sami Niiranen
+  - Linux userspace TCP/IP stack using TUN/TAP devices
+  - Focus on understanding rather than implementation from scratch
+  - Accompanied by [blog series](http://www.saminiir.com/lets-code-tcp-ip-stack-1-ethernet-arp) explaining the implementation
+  - Study: Three-way handshake and connection management
+  - Study: Sliding window flow control
+  - Study: Congestion control and retransmission
+  - Study: Socket API implementation
   - Benchmarks vs kernel TCP stack
+  - Deep dive into POSIX networking APIs and TCP internals
 
 **Total Estimated Time:** ~190-240 hours
 **Available Time:** ~245 days × 1 hour/day = ~245 hours
