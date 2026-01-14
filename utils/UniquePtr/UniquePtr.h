@@ -4,6 +4,7 @@
 #include <endian.h>
 
 #include <stdexcept>
+#include <utility>
 
 namespace slime {
 template <typename T>
@@ -52,9 +53,6 @@ class unique_ptr {
     return temp;
   }
 
-  template <class... Args>
-  slime::unique_ptr<T> make_unique(Args&&... args) {}
-
   void reset(T* pointer = nullptr) {
     deleter_(ptr_);
     ptr_ = pointer;
@@ -72,6 +70,11 @@ class unique_ptr {
   T* ptr_;
   [[no_unique_address]] Deleter deleter_;
 };
+
+template <typename T, typename... Args>
+unique_ptr<T> make_unique(Args&&... args) {
+  return slime::unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
 }  // namespace slime
 
 #endif  // UTILS_UNIQUEPTR_H
