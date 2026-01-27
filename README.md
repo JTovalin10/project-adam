@@ -41,11 +41,11 @@ A 9-month systems engineering roadmap from data structures to distributed system
 
 Project Adam is a comprehensive journey through systems programming, progressing from fundamental data structures to sophisticated distributed systems. Each project builds on previous work, creating a cohesive path from basic algorithms to production-grade networking and distributed systems.
 
-**Duration:** October 24, 2025 - June 2027
-**Core Projects (Phases 1-3):** 6 projects
-**Optional Projects (Phase 4):** 6 additional projects
-**Primary Languages:** C++ (Phases 1-2), C (Phase 3)
-**Hardware:** Raspberry Pi 5 (16GB RAM)
+- **Duration:** October 24, 2025 - June 2027
+- **Core Projects (Phases 1-3):** 6 projects
+- **Optional Projects (Phase 4):** 6 additional projects
+- **Primary Languages:** C++ (Phases 1-2), C (Phase 3)
+- **Hardware:** Raspberry Pi 5 (16GB RAM)
 
 > **Note:** Phase 1 implementations are educational artifacts only. Production code in later phases uses industry-standard libraries (STL, Boost, Folly, `absl`, etc.).
 
@@ -75,9 +75,7 @@ Building essential data structures and algorithms. C++ implementation mastery wi
 
 Building concurrency primitives and exploring parallel computing.
 
-**Projects:**
-- Thread Pool with Work-Stealing
-- **Lock-Free Data Structures** ⭐⭐ Capstone
+**Projects:** Thread Pool with Work-Stealing, Lock-Free Data Structures (Capstone)
 
 **Time:** ~45-55 hours
 
@@ -88,13 +86,10 @@ Building concurrency primitives and exploring parallel computing.
 
 Building network protocols from scratch using C to master POSIX networking APIs. This foundational knowledge will be essential when working with C++ libraries like Boost.Asio.
 
-**Projects:**
-- DNS Server
-- UDP from Scratch
-- **TCP** ⭐⭐⭐ Capstone (using [Level-IP](https://github.com/saminiir/level-ip) to focus on learning)
+**Projects:** DNS Server, UDP from Scratch, TCP (Capstone, using [Level-IP](https://github.com/saminiir/level-ip) to focus on learning)
 
-**Language:** C (POSIX API focus)
-**Time:** ~190-240 hours
+- **Language:** C (POSIX API focus)
+- **Time:** ~190-240 hours
 
 ---
 
@@ -126,11 +121,6 @@ Optional advanced projects for continued learning after mastering the core roadm
 - Jan 2026 - Apr 2026: Phase 2 (Concurrency)
 - May 2026 - Dec 2026: Phase 3 (Networking)
 
-**2027**
-- Jan - Jun: Open Source Contributions / Class Projects
-- **Graduate June 2027** - Project Adam Complete
-- Jun+: Phase 4 (Optional)
-
 ---
 
 ## Repositories
@@ -142,12 +132,12 @@ Optional advanced projects for continued learning after mastering the core roadm
 
 **Phase 2:**
 2. [x] Thread Pool with Work-Stealing
-3. [x] Lock-Free Data Structures ⭐⭐
+3. [x] Lock-Free Data Structures (Capstone)
 
 **Phase 3:**
 4. [ ] DNS Server
 5. [ ] UDP from Scratch
-6. [ ] TCP from Scratch ⭐⭐⭐
+6. [ ] TCP from Scratch (Capstone)
 
 ### Optional Projects (Phase 4)
 
@@ -182,19 +172,19 @@ Optional advanced projects for continued learning after mastering the core roadm
 
 ## Goals
 
-**Technical:** Master systems programming from algorithms to hardware
-**Academic:** Apply coursework to real-world projects
-**Professional:** Build portfolio demonstrating complete systems mastery
-**Personal:** Achieve technical excellence through deliberate practice
+- **Technical:** Master systems programming from algorithms to hardware
+- **Academic:** Apply coursework to real-world projects
+- **Professional:** Build portfolio demonstrating complete systems mastery
+- **Personal:** Achieve technical excellence through deliberate practice
 
 ---
 
 ## Commitment
 
-**Daily:** 1 hour on personal projects
-**Class Projects:** As needed (separate from daily hour)
-**Total Time Investment:** ~730 hours over 20 months
-**Philosophy:** Quality over quantity
+- **Daily:** 1 hour on personal projects
+- **Class Projects:** As needed (separate from daily hour)
+- **Total Time Investment:** ~730 hours over 20 months
+- **Philosophy:** Quality over quantity
 
 ---
 
