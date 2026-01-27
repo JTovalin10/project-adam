@@ -201,5 +201,3 @@ Optional advanced projects for continued learning after mastering the core roadm
 **Next Milestone:** Lock-Free Data Structures completion
 
 ---
-
-_Building systems from first principles: from fundamental data structures to production-grade geo-distributed systems._
