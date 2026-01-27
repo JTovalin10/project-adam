@@ -2,7 +2,7 @@
 
 > "Building systems from first principles"
 
-A 20-month systems engineering roadmap from data structures to distributed systems, with a focus on **concurrency, networking, and distributed systems.**
+A 9-month systems engineering roadmap from data structures to distributed systems, with a focus on **concurrency, networking, and distributed systems.**
 
 ---
 
