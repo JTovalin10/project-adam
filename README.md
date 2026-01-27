@@ -8,16 +8,18 @@ A 9-month systems engineering roadmap from data structures to distributed system
 
 ## Current Status
 
-**Progress:** AHEAD OF SCHEDULE
+**Progress:** ON HOLD
 
-| Metric             | Value                     |
-| ------------------ | ------------------------- |
-| **Current Phase**  | Phase 2: Concurrency      |
-| **Progress**       | 1/2 items complete        |
-| **Hours Invested** | 46h 50m                   |
-| **Current Item**   | Lock-Free Data Structures |
+| Metric             | Value                                  |
+| ------------------ | -------------------------------------- |
+| **Current Phase**  | Phase 3: Networking                    |
+| **Status**         | On hold while taking CSE 461           |
+| **Hours Invested** | 46h 50m                                |
+| **Current Item**   | Staying sharp with getcracked.io       |
 
-**[Overview](docs/overview/phase2-overview.md)** | **[Timeline](docs/timeline/phase2-timeline.md)**
+> **Note:** Phase 3 is temporarily paused while I take CSE 461 (Computer Networks). Learning the networking material in class before implementing networking projects from scratch. In the meantime, I'm working through [getcracked.io](https://getcracked.io) coding problems to stay sharp and continue learning.
+
+**[Overview](docs/overview/phase3-overview.md)** | **[Timeline](docs/timeline/phase3-timeline.md)**
 
 ---
 
@@ -140,7 +142,7 @@ Optional advanced projects for continued learning after mastering the core roadm
 
 **Phase 2:**
 2. [x] Thread Pool with Work-Stealing
-3. [ ] Lock-Free Data Structures ⭐⭐
+3. [x] Lock-Free Data Structures ⭐⭐
 
 **Phase 3:**
 4. [ ] DNS Server
@@ -196,8 +198,8 @@ Optional advanced projects for continued learning after mastering the core roadm
 
 ---
 
-**Status:** Phase 2: Concurrency
-**Last Updated:** December 30, 2025
-**Next Milestone:** Lock-Free Data Structures completion
+**Status:** Phase 3: Networking (On Hold - CSE 461)
+**Last Updated:** January 26, 2026
+**Next Milestone:** Complete CSE 461, then DNS Server
 
 ---
