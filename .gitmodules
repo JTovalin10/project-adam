@@ -4,3 +4,6 @@
 [submodule "Networking/dns-server-cpp"]
 	path = Networking/dns-server-cpp
 	url = https://git.codecrafters.io/351fbab7af54f4a7
+[submodule "Networking/codecrafters-dns-server-cpp"]
+	path = Networking/codecrafters-dns-server-cpp
+	url = git@github.com:JTovalin10/codecrafters-dns-server-cpp.git
