@@ -1,3 +1,6 @@
 [submodule "Networking/Networking/tcp"]
 	path = Networking/Networking/tcp
 	url = git@github.com:JTovalin10/level-ip.git
+[submodule "Networking/dns-server-cpp"]
+	path = Networking/dns-server-cpp
+	url = https://git.codecrafters.io/351fbab7af54f4a7

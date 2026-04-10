@@ -8,16 +8,14 @@ A 9-month systems engineering roadmap from data structures to distributed system
 
 ## Current Status
 
-**Progress:** ON HOLD
+**Progress:** Active
 
 | Metric             | Value                                  |
 | ------------------ | -------------------------------------- |
 | **Current Phase**  | Phase 3: Networking                    |
-| **Status**         | On hold while taking CSE 461           |
+| **Status**         | Active                                 |
 | **Hours Invested** | 46h 50m                                |
-| **Current Item**   | Staying sharp with getcracked.io       |
-
-> **Note:** Phase 3 is temporarily paused while I take CSE 461 (Computer Networks). Learning the networking material in class before implementing networking projects from scratch. In the meantime, I'm working through [getcracked.io](https://getcracked.io) coding problems to stay sharp and continue learning.
+| **Current Item**   | DNS Server                             |
 
 **[Overview](docs/overview/phase3-overview.md)** | **[Timeline](docs/timeline/phase3-timeline.md)**
 
@@ -188,8 +186,8 @@ Optional advanced projects for continued learning after mastering the core roadm
 
 ---
 
-**Status:** Phase 3: Networking (On Hold - CSE 461)
-**Last Updated:** January 26, 2026
-**Next Milestone:** Complete CSE 461, then DNS Server
+**Status:** Phase 3: Networking (Active)
+**Last Updated:** April 9, 2026
+**Next Milestone:** DNS Server
 
 ---
